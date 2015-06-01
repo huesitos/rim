@@ -1,0 +1,59 @@
+RF - Requerimiento funcional
+NFR - Requerimiento no funcional
+
+Casos de uso
+
+- CRUD un proyecto
+El usuario crea un proyecto con su nombre, descripción y alcance. El usuario también podrá editar, ver y eliminar un proyecto.
+
+RF1 Un proyecto tendrá un nombre, una descripción y el alcance.
+RF2 Un proyecto puede tener cero o muchos casos de uso.
+RF3 Un proyecto puede tener cero o muchos requerimientos.
+RF4 Un proyecto puede tener cero o muchos "issues".
+RF5 Si un proyecto es destruido, todos sus casos de uso, requerimientos, e issues son destruidos.
+
+- CRUD un caso de uso
+El usuario crea un caso de uso, completando un formulario que pida: nombre, pasos, precondiciones, postcondiciones y los requerimientos a los que esta asociado. El usuario también podrá editar, ver y eliminar un caso de uso.
+
+RF6 Un caso de uso tendra un nombre, pasos, precondiciones, postcondiciones, requerimientos a los que esta asociado, un identificador.
+RF7 El identificador seguira el patron CUX, donde X es el número del caso de uso.
+RF8 El numero del identificador de caso de uso incrementara con cada nuevo caso de uso creado y empezara en 1.
+RF9 Al crear un caso de uso, un caso de prueba será creado con la información de este.
+RF10 Un caso de uso puede tener cero o muchos casos de prueba.
+RF11 Si un caso de uso es destruido, sus casos de prueba asociados también son destruidos.
+
+- CRUD un caso de prueba
+El usuario crea un caso de prueba para un caso de uso particular. Para hacerlo, completa un formulario indicando, si existe asociación, a qué casos de uso está asociado, nombre, precondiciones, postcondiciones, pasos y un identificador. El usuario también podrá editar, ver y eliminar un caso de prueba.
+
+RF13 Un caso de prueba puede estar asociado a cero o varios casos de uso.
+RF14 Un caso de prueba tendrá un nombre, casos de uso asociados, precondiciones, postcondiciones y pasos.
+RF15 El identificador seguirá el patrón CPX, donde X es el número del caso de prueba.
+
+- CRUD un requerimiento
+El usuario podrá agregar un requerimiento completando un formulario donde se pide: título (opcional), descripción, prioridad e identificador. El usuario también podrá editar, ver y eliminar un requerimiento.
+ 
+RF16 Un requerimiento tendrá una descripción, identificador y prioridad.
+RF17 Un requerimiento puede tener un título.
+RF18 Los requerimientos pueden ser: funcional y no funcional.
+RF19 La prioridad será de tres niveles: alta (3), media (2), baja (1).
+RF20 El identificador seguirá el patrón [RF|RNF]X, donde RF=Requerimiento funcional, RNF=Requerimiento no funcional y X es el número del requerimiento.
+
+- CRUD un issue
+El usuario podrá crear un issue completando un formulario donde se pida: título, tipo y comentarios. El usuario también podrá editar, ver y eliminar un issue. 
+
+RF21 Un issue tendrá un título, un tipo, un status.
+RF22 Un issue puede tener un comentario.
+RF23 Los tipos de issue pueden ser: mejora y error.
+RF24 Los tipos de estados son: abierto (1), trabajando (2), cerrado (3).
+
+- Correr casos de prueba
+El usuario podrá correr los casos de prueba que quiera, indicar si pasaron, fallaron o saltarlos, y se generará un reporte final del resultado de la corrida. Si un caso de prueba falla, el usuario deberá crear uno o más errores.
+
+RF25 Un caso de prueba puede resultar pasado, fallado o saltado.
+RF26 Cada corrida de pruebas generará un reporte con el resumen del resultado y un reporte de resultado de cada caso de prueba.
+RF27 El resumen de corrida tendrá el total de casos de prueba pasados, casos de prueba fallados, casos de prueba saltados y el total.
+RF28 Las corridas de prueba deben ser guardadas con la fecha en la que se realizaron.
+RF29 El usuario podrá seleccionar cuáles casos de prueba correr.
+
+- Ver resultado de corridas
+El usuario podrá ver la lista de los reportes de corrida de prueba.

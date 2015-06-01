@@ -1,0 +1,65 @@
+project {
+	title: String
+	description: String
+	scope: String
+	use_cases: Array # has many relationships
+	issues: Array # has many relationships
+	requirements: Array # has many relationships
+	test_cases: Array # has many relationships
+}
+
+use_case {
+	title: String
+	preconditions: String
+	steps: String
+	postconditions: String
+	requirements: Array
+	priority: int
+	identifier: String
+	project_id: ObjectId
+}
+
+test_case {
+	identifier: String
+	title: String
+	steps: String
+	preconditions: String
+	postconditions: String
+	use_cases: Array
+	requirements: Array
+}
+
+issue {
+	title: String
+	label: String
+	status: integer
+	comments: String
+}
+
+requirement {
+	title: String
+	description: String
+	identifier: String
+	priority: integer
+}
+
+test_run {
+	date: Date
+	summary: ObjectId # has one relationship
+	report: ObjectId # has many relationship
+}
+
+summary {
+	passed: integer
+	failed: integer
+	skiped: integer
+	total: integer
+	test_run_id: ObjectId
+}
+
+report {
+	test_case: String
+	result: String
+	issues: Array
+	comments: String
+}

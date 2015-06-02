@@ -1,10 +1,14 @@
 source 'https://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
+# Use mongodb as database
+gem 'mongoid', '~> 5', github: 'mongoid/mongoid'
+gem 'bson_ext'
+# Use Haml for default views
+gem 'haml-rails', '~> 0.8'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views

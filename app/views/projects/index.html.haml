@@ -9,6 +9,6 @@
       .panel-heading
         =project.name
         =link_to 'edit', edit_project_path(project)
-        =link_to 'delete', project_path(project), method: :delete
+        =link_to 'delete', project_path(project), method: :delete, :data => { :confirm => 'Are you sure?' }
       .panel-body
         =project.description

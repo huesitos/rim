@@ -1,0 +1,16 @@
+=form_for @project do |f|
+  %p
+    =f.label :name
+    %br
+    =f.text_field :name
+  %p
+    =f.label :description
+    %br
+    =f.text_area :description
+  %p
+    =f.label :scope
+    %br
+    =f.text_field :scope
+  %p
+    =f.submit
+

@@ -1,0 +1,10 @@
+%h1 Projects
+-@project.each do |project|
+  =link_to project_path project do
+    .panel.panel-default
+      .panel-heading
+        =project.name
+        =link_to 'edit', edit_project_path(project)
+        =link_to 'delete', project_path(project), method: :delete
+      .panel-body
+        =project.description

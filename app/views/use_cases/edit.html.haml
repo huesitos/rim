@@ -2,6 +2,6 @@
 
 = render 'form'
 
-= link_to 'Show', @use_case
+= link_to 'Show', project_use_case_path(@project, @use_case)
 \|
-= link_to 'Back', use_cases_path
+= link_to 'Back', project_use_cases_path(@project)

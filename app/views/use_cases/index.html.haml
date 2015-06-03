@@ -1,35 +1,16 @@
 %h1 Listing use_cases
 
-%table
-  %thead
-    %tr
-      %th Title
-      %th Preconditions
-      %th Steps
-      %th Postconditions
-      %th Requirements
-      %th Requirements
-      %th Priority
-      %th Identifier
-      %th
-      %th
-      %th
+%h4
+  =link_to 'New Use Case', new_project_use_case_path(@project), id: :button
 
-  %tbody
-    - @use_cases.each do |use_case|
-      %tr
-        %td= use_case.title
-        %td= use_case.preconditions
-        %td= use_case.steps
-        %td= use_case.postconditions
-        %td= use_case.requirements
-        %td= use_case.requirements
-        %td= use_case.priority
-        %td= use_case.identifier
-        %td= link_to 'Show', use_case
-        %td= link_to 'Edit', edit_use_case_path(use_case)
-        %td= link_to 'Destroy', use_case, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Use case', new_use_case_path
+-@use_cases.each do |use_case|
+  .panel.panel-default
+    .panel-heading
+      =link_to "#{use_case.title}", project_use_case_path(@project, use_case) 
+      %span 
+        Priority:
+        = use_case.priority
+      =link_to 'edit', edit_project_use_case_path(@project, use_case)
+      =link_to 'delete', project_use_case_path(@project, use_case), method: :delete, :data => { :confirm => 'Are you sure?' }
+    .panel-body
+      =use_case.description

@@ -5,11 +5,13 @@ class UseCase
   field :steps, type: String
   field :postconditions, type: String
   field :requirements, type: Array
-  field :priority, type: Integer
+  field :priority, type: String
   field :identifier, type: String
+  field :description, type: String
 
   belongs_to :project
 
-  validates :title, :steps, :priority, :identifier, presence: :true
-  validates :identifier, format: { with: /\A(CU[0-9]*)\z/, message: "Identifier format CUXX" }
+  validates :title, :steps, :priority, :description, :identifier, presence: :true
+  validates :identifier, format: { with: /\ACU[0-9]+\z/, message: "format CUXX" }
+  validates :priority, inclusion: { in: %w(Low Medium High)}
 end

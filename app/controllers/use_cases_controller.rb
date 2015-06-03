@@ -1,5 +1,6 @@
 class UseCasesController < ApplicationController
   before_action :set_use_case, only: [:show, :edit, :update, :destroy]
+  before_action :set_project
 
   # GET /use_cases
   # GET /use_cases.json
@@ -26,9 +27,16 @@ class UseCasesController < ApplicationController
   def create
     @use_case = UseCase.new(use_case_params)
 
+    # Add identifier
+    count = UseCase.all.count
+    @use_case.identifier = "CU#{Integer(count)+1}"
+
+    # Link to project
+    @use_case.project = @project
+
     respond_to do |format|
       if @use_case.save
-        format.html { redirect_to @use_case, notice: 'Use case was successfully created.' }
+        format.html { redirect_to project_use_case_path(@project, @use_case), notice: 'Use case was successfully created.' }
         format.json { render :show, status: :created, location: @use_case }
       else
         format.html { render :new }
@@ -42,7 +50,7 @@ class UseCasesController < ApplicationController
   def update
     respond_to do |format|
       if @use_case.update(use_case_params)
-        format.html { redirect_to @use_case, notice: 'Use case was successfully updated.' }
+        format.html { redirect_to project_use_case_path(@project, @use_case), notice: 'Use case was successfully updated.' }
         format.json { render :show, status: :ok, location: @use_case }
       else
         format.html { render :edit }
@@ -56,7 +64,7 @@ class UseCasesController < ApplicationController
   def destroy
     @use_case.destroy
     respond_to do |format|
-      format.html { redirect_to use_cases_url, notice: 'Use case was successfully destroyed.' }
+      format.html { redirect_to project_use_cases_path(@project), notice: 'Use case was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -67,8 +75,12 @@ class UseCasesController < ApplicationController
       @use_case = UseCase.find(params[:id])
     end
 
+    def set_project
+      @project = Project.find(params[:project_id])
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def use_case_params
-      params.require(:use_case).permit(:title, :preconditions, :steps, :postconditions, :requirements, :requirements, :priority, :identifier)
+      params.require(:use_case).permit(:title, :description, :preconditions, :steps, :postconditions, :priority)
     end
 end

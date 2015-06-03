@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :use_cases
   resources :projects
   #get 'projects/index'
 

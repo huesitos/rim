@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b Title:
+  = @use_case.title
+%p
+  %b Preconditions:
+  = @use_case.preconditions
+%p
+  %b Steps:
+  = @use_case.steps
+%p
+  %b Postconditions:
+  = @use_case.postconditions
+%p
+  %b Requirements:
+  = @use_case.requirements
+%p
+  %b Requirements:
+  = @use_case.requirements
+%p
+  %b Priority:
+  = @use_case.priority
+%p
+  %b Identifier:
+  = @use_case.identifier
+
+= link_to 'Edit', edit_use_case_path(@use_case)
+\|
+= link_to 'Back', use_cases_path

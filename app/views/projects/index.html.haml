@@ -1,4 +1,8 @@
 %h1 Projects
+
+%h4
+  =link_to 'New Project', new_project_path, id: :button
+
 -@project.each do |project|
   =link_to project_path project do
     .panel.panel-default

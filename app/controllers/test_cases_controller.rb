@@ -19,7 +19,13 @@ class TestCasesController < ApplicationController
     # If not, then just make an empty TestCase
     if params[:use_case]
       use_case = UseCase.find(params[:use_case])
-      @test_case = TestCase.new(title: use_case[:title], steps: use_case[:steps], preconditions: use_case[:preconditions], postconditions: use_case[:postconditions], use_cases: [use_case[:identifier]], requirements: use_case[:requirements])
+      
+      requirements = []
+      use_case.requirements.each do |rq|
+        requirements << rq["identifier"]+','
+      end
+
+      @test_case = TestCase.new(title: use_case[:title], steps: use_case[:steps], preconditions: use_case[:preconditions], postconditions: use_case[:postconditions], use_cases: [use_case[:identifier]], requirements: requirements)
     else
       @test_case = TestCase.new
     end
@@ -31,6 +37,7 @@ class TestCasesController < ApplicationController
   def edit
     @url = project_test_case_path(@project, @test_case._id)
     @formatted_use_cases = TestCase.format_use_cases(@test_case.use_cases)
+    @formatted_requirements = TestCase.format_requirements(@test_case.requirements)
   end
 
   # POST /test_cases
@@ -45,8 +52,8 @@ class TestCasesController < ApplicationController
     @test_case.project = @project
 
     # Set use cases array
-    @test_case.use_cases = TestCase.set_use_cases(@test_case, test_case_params[:use_cases])
-    # @test_case.requirements = TestCase.set_requirements(@test_case, test_case_params[:requirements])
+    @test_case.use_cases = TestCase.set_use_cases(test_case_params[:use_cases])
+    @test_case.requirements = TestCase.set_requirements(test_case_params[:requirements])
 
     respond_to do |format|
       if @test_case.save
@@ -60,12 +67,12 @@ class TestCasesController < ApplicationController
   # PATCH/PUT /test_cases/1
   # PATCH/PUT /test_cases/1.json
   def update
-    use_cases_array = TestCase.set_use_cases(@test_case, test_case_params[:use_cases])
-    # requirements = TestCase.set_requirements(@test_case, test_case_params[:requirements])
+    use_cases_array = TestCase.set_use_cases( test_case_params[:use_cases])
+    requirements_array = TestCase.set_requirements( test_case_params[:requirements])
 
     respond_to do |format|
-      if @test_case.update(title: test_case_params[:title], steps: test_case_params[:steps], preconditions: test_case_params[:preconditions], postconditions: test_case_params[:postconditions], description: test_case_params[:description], use_cases: use_cases_array)
-        format.html { redirect_to project_test_case_path(@test_case), notice: 'Test case was successfully updated.' }
+      if @test_case.update(title: test_case_params[:title], steps: test_case_params[:steps], preconditions: test_case_params[:preconditions], postconditions: test_case_params[:postconditions], description: test_case_params[:description], use_cases: use_cases_array, requirements: requirements_array)
+        format.html { redirect_to project_test_case_path(@project, @test_case), notice: 'Test case was successfully updated.' }
       else
         format.html { render :edit }
       end

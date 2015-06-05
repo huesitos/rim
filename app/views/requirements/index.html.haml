@@ -1,27 +1,18 @@
 %h1 Listing requirements
 
-%table
-  %thead
-    %tr
-      %th Title
-      %th Description
-      %th Identifier
-      %th Priority
-      %th
-      %th
-      %th
+%h4
+  =link_to 'New Requirement', new_project_requirement_path(@project), id: :button
 
-  %tbody
-    - @requirements.each do |requirement|
-      %tr
-        %td= requirement.title
-        %td= requirement.description
-        %td= requirement.identifier
-        %td= requirement.priority
-        %td= link_to 'Show', requirement
-        %td= link_to 'Edit', edit_requirement_path(requirement)
-        %td= link_to 'Destroy', requirement, :method => :delete, :data => { :confirm => 'Are you sure?' }
+-@requirements.each do |requirement|
+  .panel.panel-default
+    .panel-heading
+      =link_to "#{requirement.identifier} #{requirement.title}", project_requirement_path(@project, requirement) 
+      %span 
+        Priority:
+        = requirement.priority
+      =link_to 'edit', edit_project_requirement_path(@project, requirement)
+      =link_to 'delete', project_requirement_path(@project, requirement), method: :delete, :data => { :confirm => 'Are you sure?' }
+    .panel-body
+      =requirement.description
 
-%br
-
-= link_to 'New Requirement', new_requirement_path
+= link_to "Back", @project

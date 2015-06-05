@@ -19,8 +19,8 @@
   = @use_case.postconditions
 %p
   %b Requirements:
-%p
-  = @use_case.requirements
+  - @use_case.requirements.each do |rq|
+    =link_to "#{rq[:identifier]}", project_requirement_path(@project, rq[:_id])
 %p
   %b Test cases:
   - @related_test_cases.each do |tc|

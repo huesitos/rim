@@ -28,13 +28,16 @@ class UseCasesController < ApplicationController
   # POST /use_cases
   # POST /use_cases.json
   def create
-    @use_case = UseCase.new(use_case_params)
+    @use_case = UseCase.new(title: use_case_params[:title], preconditions: use_case_params[:preconditions], postconditions: use_case_params[:postconditions], steps: use_case_params[:steps], priority: use_case_params[:priority], description: use_case_params[:description])
 
     # Add identifier
     @use_case.identifier = UseCase.get_next_identifier
 
     # Link to project
     @use_case.project = @project
+
+    # Requirements
+    @use_case.requirements = UseCase.set_requirements(use_case_params[:requirements])
 
     respond_to do |format|
       if @use_case.save
@@ -79,6 +82,6 @@ class UseCasesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def use_case_params
-      params.require(:use_case).permit(:title, :description, :preconditions, :steps, :postconditions, :priority)
+      params.require(:use_case).permit(:title, :description, :preconditions, :steps, :postconditions, :priority, :requirements)
     end
 end

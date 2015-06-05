@@ -17,7 +17,8 @@
     = link_to "#{uc["identifier"]}", project_use_case_path(@project, uc["_id"])
 %p
   %b Requirements:
-  = @test_case.requirements
+  - @test_case.requirements.each do |rq|
+    = link_to "#{rq["identifier"]}", project_requirement_path(@project, rq["_id"])
 
 = link_to 'Edit', edit_project_test_case_path(@project, @test_case)
 \|

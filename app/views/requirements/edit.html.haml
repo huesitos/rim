@@ -2,6 +2,6 @@
 
 = render 'form'
 
-= link_to 'Show', @requirement
+= link_to 'Show', project_requirement_path(@project, @requirement)
 \|
-= link_to 'Back', requirements_path
+= link_to 'Back', project_requirements_path

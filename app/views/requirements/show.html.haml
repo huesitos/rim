@@ -1,18 +1,22 @@
 %p#notice= notice
 
-%p
-  %b Title:
-  = @requirement.title
-%p
-  %b Description:
-  = @requirement.description
-%p
-  %b Identifier:
-  = @requirement.identifier
-%p
-  %b Priority:
-  = @requirement.priority
+%h1= "#{@requirement.identifier} #{@requirement.title}"
 
-= link_to 'Edit', edit_requirement_path(@requirement)
+%p
+	%b Priority:
+	= @requirement.priority
+%p
+	%b Description:
+	= @requirement.description
+%p
+	%b Use cases:
+	- @related_use_cases.each do |uc|
+		= link_to uc.identifier, project_use_case_path(@project, uc)
+%p
+	%b Test cases:
+	- @related_test_cases.each do |tc|
+		= link_to tc.identifier, project_test_case_path(@project, tc[:_id])
+
+= link_to 'Edit', edit_project_requirement_path(@project, @requirement)
 \|
-= link_to 'Back', requirements_path
+= link_to 'Back', project_requirements_path(@project)

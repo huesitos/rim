@@ -18,7 +18,7 @@ class TestCase
   validates :project, presence: {is: true, message: "test cases must belong to a project"}
   validates_associated :project
 
-  def self.set_use_cases(test_case, use_cases_s)
+  def self.set_use_cases(use_cases_s)
   	# Split string of use cases identifier into a list
     use_cases_list = use_cases_s.split(',')
 
@@ -38,6 +38,26 @@ class TestCase
     use_cases_array
   end
 
+  def self.set_requirements(requirements_s)
+    # Split string of requirements identifier into a list
+    requirements_list = requirements_s.split(',')
+
+    # Link to use cases, if they exists
+    if not requirements_list.empty?
+      requirements_array = []
+      requirements_list.each do |requiremet_identifier|
+        requiremet_identifier.rstrip!
+        requiremet_identifier.lstrip!
+        # In case the requirement exists, add the requirement in the test_case.requirements array
+        # as a hash that includes the requirement identifier and id for linking in views
+        if requirement = Requirement.find_by(identifier: requiremet_identifier)
+          requirements_array << {identifier: requirement.identifier, _id: requirement._id}
+        end
+      end
+    end
+    requirements_array
+  end
+
   # Format use cases for the text field in the form
   def self.format_use_cases(use_cases)
   	identifiers = []
@@ -47,6 +67,21 @@ class TestCase
   	end
 
   	identifiers.join(", ")
+  end
+
+  # Format use cases for the text field in the form
+  def self.format_requirements(requirements)
+    identifiers = []
+
+    requirements.each do |rq|
+      identifiers << rq[:identifier]
+    end
+
+    identifiers.join(", ")
+  end
+
+  def self.get_identifier
+    "TC#{Integer(TestCase.all.count)+1}"
   end
 
   def self.get_identifier

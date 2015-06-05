@@ -30,6 +30,9 @@
 
   .field
     = f.label :requirements
-    = f.text_field :requirements
+    - if @formatted_requirements
+      = f.text_field :requirements, value: "#{@formatted_requirements}"
+    - else
+      = f.text_field :requirements
   .actions
     = f.submit 'Save'

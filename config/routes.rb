@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :projects
+  resources :projects do
+    resources :use_cases
+  end
   #get 'projects/index'
 
   #get 'projects/new'

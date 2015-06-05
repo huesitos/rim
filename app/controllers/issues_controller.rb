@@ -17,10 +17,10 @@ class IssuesController < ApplicationController
 
   def show
     issue_status = { 1 => 'Open', 2 => 'fixing', 3 => 'Closed' }
-
-    @issue = Project.find(params[:project_id]).issues.find(params[:id])
+    @project = Project.find params[:project_id]
+    @issue = @project.issues.find(params[:id])
+    @comments = @issue.comments
     @issue_status = issue_status[@issue.status]
-    puts @issue_status
   end
 
   def edit

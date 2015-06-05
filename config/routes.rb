@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
+  get 'comments/new'
+
+  get 'comments/edit'
+
   resources :projects do
-    resources :issues
+    resources :issues do
+      resources :comments
+    end
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

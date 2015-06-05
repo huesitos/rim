@@ -4,4 +4,5 @@ class Issue
   field :kind, type: String
   field :status, type: Integer, default: 1
   embedded_in :project
+  embeds_many :comments
 end

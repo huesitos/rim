@@ -21,6 +21,12 @@ class IssuesController < ApplicationController
   def edit
   end
 
+  def destroy
+    @issue = Project.find(params[:project_id]).issues.find(params[:id])
+    @issue.destroy
+    redirect_to project_issues_path params[:project_id]
+  end
+
   private
 
   def issues_params

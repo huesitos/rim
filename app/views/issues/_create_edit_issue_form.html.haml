@@ -1,0 +1,12 @@
+=form_for([@project, @issue]) do |f|
+  %p
+    =f.label :title
+    %br
+    =f.text_field :title
+  %p
+    =f.label :kind
+    %br
+    =f.select(:kind, ['Improvement', 'Error'])
+  %p
+    =f.submit
+

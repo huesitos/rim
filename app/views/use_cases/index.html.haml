@@ -14,3 +14,5 @@
       =link_to 'delete', project_use_case_path(@project, use_case), method: :delete, :data => { :confirm => 'Are you sure?' }
     .panel-body
       =use_case.description
+
+= link_to "Back", @project

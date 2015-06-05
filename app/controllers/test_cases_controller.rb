@@ -1,5 +1,6 @@
 class TestCasesController < ApplicationController
   before_action :set_test_case, only: [:show, :edit, :update, :destroy]
+  before_action :set_project
 
   # GET /test_cases
   # GET /test_cases.json
@@ -14,25 +15,44 @@ class TestCasesController < ApplicationController
 
   # GET /test_cases/new
   def new
-    @test_case = TestCase.new
+    # If there as a call from a use_case, then some default values will be set using that use_case's values
+    # If not, then just make an empty TestCase
+    if params[:use_case]
+      use_case = UseCase.find(params[:use_case])
+      @test_case = TestCase.new(title: use_case[:title], steps: use_case[:steps], preconditions: use_case[:preconditions], postconditions: use_case[:postconditions], use_cases: [use_case[:identifier]], requirements: use_case[:requirements])
+    else
+      @test_case = TestCase.new
+    end
+
+    @url = project_test_cases_path(@project)
   end
 
   # GET /test_cases/1/edit
   def edit
+    @url = project_test_case_path(@project, @test_case._id)
+    @formatted_use_cases = TestCase.format_use_cases(@test_case.use_cases)
   end
 
   # POST /test_cases
   # POST /test_cases.json
   def create
-    @test_case = TestCase.new(test_case_params)
+    @test_case = TestCase.new(title: test_case_params[:title], steps: test_case_params[:steps], preconditions: test_case_params[:preconditions], postconditions: test_case_params[:postconditions], description: test_case_params[:description])
+
+    # Set identifier
+    @test_case.identifier = TestCase.get_identifier
+
+    # Link to project
+    @test_case.project = @project
+
+    # Set use cases array
+    @test_case.use_cases = TestCase.set_use_cases(@test_case, test_case_params[:use_cases])
+    # @test_case.requirements = TestCase.set_requirements(@test_case, test_case_params[:requirements])
 
     respond_to do |format|
       if @test_case.save
-        format.html { redirect_to @test_case, notice: 'Test case was successfully created.' }
-        format.json { render :show, status: :created, location: @test_case }
+        format.html { redirect_to project_test_case_path(@project, @test_case), notice: 'Test case was successfully created.' }
       else
         format.html { render :new }
-        format.json { render json: @test_case.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -40,13 +60,14 @@ class TestCasesController < ApplicationController
   # PATCH/PUT /test_cases/1
   # PATCH/PUT /test_cases/1.json
   def update
+    use_cases_array = TestCase.set_use_cases(@test_case, test_case_params[:use_cases])
+    # requirements = TestCase.set_requirements(@test_case, test_case_params[:requirements])
+
     respond_to do |format|
-      if @test_case.update(test_case_params)
-        format.html { redirect_to @test_case, notice: 'Test case was successfully updated.' }
-        format.json { render :show, status: :ok, location: @test_case }
+      if @test_case.update(title: test_case_params[:title], steps: test_case_params[:steps], preconditions: test_case_params[:preconditions], postconditions: test_case_params[:postconditions], description: test_case_params[:description], use_cases: use_cases_array)
+        format.html { redirect_to project_test_case_path(@test_case), notice: 'Test case was successfully updated.' }
       else
         format.html { render :edit }
-        format.json { render json: @test_case.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -56,8 +77,7 @@ class TestCasesController < ApplicationController
   def destroy
     @test_case.destroy
     respond_to do |format|
-      format.html { redirect_to test_cases_url, notice: 'Test case was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html { redirect_to project_test_cases_path(@project), notice: 'Test case was successfully destroyed.' }
     end
   end
 
@@ -67,8 +87,12 @@ class TestCasesController < ApplicationController
       @test_case = TestCase.find(params[:id])
     end
 
+    def set_project
+      @project = Project.find(params[:project_id])
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def test_case_params
-      params.require(:test_case).permit(:identifier, :title, :steps, :preconditions, :postconditions, :use_cases, :requirements)
+      params.require(:test_case).permit(:title, :description, :steps, :preconditions, :postconditions, :use_cases, :requirements)
     end
 end

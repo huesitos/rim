@@ -11,15 +11,18 @@ class UseCasesController < ApplicationController
   # GET /use_cases/1
   # GET /use_cases/1.json
   def show
+    @related_test_cases = UseCase.related_test_cases(@use_case.identifier)
   end
 
   # GET /use_cases/new
   def new
+    @url = project_use_cases_path(@project)
     @use_case = UseCase.new
   end
 
   # GET /use_cases/1/edit
   def edit
+    @url = project_use_case_path(@project, @use_case._id)
   end
 
   # POST /use_cases
@@ -28,19 +31,17 @@ class UseCasesController < ApplicationController
     @use_case = UseCase.new(use_case_params)
 
     # Add identifier
-    count = UseCase.all.count
-    @use_case.identifier = "CU#{Integer(count)+1}"
+    @use_case.identifier = UseCase.get_next_identifier
 
     # Link to project
     @use_case.project = @project
 
     respond_to do |format|
       if @use_case.save
+        # If the use case was saved correctly, create a default new test case form to create a new test case immediately
         format.html { redirect_to project_use_case_path(@project, @use_case), notice: 'Use case was successfully created.' }
-        format.json { render :show, status: :created, location: @use_case }
       else
         format.html { render :new }
-        format.json { render json: @use_case.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -51,10 +52,8 @@ class UseCasesController < ApplicationController
     respond_to do |format|
       if @use_case.update(use_case_params)
         format.html { redirect_to project_use_case_path(@project, @use_case), notice: 'Use case was successfully updated.' }
-        format.json { render :show, status: :ok, location: @use_case }
       else
         format.html { render :edit }
-        format.json { render json: @use_case.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -65,7 +64,6 @@ class UseCasesController < ApplicationController
     @use_case.destroy
     respond_to do |format|
       format.html { redirect_to project_use_cases_path(@project), notice: 'Use case was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 

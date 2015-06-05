@@ -12,8 +12,16 @@ class UseCase
   belongs_to :project
 
   validates :title, :steps, :priority, :description, :identifier, presence: true
-  validates :identifier, format: { with: /\ACU[0-9]+\z/, message: "format CUXX" }
+  validates :identifier, format: { with: /\AUC[0-9]+\z/, message: "format CUXX" }
   validates :priority, inclusion: { in: %w(Low Medium High)}
   validates :project, presence: {is: true, message: "use cases have to belong to a project"}
   validates_associated :project
+
+  def self.get_next_identifier
+    "UC#{Integer(UseCase.all.count)+1}"
+  end
+
+  def self.related_test_cases(identifier)
+    TestCase.where({"use_cases": { "$elemMatch": {"identifier": identifier}}})
+  end
 end

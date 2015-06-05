@@ -8,38 +8,38 @@ FactoryGirl.define do
 		postconditions "Se crea un caso de uso en la BD"
 		requirements ["RF1", "NRF2", "RF3"]
 		priority "Low"
-		identifier "CU1"
+		identifier "UC1"
 		description "En este caso de uso el usuario crea un nuevo caso de uso."
 
-		factory :no_title do
+		factory :uc_no_title do
 			title ""
 		end
 
-		factory :no_steps do
+		factory :uc_no_steps do
 			steps ""
 		end
 
-		factory :no_priority do
+		factory :uc_no_priority do
 			priority ""
 		end
 
-		factory :no_description do
+		factory :uc_no_description do
 			description ""
 		end
 
-		factory :no_identifier do
+		factory :uc_no_identifier do
 			identifier ""
 		end
 
-		factory :wrong_identifier do
+		factory :uc_wrong_identifier do
 			identifier "CU"
 		end
 
-		factory :wrong_priority do
+		factory :uc_wrong_priority do
 			priority "other"
 		end
 
-		factory :no_project do
+		factory :uc_no_project do
 			project_id ""
 		end
 	end

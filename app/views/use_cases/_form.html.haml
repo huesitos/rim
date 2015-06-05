@@ -1,4 +1,4 @@
-= form_for @use_case, url: project_use_cases_path(@project) do |f|
+= form_for @use_case, url: @url do |f|
   - if @use_case.errors.any?
     #error_explanation
       %h2= "#{pluralize(@use_case.errors.count, "error")} prohibited this use_case from being saved:"

@@ -21,6 +21,14 @@
   %b Requirements:
 %p
   = @use_case.requirements
+%p
+  %b Test cases:
+  - @related_test_cases.each do |tc|
+    =link_to "#{tc[:identifier]}", project_test_case_path(@project, tc[:_id])
+
+%p 
+  Create test case from this use case
+  = link_to 'Test case', new_project_test_case_path(@project, use_case: @use_case)
 
 = link_to 'Edit', edit_project_use_case_path(@project, @use_case)
 \|

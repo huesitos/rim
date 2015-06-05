@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
-  resources :requirements
   root 'projects#index'
 
   resources :projects do
     resources :use_cases
     resources :test_cases
+    resources :requirements
   end
   #get 'projects/index'
 

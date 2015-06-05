@@ -5,6 +5,4 @@ class Project
   field :scope, type: String
 
   has_many :use_cases
-
-  validates_associated :use_cases
 end

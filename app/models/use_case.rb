@@ -14,4 +14,6 @@ class UseCase
   validates :title, :steps, :priority, :description, :identifier, presence: :true
   validates :identifier, format: { with: /\ACU[0-9]+\z/, message: "format CUXX" }
   validates :priority, inclusion: { in: %w(Low Medium High)}
+  validates :project, presence: {is: true, message: "use cases have to belong to a project"}
+  validates_associated :project
 end

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :requirements
   root 'projects#index'
 
   resources :projects do

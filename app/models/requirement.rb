@@ -1,0 +1,7 @@
+class Requirement
+  include Mongoid::Document
+  field :title, type: String
+  field :description, type: String
+  field :identifier, type: String
+  field :priority, type: String
+end

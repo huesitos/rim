@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Title:
+  = @requirement.title
+%p
+  %b Description:
+  = @requirement.description
+%p
+  %b Identifier:
+  = @requirement.identifier
+%p
+  %b Priority:
+  = @requirement.priority
+
+= link_to 'Edit', edit_requirement_path(@requirement)
+\|
+= link_to 'Back', requirements_path

@@ -1,5 +1,8 @@
 %h1 Issues
 
+%h4
+  =link_to 'New Issue', new_project_issue_path
+
 -@issues.each do |issue|
   //-issue.kind == 'Improvement' ? @color = 'panel-danger' : @color = 'panel-success'
   .panel.panel-default

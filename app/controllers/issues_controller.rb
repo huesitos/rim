@@ -31,10 +31,11 @@ class IssuesController < ApplicationController
 
   def update
     issue_status = {"Open" => 1, "Fixing" => 2, "Closed" => 3}
+
     @issue = Project.find(params[:project_id]).issues.find(params[:id])
     @issue.status = issue_status[params[:issue][:status]]
     params[:issue][:status] = issue_status[params[:issue][:status]]
-    puts params
+
     if @issue.update(issues_params)
       redirect_to project_issue_path
     else

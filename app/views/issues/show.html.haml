@@ -1,2 +1,8 @@
-%h1 Issues#show
-%p Find me in app/views/issues/show.html.haml
+%h1
+  =@issue.title
+%p
+  %strong
+    =@issue.kind
+%p
+  =@issue_status
+

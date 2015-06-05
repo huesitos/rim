@@ -12,7 +12,7 @@ class UseCase
   belongs_to :project
 
   validates :title, :steps, :priority, :description, :identifier, presence: true
-  validates :identifier, format: { with: /\AUC[0-9]+\z/, message: "format CUXX" }
+  validates :identifier, format: { with: /\AUC[0-9]+\z/, message: "format UCXX" }
   validates :priority, inclusion: { in: %w(Low Medium High)}
   validates :project, presence: {is: true, message: "use cases have to belong to a project"}
   validates_associated :project

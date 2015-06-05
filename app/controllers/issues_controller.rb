@@ -1,7 +1,6 @@
 class IssuesController < ApplicationController
   def index
-    @project = Project.find params[:project_id]
-    @issues = @project.issues
+    @issues = Project.find(params[:project_id]).issues
   end
 
   def new

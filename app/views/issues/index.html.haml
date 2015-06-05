@@ -1,2 +1,11 @@
-%h1 
-  =@issues[0].title
+%h1 Issues
+
+-@issues.each do |issue|
+  -issue.kind == 'Improvement' ? @color = 'panel-danger' : @color = 'panel-success'
+  =link_to project_issue_path(params[:project_id], issue.id) do
+    %div{class: "panel panel-default #{@color}"}
+      .panel-heading
+        =issue.title
+        =issue.kind
+      .panel-footer
+        =link_to 'edit', edit_project_issue_path(params[:project_id], issue.id)

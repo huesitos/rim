@@ -14,7 +14,7 @@ class UseCase
   validates :title, :steps, :priority, :description, :identifier, presence: true
   validates :identifier, format: { with: /\AUC[0-9]+\z/, message: "format UCXX" }
   validates :priority, inclusion: { in: %w(Low Medium High)}
-  validates :project, presence: {is: true, message: "use cases have to belong to a project"}
+  validates :project, presence: {is: true, message: "use cases must belong to a project"}
   validates_associated :project
 
   def self.get_next_identifier

@@ -15,7 +15,7 @@ class TestCase
   validates :requirements, presence: true, if: "use_cases.nil? or use_cases.empty?"
   validates :use_cases, presence: true, if: "requirements.nil? or requirements.empty?"
   validates :identifier, format: { with: /\ATC[0-9]+\z/, message: "format TCXX" }
-  validates :project, presence: {is: true, message: "test cases have to belong to a project"}
+  validates :project, presence: {is: true, message: "test cases must belong to a project"}
   validates_associated :project
 
   def self.set_use_cases(test_case, use_cases_s)
@@ -38,6 +38,7 @@ class TestCase
     use_cases_array
   end
 
+  # Format use cases for the text field in the form
   def self.format_use_cases(use_cases)
   	identifiers = []
 

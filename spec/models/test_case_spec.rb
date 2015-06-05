@@ -55,6 +55,6 @@ RSpec.describe TestCase, type: :model do
   	no_project = FactoryGirl.build(:tc_no_project)
 
   	expect(no_project.valid?).to eq(false)
-  	assert_includes no_project.errors.messages[:project], "test cases have to belong to a project"
+  	assert_includes no_project.errors.messages[:project], "test cases must belong to a project"
   end
 end

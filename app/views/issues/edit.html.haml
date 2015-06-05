@@ -1,2 +1,5 @@
-%h1 Issues#edit
-%p Find me in app/views/issues/edit.html.haml
+%h1
+  "Edit #{@issue.title} issue"
+
+#edit-issue-form
+  =render 'create_edit_issue_form'

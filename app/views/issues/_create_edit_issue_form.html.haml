@@ -7,6 +7,10 @@
     =f.label :kind
     %br
     =f.select(:kind, ['Improvement', 'Error'])
+  -if @edit
+    %p
+      =f.label :status
+      =f.select(:status, ['Open', 'Fixing', 'Closed'])
   %p
     =f.submit
 

@@ -21,10 +21,25 @@ class IssuesController < ApplicationController
     @issue = Project.find(params[:project_id]).issues.find(params[:id])
     @issue_status = issue_status[@issue.status]
     puts @issue_status
-
   end
 
   def edit
+    @project = Project.find params[:project_id]
+    @issue = Project.find(params[:project_id]).issues.find(params[:id])
+    @edit = true
+  end
+
+  def update
+    issue_status = {"Open" => 1, "Fixing" => 2, "Closed" => 3}
+    @issue = Project.find(params[:project_id]).issues.find(params[:id])
+    @issue.status = issue_status[params[:issue][:status]]
+    params[:issue][:status] = issue_status[params[:issue][:status]]
+    puts params
+    if @issue.update(issues_params)
+      redirect_to project_issue_path
+    else
+      render 'edit'
+    end
   end
 
   def destroy

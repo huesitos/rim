@@ -1,0 +1,33 @@
+%h1 Listing test_cases
+
+%table
+  %thead
+    %tr
+      %th Identifier
+      %th Title
+      %th Steps
+      %th Preconditions
+      %th Postconditions
+      %th Use cases
+      %th Requirements
+      %th
+      %th
+      %th
+
+  %tbody
+    - @test_cases.each do |test_case|
+      %tr
+        %td= test_case.identifier
+        %td= test_case.title
+        %td= test_case.steps
+        %td= test_case.preconditions
+        %td= test_case.postconditions
+        %td= test_case.use_cases
+        %td= test_case.requirements
+        %td= link_to 'Show', test_case
+        %td= link_to 'Edit', edit_test_case_path(test_case)
+        %td= link_to 'Destroy', test_case, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Test case', new_test_case_path

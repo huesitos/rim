@@ -1,0 +1,31 @@
+= form_for @test_case do |f|
+  - if @test_case.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@test_case.errors.count, "error")} prohibited this test_case from being saved:"
+      %ul
+        - @test_case.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :identifier
+    = f.text_field :identifier
+  .field
+    = f.label :title
+    = f.text_field :title
+  .field
+    = f.label :steps
+    = f.text_field :steps
+  .field
+    = f.label :preconditions
+    = f.text_field :preconditions
+  .field
+    = f.label :postconditions
+    = f.text_field :postconditions
+  .field
+    = f.label :use_cases
+    = f.text_field :use_cases
+  .field
+    = f.label :requirements
+    = f.text_field :requirements
+  .actions
+    = f.submit 'Save'

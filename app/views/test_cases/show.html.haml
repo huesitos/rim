@@ -1,0 +1,27 @@
+%p#notice= notice
+
+%p
+  %b Identifier:
+  = @test_case.identifier
+%p
+  %b Title:
+  = @test_case.title
+%p
+  %b Steps:
+  = @test_case.steps
+%p
+  %b Preconditions:
+  = @test_case.preconditions
+%p
+  %b Postconditions:
+  = @test_case.postconditions
+%p
+  %b Use cases:
+  = @test_case.use_cases
+%p
+  %b Requirements:
+  = @test_case.requirements
+
+= link_to 'Edit', edit_test_case_path(@test_case)
+\|
+= link_to 'Back', test_cases_path

@@ -31,7 +31,7 @@ FactoryGirl.define do
 			identifier ""
 		end
 
-		factory :wrong_identifier1 do
+		factory :wrong_identifier do
 			identifier "CU"
 		end
 

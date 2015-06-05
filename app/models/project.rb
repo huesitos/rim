@@ -4,7 +4,7 @@ class Project
   field :description, type: String
   field :scope, type: String
 
-  has_many :projects
+  has_many :use_cases
 
   validates_associated :use_cases
 end

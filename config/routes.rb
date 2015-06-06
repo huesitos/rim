@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  get 'comments/new'
-
-  get 'comments/edit'
 
   resources :projects do
     resources :issues do

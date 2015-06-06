@@ -4,6 +4,10 @@
     %br
     =f.text_field :title
   %p
+    =f.label :description
+    %br
+    =f.text_area :description
+  %p
     =f.label :kind
     %br
     =f.select(:kind, ['Improvement', 'Error'])

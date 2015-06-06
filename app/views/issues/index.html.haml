@@ -9,6 +9,8 @@
     .panel-heading
       =link_to "#{issue.title}", project_issue_path(params[:project_id], issue.id)
       =issue.kind
+    .panel-body
+      =issue.description
     .panel-footer
       =link_to 'edit', edit_project_issue_path(params[:project_id], issue.id)
       =link_to 'delete', project_issue_path(params[:project_id], issue.id), method: :delete

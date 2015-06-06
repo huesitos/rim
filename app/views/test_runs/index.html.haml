@@ -1,0 +1,21 @@
+%h1 Listing test_runs
+
+%table
+  %thead
+    %tr
+      %th Date
+      %th
+      %th
+      %th
+
+  %tbody
+    - @test_runs.each do |test_run|
+      %tr
+        %td= test_run.date
+        %td= link_to 'Show', test_run
+        %td= link_to 'Edit', edit_test_run_path(test_run)
+        %td= link_to 'Destroy', test_run, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Test run', new_test_run_path

@@ -1,0 +1,9 @@
+%p#notice= notice
+
+%p
+  %b Date:
+  = @test_run.date
+
+= link_to 'Edit', edit_test_run_path(@test_run)
+\|
+= link_to 'Back', test_runs_path

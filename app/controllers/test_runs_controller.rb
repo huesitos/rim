@@ -1,5 +1,5 @@
 class TestRunsController < ApplicationController
-  before_action :set_test_run, only: [:show, :update, :destroy]
+  before_action :set_test_run, except: [:create, :new, :index]
   before_action :set_project
 
   # GET /test_runs
@@ -17,6 +17,46 @@ class TestRunsController < ApplicationController
   # GET /test_runs/1
   # GET /test_runs/1.json
   def show
+  end
+
+  # GET /test_run/:id/run_test/:identifier
+  # Retrieves a report of a test_case that hasn't been ran and runs it.
+  # If all test_cases have been ran, then it redirects to the test_run result page, which is the show page
+  def run_test
+    reports = @test_run.reports.where(result: "NR")
+    if reports.count > 0
+      @test_case = TestCase.find(resports[0].test_case[:_id])
+    else
+      respond_to do |format|
+        format.html { redirect_to project_test_run_path(@project, @test_run), notice: 'Test run finished successfully.' }
+      end
+    end
+  end
+
+  # PATCH /test_run/:id/run_test/:identifier/:result
+  # Sets the result of the test_run on the test_case :identifier
+  # If it was a failed run, then its redirected to create the issues
+  def result
+    report = @test_run.reports.find_by(identifier: params[:identifier])
+    report.update(result: paramas[:result])
+
+    respond_to do |format|
+      if report.result == "Failed"
+        format.html { #issues path
+           }
+      else
+        format.html { redirect_to #run_test path
+        }
+      end
+    end
+  end
+
+  # GET /test_run/:id/run_test/:identifier/issues
+  def new_issues
+  end
+
+  # POST /test_run/:id/run_test/:identifier/issues
+  def create_issues
   end
 
   # POST /test_runs

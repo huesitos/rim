@@ -2,18 +2,16 @@ Rails.application.routes.draw do
   root 'projects#index'
 
   resources :projects do
-    resources :test_runs, only: [:index, :new, :show, :create, :destroy]
+    resources :test_runs, except: [:edit, :update] do
+      get "run_test/:identifier" => "test_runs#run_test", as: :run_test
+      get "run_test/:identifier/issues" => "test_runs#new_issues", as: :issues
+      post "run_test/:identifier/issues" => "test_runs#create_issues", as: :create_issues
+      patch "run_test/:identifier/:result" => "test_run#result", as: :result
+    end
     resources :use_cases
     resources :test_cases
     resources :requirements
   end
-  #get 'projects/index'
-
-  #get 'projects/new'
-
-  #get 'projects/show'
-
-  #get 'projects/delete'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

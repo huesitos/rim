@@ -33,8 +33,7 @@ class UseCase
     if not requirements_list.empty?
       requirements_array = []
       requirements_list.each do |requiremet_identifier|
-        requiremet_identifier.rstrip!
-        requiremet_identifier.lstrip!
+        requiremet_identifier.rstrip!.lstrip!
         # In case the requirement exists, add the requirement in the test_case.requirements array
         # as a hash that includes the requirement identifier and id for linking in views
         if requirement = Requirement.find_by(identifier: requiremet_identifier)

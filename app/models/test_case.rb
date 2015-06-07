@@ -26,8 +26,7 @@ class TestCase
     if not use_cases_list.empty?
       use_cases_array = []
       use_cases_list.each do |use_case_identifier|
-      	use_case_identifier.rstrip!
-      	use_case_identifier.lstrip!
+      	use_case_identifier.rstrip!.lstrip!
         # In case the use cases exists, add the use case in the test_case.use_cases array
         # as a hash that includes the use_case identifier and id for linking in views
         if use_case = UseCase.find_by(identifier: use_case_identifier)
@@ -46,8 +45,7 @@ class TestCase
     if not requirements_list.empty?
       requirements_array = []
       requirements_list.each do |requiremet_identifier|
-        requiremet_identifier.rstrip!
-        requiremet_identifier.lstrip!
+        requiremet_identifier.rstrip!.lstrip!
         # In case the requirement exists, add the requirement in the test_case.requirements array
         # as a hash that includes the requirement identifier and id for linking in views
         if requirement = Requirement.find_by(identifier: requiremet_identifier)

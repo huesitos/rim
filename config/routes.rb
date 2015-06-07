@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
-  resources :test_runs
   root 'projects#index'
 
   resources :projects do
+    resources :test_runs, only: [:index, :new, :show, :create, :destroy]
     resources :use_cases
     resources :test_cases
     resources :requirements

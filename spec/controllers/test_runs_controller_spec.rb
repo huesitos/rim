@@ -52,21 +52,6 @@ RSpec.describe TestRunsController, type: :controller do
     end
   end
 
-  describe "GET #new" do
-    it "assigns a new test_run as @test_run" do
-      get :new, {}, valid_session
-      expect(assigns(:test_run)).to be_a_new(TestRun)
-    end
-  end
-
-  describe "GET #edit" do
-    it "assigns the requested test_run as @test_run" do
-      test_run = TestRun.create! valid_attributes
-      get :edit, {:id => test_run.to_param}, valid_session
-      expect(assigns(:test_run)).to eq(test_run)
-    end
-  end
-
   describe "POST #create" do
     context "with valid params" do
       it "creates a new TestRun" do
@@ -96,47 +81,6 @@ RSpec.describe TestRunsController, type: :controller do
       it "re-renders the 'new' template" do
         post :create, {:test_run => invalid_attributes}, valid_session
         expect(response).to render_template("new")
-      end
-    end
-  end
-
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested test_run" do
-        test_run = TestRun.create! valid_attributes
-        put :update, {:id => test_run.to_param, :test_run => new_attributes}, valid_session
-        test_run.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "assigns the requested test_run as @test_run" do
-        test_run = TestRun.create! valid_attributes
-        put :update, {:id => test_run.to_param, :test_run => valid_attributes}, valid_session
-        expect(assigns(:test_run)).to eq(test_run)
-      end
-
-      it "redirects to the test_run" do
-        test_run = TestRun.create! valid_attributes
-        put :update, {:id => test_run.to_param, :test_run => valid_attributes}, valid_session
-        expect(response).to redirect_to(test_run)
-      end
-    end
-
-    context "with invalid params" do
-      it "assigns the test_run as @test_run" do
-        test_run = TestRun.create! valid_attributes
-        put :update, {:id => test_run.to_param, :test_run => invalid_attributes}, valid_session
-        expect(assigns(:test_run)).to eq(test_run)
-      end
-
-      it "re-renders the 'edit' template" do
-        test_run = TestRun.create! valid_attributes
-        put :update, {:id => test_run.to_param, :test_run => invalid_attributes}, valid_session
-        expect(response).to render_template("edit")
       end
     end
   end

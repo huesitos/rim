@@ -1,4 +1,8 @@
+%p.notice= notice
 %h1 Listing test_runs
+
+%h4
+  =link_to 'New Test Run', new_project_test_run_path(@project), id: :button
 
 %table
   %thead
@@ -12,10 +16,7 @@
     - @test_runs.each do |test_run|
       %tr
         %td= test_run.date
-        %td= link_to 'Show', test_run
-        %td= link_to 'Edit', edit_test_run_path(test_run)
-        %td= link_to 'Destroy', test_run, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td= link_to 'Show', project_test_run_path(@project, test_run)
+        %td= link_to 'Destroy', project_test_run_path(@project, test_run), :method => :delete, :data => { :confirm => 'Are you sure?' }
 
-%br
-
-= link_to 'New Test run', new_test_run_path
+=link_to "Back", @project

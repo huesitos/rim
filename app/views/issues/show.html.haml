@@ -1,0 +1,26 @@
+%h1 
+  =@issue.title
+#issue-info
+  %p
+    =@issue.description
+  %p
+    %strong
+      Issue Type:
+      %br
+      =@issue.kind
+  %p
+    Issue Status:
+    %br
+    =@issue_status
+
+#comments
+  %h4 Comments
+  -@comments.each do |comment|
+    .panel.panel-default
+      .panel-heading
+        Comment
+      .panel-body
+        =comment.body
+
+%p
+  =link_to 'add a comment', new_project_issue_comment_path(@project, @issue)

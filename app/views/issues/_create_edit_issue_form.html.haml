@@ -1,0 +1,20 @@
+=form_for([@project, @issue]) do |f|
+  %p
+    =f.label :title
+    %br
+    =f.text_field :title
+  %p
+    =f.label :description
+    %br
+    =f.text_area :description
+  %p
+    =f.label :kind
+    %br
+    =f.select(:kind, ['Improvement', 'Error'])
+  -if @edit
+    %p
+      =f.label :status
+      =f.select(:status, ['Open', 'Fixing', 'Closed'])
+  %p
+    =f.submit
+

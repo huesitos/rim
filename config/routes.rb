@@ -11,6 +11,9 @@ Rails.application.routes.draw do
     resources :use_cases
     resources :test_cases
     resources :requirements
+    resources :issues do
+      resources :comments
+    end
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

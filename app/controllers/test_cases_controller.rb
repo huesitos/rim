@@ -5,7 +5,7 @@ class TestCasesController < ApplicationController
   # GET /test_cases
   # GET /test_cases.json
   def index
-    @test_cases = TestCase.all
+    @test_cases = TestCase.where(project_id: @project._id)
   end
 
   # GET /test_cases/1
@@ -35,13 +35,10 @@ class TestCasesController < ApplicationController
     else
       @test_case = TestCase.new
     end
-
-    @url = project_test_cases_path(@project)
   end
 
   # GET /test_cases/1/edit
   def edit
-    @url = project_test_case_path(@project, @test_case._id)
     @formatted_use_cases = TestCase.format_use_cases(@test_case.use_cases)
     @formatted_requirements = TestCase.format_requirements(@test_case.requirements)
   end

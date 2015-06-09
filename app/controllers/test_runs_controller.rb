@@ -80,7 +80,7 @@ class TestRunsController < ApplicationController
       puts "Test cases #{test_cases}"
 
       test_cases.each do |identifier|
-        if test_case = TestCase.find_by(identifier: identifier)
+        if test_case = TestCase.find_by(identifier: identifier, project_id: @project._id)
           Report.create(
             test_case: {identifier: test_case.identifier, _id: test_case._id}, 
             result: "NR", 

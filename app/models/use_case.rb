@@ -21,8 +21,8 @@ class UseCase
     "UC#{Integer(UseCase.all.count)+1}"
   end
 
-  def self.related_test_cases(identifier)
-    TestCase.where({"use_cases": { "$elemMatch": {"identifier": identifier}}})
+  def self.related_test_cases(identifier, project_id)
+    TestCase.where(project_id: project_id, {"use_cases": { "$elemMatch": {"identifier": identifier}}})
   end
 
   def self.set_requirements(requirements_s)

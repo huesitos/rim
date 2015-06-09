@@ -5,24 +5,24 @@ class UseCasesController < ApplicationController
   # GET /use_cases
   # GET /use_cases.json
   def index
-    @use_cases = UseCase.all
+    @use_cases = UseCase.where(project_id: @project._id)
   end
 
   # GET /use_cases/1
   # GET /use_cases/1.json
   def show
-    @related_test_cases = UseCase.related_test_cases(@use_case.identifier)
+    @related_test_cases = UseCase.related_test_cases(
+      identifier: @use_case.identifier,
+      project_id: @project._id)
   end
 
   # GET /use_cases/new
   def new
-    @url = project_use_cases_path(@project)
     @use_case = UseCase.new
   end
 
   # GET /use_cases/1/edit
   def edit
-    @url = project_use_case_path(@project, @use_case._id)
   end
 
   # POST /use_cases

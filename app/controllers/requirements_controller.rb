@@ -5,26 +5,24 @@ class RequirementsController < ApplicationController
   # GET /requirements
   # GET /requirements.json
   def index
-    @requirements = Requirement.all
+    @requirements = Requirement.where(project_id: @project._id)
   end
 
   # GET /requirements/1
   # GET /requirements/1.json
   def show
     @related_use_cases = Requirement.related_use_cases(@requirement.identifier)
-    @related_test_cases = Requirement.related_test_cases @requirement.identifier
+    @related_test_cases = Requirement.related_test_cases(@requirement.identifier)
   end
 
   # GET /requirements/new
   def new
     @errors = params[:errors]
-    @url = project_requirements_path(@project._id)
     @requirement = Requirement.new
   end
 
   # GET /requirements/1/edit
   def edit
-    @url = project_requirement_path(@project._id, @requirement._id)
   end
 
   # POST /requirements

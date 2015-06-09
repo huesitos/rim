@@ -43,7 +43,9 @@ class UseCasesController < ApplicationController
     @use_case.project = @project
 
     # Requirements
-    @use_case.requirements = UseCase.set_requirements(use_case_params[:requirements])
+    @use_case.requirements = UseCase.set_requirements(
+      requirements_s: use_case_params[:requirements],
+      project_id: @project._id)
 
     respond_to do |format|
       if @use_case.save

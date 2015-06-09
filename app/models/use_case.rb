@@ -22,10 +22,10 @@ class UseCase
   end
 
   def self.related_test_cases(identifier, project_id)
-    TestCase.where(project_id: project_id, {"use_cases": { "$elemMatch": {"identifier": identifier}}})
+    TestCase.where({project_id: project_id, "use_cases" => { "$elemMatch" => {"identifier" => identifier}}})
   end
 
-  def self.set_requirements(requirements_s)
+  def self.set_requirements(requirements_s, project_id)
     # Split string of requirements identifier into a list
     requirements_list = requirements_s.split(',')
 
@@ -36,7 +36,7 @@ class UseCase
         requiremet_identifier.rstrip!.lstrip!
         # In case the requirement exists, add the requirement in the test_case.requirements array
         # as a hash that includes the requirement identifier and id for linking in views
-        if requirement = Requirement.find_by(identifier: requiremet_identifier)
+        if requirement = Requirement.find_by(identifier: requiremet_identifier, project_id: project_id)
           requirements_array << {identifier: requirement.identifier, _id: requirement._id}
         end
       end

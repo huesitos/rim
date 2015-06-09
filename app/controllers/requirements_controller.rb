@@ -11,8 +11,12 @@ class RequirementsController < ApplicationController
   # GET /requirements/1
   # GET /requirements/1.json
   def show
-    @related_use_cases = Requirement.related_use_cases(@requirement.identifier)
-    @related_test_cases = Requirement.related_test_cases(@requirement.identifier)
+    @related_use_cases = Requirement.related_use_cases(
+      identifier: @requirement.identifier, 
+      project_id: @project._id)
+    @related_test_cases = Requirement.related_test_cases(
+      identifier: @requirement.identifier, 
+      project_id: @project._id)
   end
 
   # GET /requirements/new
@@ -34,7 +38,9 @@ class RequirementsController < ApplicationController
     @requirement.project = @project
 
     # Set identifier
-    @requirement.identifier = Requirement.get_next_identifier(@requirement.kind)
+    @requirement.identifier = Requirement.get_next_identifier(
+      kind: @requirement.kind, 
+      project_id: @project_id._id)
 
     puts @requirement.identifier
     puts @requirement.kind

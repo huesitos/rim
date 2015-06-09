@@ -15,19 +15,19 @@ class Requirement
   validates :project, presence: {is: true, message: "requirements must belong to a project"}
   validates_associated :project
 
-  def self.get_next_identifier(kind)
+  def self.get_next_identifier(kind, project_id)
   	if kind == "Functional"
-	  	"FR#{Integer(Requirement.where(kind:"Functional").count)+1}"
+	  	"FR#{Integer(Requirement.where(kind:"Functional", project_id: project_id).count)+1}"
   	else
-	  	"NFR#{Integer(Requirement.where(kind:"Non-Functional").count)+1}"
+	  	"NFR#{Integer(Requirement.where(kind:"Non-Functional", project_id: project_id).count)+1}"
   	end
   end
 
-  def self.related_use_cases(identifier)
-    UseCase.where({"requirements": { "$elemMatch": {"identifier": identifier}}})
+  def self.related_use_cases(identifier, project_id)
+    UseCase.where({project_id: project_id, "requirements" => { "$elemMatch" => {"identifier" => identifier}}})
   end
 
-  def self.related_test_cases(identifier)
-    TestCase.where({"requirements": { "$elemMatch": {"identifier": identifier}}})
+  def self.related_test_cases(identifier, project_id)
+    TestCase.where({project_id: project_id, "requirements" => { "$elemMatch" => {"identifier" => identifier}}})
   end
 end

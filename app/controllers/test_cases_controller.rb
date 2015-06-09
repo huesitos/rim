@@ -25,7 +25,13 @@ class TestCasesController < ApplicationController
         requirements << rq["identifier"]+','
       end
 
-      @test_case = TestCase.new(title: use_case[:title], steps: use_case[:steps], preconditions: use_case[:preconditions], postconditions: use_case[:postconditions], use_cases: [use_case[:identifier]], requirements: requirements)
+      @test_case = TestCase.new(
+        title: use_case[:title], 
+        steps: use_case[:steps], 
+        preconditions: use_case[:preconditions], 
+        postconditions: use_case[:postconditions], 
+        use_cases: [use_case[:identifier]], 
+        requirements: requirements)
     else
       @test_case = TestCase.new
     end
@@ -43,7 +49,12 @@ class TestCasesController < ApplicationController
   # POST /test_cases
   # POST /test_cases.json
   def create
-    @test_case = TestCase.new(title: test_case_params[:title], steps: test_case_params[:steps], preconditions: test_case_params[:preconditions], postconditions: test_case_params[:postconditions], description: test_case_params[:description])
+    @test_case = TestCase.new(
+      title: test_case_params[:title], 
+      steps: test_case_params[:steps], 
+      preconditions: test_case_params[:preconditions], 
+      postconditions: test_case_params[:postconditions], 
+      description: test_case_params[:description])
 
     # Set identifier
     @test_case.identifier = TestCase.get_identifier
@@ -59,7 +70,7 @@ class TestCasesController < ApplicationController
       if @test_case.save
         format.html { redirect_to project_test_case_path(@project, @test_case), notice: 'Test case was successfully created.' }
       else
-        format.html { render :new }
+        format.html { render :action => "new" }
       end
     end
   end
@@ -71,7 +82,14 @@ class TestCasesController < ApplicationController
     requirements_array = TestCase.set_requirements( test_case_params[:requirements])
 
     respond_to do |format|
-      if @test_case.update(title: test_case_params[:title], steps: test_case_params[:steps], preconditions: test_case_params[:preconditions], postconditions: test_case_params[:postconditions], description: test_case_params[:description], use_cases: use_cases_array, requirements: requirements_array)
+      if @test_case.update(
+        title: test_case_params[:title], 
+        steps: test_case_params[:steps], 
+        preconditions: test_case_params[:preconditions], 
+        postconditions: test_case_params[:postconditions], 
+        description: test_case_params[:description], 
+        use_cases: use_cases_array, 
+        requirements: requirements_array)
         format.html { redirect_to project_test_case_path(@project, @test_case), notice: 'Test case was successfully updated.' }
       else
         format.html { render :edit }

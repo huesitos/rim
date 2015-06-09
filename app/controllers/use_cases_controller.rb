@@ -28,7 +28,13 @@ class UseCasesController < ApplicationController
   # POST /use_cases
   # POST /use_cases.json
   def create
-    @use_case = UseCase.new(title: use_case_params[:title], preconditions: use_case_params[:preconditions], postconditions: use_case_params[:postconditions], steps: use_case_params[:steps], priority: use_case_params[:priority], description: use_case_params[:description])
+    @use_case = UseCase.new(
+      title: use_case_params[:title], 
+      preconditions: use_case_params[:preconditions], 
+      postconditions: use_case_params[:postconditions], 
+      steps: use_case_params[:steps], 
+      priority: use_case_params[:priority], 
+      description: use_case_params[:description])
 
     # Add identifier
     @use_case.identifier = UseCase.get_next_identifier

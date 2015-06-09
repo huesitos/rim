@@ -63,7 +63,11 @@ class TestRunsController < ApplicationController
   # POST /test_runs.json
   def create
     @test_run = TestRun.new(date: Date.today)
-    @test_run.summary = Summary.new(passed: 0, skiped: 0, failed: 0, total: 0)
+    @test_run.summary = Summary.new(
+      passed: 0, 
+      skiped: 0, 
+      failed: 0, 
+      total: 0)
 
     # If specific test cases where listed, then create a test run with a report object for each of the test cases
     # If all test cases where marked for run, then pull all test cases from that project and create the reports
@@ -73,13 +77,23 @@ class TestRunsController < ApplicationController
 
       test_cases.each do |tc|
         if test_case = TestCase.find_by(identifier: tc)
-          Report.create(test_case: {identifier: test_case.identifier, _id: test_case._id}, result: "NR", issues: [], comment: "", test_run_id: @test_run._id)
+          Report.create(
+            test_case: {identifier: test_case.identifier, _id: test_case._id}, 
+            result: "NR", 
+            issues: [], 
+            comment: "", 
+            test_run_id: @test_run._id)
         end
       end
     else
       test_cases = TestCase.where(project_id: @project._id)
       test_cases.each do |tc|
-        Report.create(test_case: {identifier: test_case.identifier, _id: test_case._id}, result: "NR", issues: [], comment: "", test_run_id: @test_run._id)
+        Report.create(
+          test_case: {identifier: test_case.identifier, _id: test_case._id}, 
+          result: "NR", 
+          issues: [], 
+          comment: "", 
+          test_run_id: @test_run._id)
       end
     end
 

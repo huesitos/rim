@@ -3,10 +3,9 @@ Rails.application.routes.draw do
 
   resources :projects do
     resources :test_runs, except: [:edit, :update] do
+      get "test_run" => "test_runs#test_run", as: :test_run
       get "run_test/:identifier" => "test_runs#run_test", as: :run_test
-      get "run_test/:identifier/issues" => "test_runs#new_issues", as: :issues
-      post "run_test/:identifier/issues" => "test_runs#create_issues", as: :create_issues
-      patch "run_test/:identifier/:result" => "test_run#result", as: :result
+      patch "run_test/:identifier" => "test_runs#result", as: :result
     end
     resources :use_cases
     resources :test_cases

@@ -1,0 +1,27 @@
+%h1="#{@test_case.identifier} #{@test_case.title}"
+
+%p= @test_case.description
+%p
+	%b Preconditions:
+%p
+	= @test_case.preconditions
+%p
+	%b Steps:
+%p
+	= @test_case.steps
+%p
+	%b Postconditions:
+%p
+	= @test_case.postconditions
+
+%p.instructions Follow the steps to run the test case.
+%p.instructions Keep in mind that the preconditions should be satisfied before starting the test.
+
+= form_tag project_test_run_run_test_path(@project, @test_run, identifier: @test_case.identifier), method: "patch" do
+	= label_tag :comment, "Comments"
+	= text_area_tag :comment
+
+	.actions
+		= submit_tag("Pass")
+		= submit_tag("Skip")
+		= submit_tag("Fail")

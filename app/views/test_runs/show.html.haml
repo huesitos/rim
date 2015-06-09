@@ -1,7 +1,28 @@
 %p#notice= notice
 
+%h1= "Test run #{@test_run.date.to_time}"
+
+%h3 Summary
 %p
-  %b Date:
-  = @test_run.date
+	%b Passed:
+	= @test_run.summary.passed
+%p
+	%b Failed:
+	= @test_run.summary.failed
+%p
+	%b Skiped:
+	= @test_run.summary.skipped
+		
+%h3 Reports
+- @test_run.reports.each do |r|
+	%p
+		=link_to "Test case #{r.test_case["identifier"]}", project_test_case_path(@project, r.test_case["_id"])
+	%p
+		%b Result:
+		= r.result
+	%p
+		%b Comment:
+		= r.comment
+
 
 = link_to 'Back', project_test_runs_path(@project)

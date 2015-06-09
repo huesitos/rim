@@ -5,12 +5,12 @@ class TestRunsController < ApplicationController
   # GET /test_runs
   # GET /test_runs.json
   def index
-    @test_runs = TestRun.all
+    @test_runs = TestRun.where(project_id: @project._id)
   end
 
   # GET /new
   def new
-    @test_cases = TestCase.all
+    @test_cases = TestCase.where(project_id: @project._id)
     @test_run = TestRun.new()
   end
 
@@ -20,78 +20,80 @@ class TestRunsController < ApplicationController
   end
 
   # GET /test_run/:id/run_test/:identifier
-  # Retrieves a report of a test_case that hasn't been ran and runs it.
-  # If all test_cases have been ran, then it redirects to the test_run result page, which is the show page
-  def run_test
-    reports = @test_run.reports.where(result: "NR")
-    if reports.count > 0
-      @test_case = TestCase.find(resports[0].test_case[:_id])
-    else
-      respond_to do |format|
-        format.html { redirect_to project_test_run_path(@project, @test_run), notice: 'Test run finished successfully.' }
+  # Retrieves next test case to run.
+  # If there are no more test cases to run, it redirects to the
+  # test_run show page to display the result of the test run
+  def test_run
+    identifier = TestRun.next_test(@test_run)
+
+    respond_to do |format|
+      if identifier
+        format.html { redirect_to project_test_run_run_test_path(
+          @project, 
+          @test_run, 
+          identifier: identifier)}
+      else
+        format.html { redirect_to project_test_run_path(@project, @test_run), 
+            notice: 'Test run finished successfully.' }
       end
     end
+  end
+
+  # GET /test_run/:id/run_test/:identifier
+  # Run test case page displaying test case info and form to give result
+  def run_test
+    @test_case = TestCase.find_by(identifier: params[:identifier], project_id: @project._id)
   end
 
   # PATCH /test_run/:id/run_test/:identifier/:result
   # Sets the result of the test_run on the test_case :identifier
-  # If it was a failed run, then its redirected to create the issues
   def result
-    report = @test_run.reports.find_by(identifier: params[:identifier])
-    report.update(result: paramas[:result])
+    report = TestRun.get_report(@test_run, params[:identifier])
+    report.update(result: params[:commit], comment: params[:comment])
 
-    respond_to do |format|
-      if report.result == "Failed"
-        format.html { #issues path
-           }
-      else
-        format.html { redirect_to #run_test path
-        }
-      end
+    if params[:commit] == "Pass"
+      @test_run.summary.inc(passed: 1)
+    elsif params[:commit] == "Skip"
+      @test_run.summary.inc(skipped: 1)
+    else
+      @test_run.summary.inc(failed: 1)
     end
-  end
+    @test_run.summary.save
 
-  # GET /test_run/:id/run_test/:identifier/issues
-  def new_issues
-  end
-
-  # POST /test_run/:id/run_test/:identifier/issues
-  def create_issues
+    redirect_to project_test_run_test_run_path(@project, @test_run)
   end
 
   # POST /test_runs
   # POST /test_runs.json
   def create
-    @test_run = TestRun.new(date: Date.today)
+    @test_run = TestRun.new(date: DateTime.now)
     @test_run.summary = Summary.new(
       passed: 0, 
-      skiped: 0, 
+      skipped: 0, 
       failed: 0, 
       total: 0)
 
     # If specific test cases where listed, then create a test run with a report object for each of the test cases
-    # If all test cases where marked for run, then pull all test cases from that project and create the reports
+    # If all test cases where marked for run, then pull all test cases from that project and create the reports for each of them
     if params[:commit] == "Run"
       test_cases = params[:test_cases].split(',')
       puts "Test cases #{test_cases}"
 
-      test_cases.each do |tc|
-        if test_case = TestCase.find_by(identifier: tc)
+      test_cases.each do |identifier|
+        if test_case = TestCase.find_by(identifier: identifier)
           Report.create(
             test_case: {identifier: test_case.identifier, _id: test_case._id}, 
             result: "NR", 
-            issues: [], 
             comment: "", 
             test_run_id: @test_run._id)
         end
       end
     else
       test_cases = TestCase.where(project_id: @project._id)
-      test_cases.each do |tc|
+      test_cases.each do |test_case|
         Report.create(
           test_case: {identifier: test_case.identifier, _id: test_case._id}, 
           result: "NR", 
-          issues: [], 
           comment: "", 
           test_run_id: @test_run._id)
       end
@@ -101,9 +103,12 @@ class TestRunsController < ApplicationController
 
     respond_to do |format|
       if @test_run.reports.length > 0
-        format.html { redirect_to project_test_runs_path(@project), notice: 'Test run was successfully created.' }
+        format.html { redirect_to project_test_run_test_run_path(
+          @project, 
+          @test_run) }
       else
-        format.html { redirect_to project_test_runs_path(@project), notice: 'Test run was not created, no valid test_case was given.' }
+        format.html { redirect_to project_test_runs_path(@project), 
+          notice: 'Test run was not created, no valid test_case was given.' }
       end
     end
   end
@@ -113,7 +118,8 @@ class TestRunsController < ApplicationController
   def destroy
     @test_run.destroy
     respond_to do |format|
-      format.html { redirect_to project_test_runs_path(@project), notice: 'Test run was successfully destroyed.' }
+      format.html { redirect_to project_test_runs_path(@project), 
+        notice: 'Test run was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -121,7 +127,11 @@ class TestRunsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_test_run
-      @test_run = TestRun.find(params[:id])
+      if params[:id]
+        @test_run = TestRun.find(params[:id])
+      else
+        @test_run = TestRun.find(params[:test_run_id])
+      end
     end
 
     def set_project

@@ -18,7 +18,7 @@ class TestRun
 
   def self.get_report(test_run, identifier)
   	report = test_run.reports.find_by({
-      "test_case.identifier": identifier
+      "test_case.identifier" => identifier
       })
   end
 end

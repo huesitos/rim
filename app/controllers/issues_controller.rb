@@ -11,6 +11,8 @@ class IssuesController < ApplicationController
   def create
     @project = Project.find params[:project_id]
     @issue = @project.issues.create issues_params
+    @issue.identifier = Issue.get_next_identifier(project_id: @project._id)
+    @issue.save
 
     redirect_to project_issues_path
   end

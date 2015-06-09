@@ -37,7 +37,7 @@ class UseCasesController < ApplicationController
       description: use_case_params[:description])
 
     # Add identifier
-    @use_case.identifier = UseCase.get_next_identifier
+    @use_case.identifier = UseCase.get_next_identifier(project_id: @project._id)
 
     # Link to project
     @use_case.project = @project

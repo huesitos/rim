@@ -1,5 +1,4 @@
-%h1 
-  =@issue.title
+%h1="#{@issue.identifier} #{@issue.title}"
 #issue-info
   %p
     =@issue.description
@@ -24,3 +23,5 @@
 
 %p
   =link_to 'add a comment', new_project_issue_comment_path(@project, @issue)
+
+=link_to 'Back', project_issues_path(params[:project_id])

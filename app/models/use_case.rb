@@ -17,8 +17,8 @@ class UseCase
   validates :project, presence: {is: true, message: "use cases must belong to a project"}
   validates_associated :project
 
-  def self.get_next_identifier
-    "UC#{Integer(UseCase.all.count)+1}"
+  def self.get_next_identifier(project_id)
+    "UC#{Integer(UseCase.where(project_id: project_id).count)+1}"
   end
 
   def self.related_test_cases(identifier, project_id)

@@ -78,11 +78,7 @@ class TestCase
     identifiers.join(", ")
   end
 
-  def self.get_identifier
-    "TC#{Integer(TestCase.all.count)+1}"
-  end
-
-  def self.get_identifier
-    "TC#{Integer(TestCase.all.count)+1}"
+  def self.get_next_identifier(project_id)
+    "TC#{Integer(TestCase.where(project_id: project_id).count)+1}"
   end
 end

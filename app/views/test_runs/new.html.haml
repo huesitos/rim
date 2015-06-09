@@ -1,14 +1,12 @@
 %h1 New test run
 
-= form_tag(project_test_runs_path(@project), method: "POST") do
+= form_for [@project, @test_run] do
 	.field
 		= label_tag "Test cases to run"
 		= text_field_tag 'test_cases', nil, placeholder: "identifiers separated by comma"
 	.actions
 		= submit_tag('Run')
-
-= form_tag(project_test_runs_path(@project), method: "POST") do
-	= submit_tag("Run all")
+		= submit_tag("Run all")
 
 %h3 List of test cases
 

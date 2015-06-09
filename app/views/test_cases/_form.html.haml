@@ -1,4 +1,4 @@
-= form_for @test_case, url: @url do |f|
+= form_for [@project, @test_case] do |f|
   - if @test_case.errors.any?
     #error_explanation
       %h2= "#{pluralize(@test_case.errors.count, "error")} prohibited this test_case from being saved:"

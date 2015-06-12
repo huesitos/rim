@@ -54,7 +54,7 @@ class TestCasesController < ApplicationController
       description: test_case_params[:description])
 
     # Set identifier
-    @test_case.identifier = TestCase.get_next_identifier(project_id: @project._id)
+    @test_case.identifier = TestCase.get_next_identifier(@project._id)
 
     # Link to project
     @test_case.project = @project

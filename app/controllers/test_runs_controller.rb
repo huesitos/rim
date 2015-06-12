@@ -51,14 +51,8 @@ class TestRunsController < ApplicationController
     report = TestRun.get_report(@test_run, params[:identifier])
     report.update(result: params[:commit], comment: params[:comment])
 
-    if params[:commit] == "Pass"
-      @test_run.summary.inc(passed: 1)
-    elsif params[:commit] == "Skip"
-      @test_run.summary.inc(skipped: 1)
-    else
-      @test_run.summary.inc(failed: 1)
-    end
-    @test_run.summary.save
+    # Update the summary counts
+    Summary.update_summary(@test_run.summary, params[:commit])
 
     redirect_to project_test_run_test_run_path(@project, @test_run)
   end

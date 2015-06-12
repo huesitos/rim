@@ -12,8 +12,8 @@ class UseCasesController < ApplicationController
   # GET /use_cases/1.json
   def show
     @related_test_cases = UseCase.related_test_cases(
-      identifier: @use_case.identifier,
-      project_id: @project._id)
+      @use_case.identifier,
+      @project._id)
   end
 
   # GET /use_cases/new
@@ -37,15 +37,15 @@ class UseCasesController < ApplicationController
       description: use_case_params[:description])
 
     # Add identifier
-    @use_case.identifier = UseCase.get_next_identifier(project_id: @project._id)
+    @use_case.identifier = UseCase.get_next_identifier(@project._id)
 
     # Link to project
     @use_case.project = @project
 
     # Requirements
     @use_case.requirements = UseCase.set_requirements(
-      requirements_s: use_case_params[:requirements],
-      project_id: @project._id)
+      use_case_params[:requirements], 
+      @project._id)
 
     respond_to do |format|
       if @use_case.save

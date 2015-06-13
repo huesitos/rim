@@ -2,13 +2,42 @@
 <html>
 <head>
   <title>Rim</title>
+  <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic|Open+Sans+Condensed:300,300italic,700' rel='stylesheet' type='text/css'>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+<header>
+	<h1 class="site-header">RIM</h1>
+	<nav>
+		<%= link_to 'Projects', projects_url %>
+	</nav>
+	<% if @project %>
+		<h2 class="page-header"><%= @project.name %></h2>
+	<% end %>
+</header>
 
-<%= yield %>
+<% if @menu %>
+<aside class="menu small-col">
+	<% @menu.each do |link| %>
+		<% if controller.controller_name == link[:controller] %>
+			<%= link_to link[:name], link[:path], class: 'active' %>
+		<% else %>
+			<%= link_to link[:name], link[:path]%>
+		<% end %>
+	<% end %>
+</aside>
+<% end %>
+
+<% if @project %>
+<section class="main big-col">
+<% else %>
+<section class="main">
+<% end %>
+	<%= yield %>
+</section>
+<footer></footer>
 
 </body>
 </html>

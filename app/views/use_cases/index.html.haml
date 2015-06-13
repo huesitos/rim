@@ -1,18 +1,14 @@
-%h1 Listing use_cases
-
-%h4
-  =link_to 'New Use Case', new_project_use_case_path(@project), id: :button
+.top
+  %h3 
+    Use Cases
+  =link_to 'New Use Case', new_project_use_case_path(@project), class: 'btn btn-primary right'
 
 -@use_cases.each do |use_case|
-  .panel.panel-default
-    .panel-heading
-      =link_to "#{use_case.identifier} #{use_case.title}", project_use_case_path(@project, use_case) 
-      %span 
-        Priority:
-        = use_case.priority
-      =link_to 'edit', edit_project_use_case_path(@project, use_case)
-      =link_to 'delete', project_use_case_path(@project, use_case), method: :delete, :data => { :confirm => 'Are you sure?' }
-    .panel-body
-      =use_case.description
-
-= link_to "Back", @project
+  .list-item
+    %h4=link_to "#{use_case.identifier} #{use_case.title}", project_use_case_path(@project, use_case) 
+    %h5 
+      Priority:
+      = use_case.priority
+    %p=use_case.description
+    =link_to 'Edit', edit_project_use_case_path(@project, use_case)
+    =link_to 'Delete', project_use_case_path(@project, use_case), method: :delete, :data => { :confirm => 'Are you sure?' }

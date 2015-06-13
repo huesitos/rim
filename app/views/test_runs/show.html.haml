@@ -1,31 +1,29 @@
-%p#notice= notice
+- if notice
+	%p#notice= notice
 
-%h1= "Test run #{@test_run.date.to_time}"
+%h3= "Test run #{@test_run.date.to_time}"
 
-%h3 Summary
+%h4 Summary
 %p
 	%b Total:
 	= @test_run.summary.total
-%p
 	%b Passed:
-	= @test_run.summary.passed
-%p
+	%span.passed= @test_run.summary.passed
 	%b Failed:
-	= @test_run.summary.failed
-%p
+	%span.failed= @test_run.summary.failed
 	%b Skiped:
-	= @test_run.summary.skipped
+	%span.skipped= @test_run.summary.skipped
 		
-%h3 Reports
+%h4.header Reports
 - @test_run.reports.each do |r|
-	%p
-		=link_to "Test case #{r.test_case["identifier"]}", project_test_case_path(@project, r.test_case["_id"])
-	%p
-		%b Result:
-		= r.result
-	%p
-		%b Comment:
+	.list-item
+		%p
+			=link_to "Test case #{r.test_case["identifier"]}", project_test_case_path(@project, r.test_case["_id"])
+		%p
+			%b Result:
+			%span{class: "#{r.result.downcase}"}= r.result
+		%p
+			%b Comment:
 		= r.comment
 
-
-= link_to 'Back', project_test_runs_path(@project)
+= link_to 'Delete', project_test_run_path(@project, @test_run), :method => :delete, :data => { :confirm => 'Are you sure?' }

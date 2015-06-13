@@ -1,14 +1,8 @@
-%h1
-  =@project.name
+%h3 Description
+%p= @project.description
 
-%h3
-  =link_to "Use Cases", project_use_cases_path(@project)
-%h3
-  =link_to 'Issues', project_issues_path(@project.id)
-%h3
-  =link_to "Test cases", project_test_cases_path(@project)
-%h3
-  =link_to "Requirements", project_requirements_path(@project)
-%h3
-  =link_to "Test runs", project_test_runs_path(@project)
+%h3 Scope
+%p= @project.scope
 
+=link_to 'Edit', edit_project_path(@project)
+=link_to 'Delete', project_path(@project), method: :delete, :data => { :confirm => 'Are you sure?' }

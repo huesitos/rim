@@ -1,15 +1,14 @@
-%h1 Listing test_cases
+- if notice
+  %p#notice= notice
 
-%h4
-  =link_to 'New Test Case', new_project_test_case_path(@project), id: :button
+.top
+  %h3
+    Test cases
+  =link_to 'New Test Case', new_project_test_case_path(@project), class: 'btn btn-primary right'
 
 -@test_cases.each do |test_case|
-  .panel.panel-default
-    .panel-heading
-      =link_to "#{test_case.identifier} #{test_case.title}", project_test_case_path(@project, test_case) 
-      =link_to 'edit', edit_project_test_case_path(@project, test_case)
-      =link_to 'delete', project_test_case_path(@project, test_case), method: :delete, :data => { :confirm => 'Are you sure?' }
-    .panel-body
-      =test_case.description
-
-= link_to "Back", @project
+  .list-item
+    %h4=link_to "#{test_case.identifier} #{test_case.title}", project_test_case_path(@project, test_case) 
+    %p=test_case.description
+    =link_to 'Edit', edit_project_test_case_path(@project, test_case)
+    =link_to 'Delete', project_test_case_path(@project, test_case), method: :delete, :data => { :confirm => 'Are you sure?' }

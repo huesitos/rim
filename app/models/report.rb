@@ -7,6 +7,6 @@ class Report
 
   belongs_to :test_run
 
-  validates :result, inclusion: {in: %w(Pass Skip Fail NR)}
+  validates :result, inclusion: {in: %w(Passed Skipped Failed NR)}
   validates :test_case, presence: true
 end

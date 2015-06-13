@@ -1,25 +1,41 @@
-%p#notice= notice
+- if notice
+  %p#notice= notice
 
-%h1= "#{@test_case.identifier} #{@test_case.title}"
+%h3= "#{@test_case.identifier} #{@test_case.title}"
 
-%p
-  %b Preconditions:
-  = @test_case.preconditions
-%p
-  %b Steps:
-  = @test_case.steps
-%p
-  %b Postconditions:
-  = @test_case.postconditions
-%p
-  %b Use cases:
-  - @test_case.use_cases.each do |uc|
-    = link_to "#{uc["identifier"]}", project_use_case_path(@project, uc["_id"])
-%p
-  %b Requirements:
-  - @test_case.requirements.each do |rq|
-    = link_to "#{rq["identifier"]}", project_requirement_path(@project, rq["_id"])
+.content
+  .row
+    .col-md-2
+      %p
+        %b Preconditions:
+    .col-md-9
+      = @test_case.preconditions
+  .row
+    .col-md-2
+      %p
+        %b Steps:
+    .col-md-9
+      = @test_case.steps
+  .row
+    .col-md-2
+      %p
+        %b Postconditions:
+    .col-md-9
+      = @test_case.postconditions
+  .row
+    .col-md-2
+      %p
+        %b Use cases:
+    .col-md-9
+      - @test_case.use_cases.each do |uc|
+        = link_to "#{uc["identifier"]}", project_use_case_path(@project, uc["_id"])
+  .row
+    .col-md-2
+      %p
+        %b Requirements:
+    .col-md-9
+      - @test_case.requirements.each do |rq|
+        = link_to "#{rq["identifier"]}", project_requirement_path(@project, rq["_id"])
 
 = link_to 'Edit', edit_project_test_case_path(@project, @test_case)
-\|
-= link_to 'Back', project_test_cases_path(@project)
+=link_to 'Delete', project_test_case_path(@project, @test_case), method: :delete, :data => { :confirm => 'Are you sure?' }

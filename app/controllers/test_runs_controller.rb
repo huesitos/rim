@@ -60,7 +60,7 @@ class TestRunsController < ApplicationController
   # POST /test_runs
   # POST /test_runs.json
   def create
-    @test_run = TestRun.new(date: DateTime.now)
+    @test_run = TestRun.new(date: DateTime.now, project_id: params[:project_id])
     @test_run.summary = Summary.new(
       passed: 0, 
       skipped: 0, 

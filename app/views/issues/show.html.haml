@@ -1,27 +1,21 @@
-%h1="#{@issue.identifier} #{@issue.title}"
+%h3="#{@issue.identifier} #{@issue.title}"
+
 #issue-info
   %p
-    =@issue.description
-  %p
-    %strong
-      Issue Type:
-      %br
-      =@issue.kind
-  %p
-    Issue Status:
-    %br
+    %b Kind:
+    =@issue.kind
+    %b Status:
     =@issue_status
+  %p
+    =@issue.description
 
-#comments
-  %h4 Comments
-  -@comments.each do |comment|
-    .panel.panel-default
-      .panel-heading
-        Comment
-      .panel-body
-        =comment.body
+%h4.header Comments
+-@comments.each do |comment|
+  .list-item
+    %p=comment.body
 
 %p
-  =link_to 'add a comment', new_project_issue_comment_path(@project, @issue)
+  =link_to 'Add a comment', new_project_issue_comment_path(@project, @issue)
 
-=link_to 'Back', project_issues_path(params[:project_id])
+=link_to 'Edit', edit_project_issue_path(params[:project_id], @issue.id)
+=link_to 'Delete', project_issue_path(params[:project_id], @issue.id), method: :delete

@@ -1,35 +1,55 @@
 %p#notice= notice
 
-%h1= "#{@use_case.identifier} #{@use_case.title}"
+%h3= "#{@use_case.identifier} #{@use_case.title}"
 
-%p
-  %b Priority:
-  = @use_case.priority
-%p
-  %b Preconditions:
-%p
-  = @use_case.preconditions
-%p
-  %b Steps:
-%p
-  = @use_case.steps
-%p
-  %b Postconditions:
-%p
-  = @use_case.postconditions
-%p
-  %b Requirements:
-  - @use_case.requirements.each do |rq|
-    =link_to "#{rq[:identifier]}", project_requirement_path(@project, rq[:_id])
-%p
-  %b Test cases:
-  - @related_test_cases.each do |tc|
-    =link_to "#{tc[:identifier]}", project_test_case_path(@project, tc[:_id])
+.content
+  .row
+    .col-md-2
+      %p
+        %b Priority:
+    .col-md-9
+      = @use_case.priority
+      
+  .row
+    .col-md-2
+      %p
+        %b Preconditions:
+    .col-md-9
+      = @use_case.preconditions
+
+  .row
+    .col-md-2
+      %p
+        %b Steps:
+    .col-md-9
+      = @use_case.steps
+
+  .row
+    .col-md-2
+      %p
+        %b Postconditions:
+    .col-md-9
+      = @use_case.postconditions
+
+  .row
+    .col-md-2
+      %p
+        %b Requirements:
+    .col-md-9
+      - @use_case.requirements.each do |rq|
+        =link_to "#{rq[:identifier]}", project_requirement_path(@project, rq[:_id])
+
+  .row
+    .col-md-2
+      %p
+        %b Test cases:
+    .col-md-9
+      - @related_test_cases.each do |tc|
+        =link_to "#{tc[:identifier]}", project_test_case_path(@project, tc[:_id])
 
 %p 
   Create test case from this use case
   = link_to 'Test case', new_project_test_case_path(@project, use_case: @use_case)
 
 = link_to 'Edit', edit_project_use_case_path(@project, @use_case)
-\|
-= link_to 'Back', project_use_cases_path(@project)
+=link_to 'Delete', project_use_case_path(@project, @use_case), method: :delete, :data => { :confirm => 'Are you sure?' }

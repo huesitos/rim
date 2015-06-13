@@ -4,6 +4,7 @@ class TestRun
 
   has_one :summary, dependent: :destroy
   has_many :reports, dependent: :destroy
+  belongs_to :project
 
   validates :summary, presence: {is: true, message: "a test run must have a summary"}
 

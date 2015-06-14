@@ -23,6 +23,7 @@ class UseCasesController < ApplicationController
 
   # GET /use_cases/1/edit
   def edit
+    @formatted_requirements = Requirement.format_requirements(@use_case.requirements)
   end
 
   # POST /use_cases
@@ -43,14 +44,14 @@ class UseCasesController < ApplicationController
     @use_case.project = @project
 
     # Requirements
-    @use_case.requirements = UseCase.set_requirements(
+    @use_case.requirements = Requirement.set_requirements(
       use_case_params[:requirements], 
       @project._id)
 
     respond_to do |format|
       if @use_case.save
         # If the use case was saved correctly, create a default new test case form to create a new test case immediately
-        format.html { redirect_to project_use_case_path(@project, @use_case), notice: 'Use case was successfully created.' }
+        format.html { redirect_to project_use_case_path(@project, @use_case), notice: 'Use case was successfully created.', alert: 'success' }
       else
         format.html { render :new }
       end
@@ -62,7 +63,7 @@ class UseCasesController < ApplicationController
   def update
     respond_to do |format|
       if @use_case.update(use_case_params)
-        format.html { redirect_to project_use_case_path(@project, @use_case), notice: 'Use case was successfully updated.' }
+        format.html { redirect_to project_use_case_path(@project, @use_case), notice: 'Use case was successfully updated.', alert: 'success' }
       else
         format.html { render :edit }
       end
@@ -74,7 +75,7 @@ class UseCasesController < ApplicationController
   def destroy
     @use_case.destroy
     respond_to do |format|
-      format.html { redirect_to project_use_cases_path(@project), notice: 'Use case was successfully destroyed.' }
+      format.html { redirect_to project_use_cases_path(@project), notice: 'Use case was successfully destroyed.', alert: 'success' }
     end
   end
 

@@ -11,7 +11,7 @@ class UseCase
 
   belongs_to :project
 
-  validates :title, :steps, :priority, :description, :identifier, presence: true
+  validates :title, :steps, :priority, :description, :identifier, :requirements, presence: true
   validates :identifier, format: { with: /\AUC[0-9]+\z/, message: "format UCXX" }
   validates :priority, inclusion: { in: %w(Low Medium High)}
   validates :project, presence: {is: true, message: "use cases must belong to a project"}
@@ -25,22 +25,34 @@ class UseCase
     TestCase.where({project_id: project_id, "use_cases" => { "$elemMatch" => {"identifier" => identifier}}})
   end
 
-  def self.set_requirements(requirements_s, project_id)
-    # Split string of requirements identifier into a list
-    requirements_list = requirements_s.split(',')
+  # Format use cases for the text field in the form
+  def self.format_use_cases(use_cases)
+    identifiers = []
+
+    use_cases.each do |uc|
+      identifiers << uc[:identifier]
+    end
+
+    identifiers.join(", ")
+  end
+
+  # Takes a csv string with use cases and retrieves and returns an array of use cases
+  def self.set_use_cases(use_cases_s)
+    # Split string of use cases identifier into a list
+    use_cases_list = use_cases_s.split(',')
 
     # Link to use cases, if they exists
-    if not requirements_list.empty?
-      requirements_array = []
-      requirements_list.each do |requiremet_identifier|
-        requiremet_identifier.rstrip.lstrip!
-        # In case the requirement exists, add the requirement in the test_case.requirements array
-        # as a hash that includes the requirement identifier and id for linking in views
-        if requirement = Requirement.find_by(identifier: requiremet_identifier, project_id: project_id)
-          requirements_array << {identifier: requirement.identifier, _id: requirement._id}
+    if not use_cases_list.empty?
+      use_cases_array = []
+      use_cases_list.each do |use_case_identifier|
+        use_case_identifier.rstrip.lstrip!
+        # In case the use cases exists, add the use case in the test_case.use_cases array
+        # as a hash that includes the use_case identifier and id for linking in views
+        if use_case = UseCase.find_by(identifier: use_case_identifier)
+          use_cases_array << {identifier: use_case.identifier, _id: use_case._id}
         end
       end
     end
-    requirements_array
+    use_cases_array
   end
 end

@@ -1,6 +1,22 @@
+- if notice
+  %p{class: "alert alert-#{alert}"}= notice
+
 .top
   %h3 Issues
   =link_to 'New Issue', new_project_issue_path, class: 'btn btn-primary right'
+
+.search
+  = form_tag({:controller => 'issues', :action => 'index'}, method: 'get', class: 'form-inline')  do
+    .form-group
+      = text_field_tag :identifiers, nil, placeholder: 'Identifiers', class: 'form-control'
+    .form-group
+      = text_field_tag :title, nil, placeholder: 'Title', class: 'form-control'
+    .form-group
+      = select_tag :kind, options_for_select(['Enhancement', 'Error']), :class => 'form-control' 
+    .form-group
+      = select_tag :status, options_for_select([['Open', 1], ['Working', 2], ['Closed', 3]]), :class => 'form-control' 
+    .form-group
+      = submit_tag "Search", class: 'btn btn-default'
 
 -@issues.each do |issue|
   //-issue.kind == 'Improvement' ? @color = 'panel-danger' : @color = 'panel-success'
@@ -9,6 +25,8 @@
     %p 
       %b Kind:
       %span{class: "issue-#{issue.kind.downcase}"}=issue.kind
+      %b Status:
+      %span=@issue_status[issue.status]
     %p=issue.description
     =link_to 'Edit', edit_project_issue_path(params[:project_id], issue.id)
     =link_to 'Delete', project_issue_path(params[:project_id], issue.id), method: :delete

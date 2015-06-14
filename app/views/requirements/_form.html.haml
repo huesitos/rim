@@ -5,17 +5,29 @@
       %ul
         - @requirement.errors.full_messages.each do |msg|
           %li= msg
-  .field
-    = f.label :title
-    = f.text_field :title
-  .field
-    = f.label :description
-    = f.text_area :description
-  .field
-    = f.label :priority
-    = f.select :priority, [["Low"], ["High"], ["Medium"]]
-  .field
-    = f.label :kind
-    = f.select :kind, [["Functional"], ["Non-Functional"]]
-  .actions
-    = f.submit 'Save'
+
+  .form-horizontal
+    .form-group
+      .field
+        = f.label :title, class: 'col-sm-2 control-label'
+        .col-sm-10
+          = f.text_field :title, class: 'form-control'
+    .form-group
+      .field
+        = f.label :description, class: 'col-sm-2 control-label'
+        .col-sm-10
+          = f.text_area :description, class: 'form-control', rows: 5
+    .form-group
+      .field
+        = f.label :priority, class: 'col-sm-2 control-label'
+        .col-sm-10
+          = f.select :priority, [["Low"], ["High"], ["Medium"]], {}, { :class => 'form-control' }
+    .form-group
+      .field
+        = f.label :kind, class: 'col-sm-2 control-label'
+        .col-sm-10
+          = f.select :kind, [["Functional"], ["Non-Functional"]], {}, { :class => 'form-control' }
+    .form-group
+      .col-sm-offset-2.col-sm-10
+        .actions
+          = f.submit 'Save', class: 'btn btn-primary'

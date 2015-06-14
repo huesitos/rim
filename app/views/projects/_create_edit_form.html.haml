@@ -1,16 +1,22 @@
 =form_for @project do |f|
-  %p
-    =f.label :name
-    %br
-    =f.text_field :name
-  %p
-    =f.label :description
-    %br
-    =f.text_area :description
-  %p
-    =f.label :scope
-    %br
-    =f.text_area :scope
-  %p
-    =f.submit
+  .form-horizontal
+    .form-group
+      .field
+        =f.label :name, class: 'col-sm-2 control-label'
+        .col-sm-10
+          =f.text_field :name, class: 'form-control'
+    .form-group
+      .field
+        =f.label :description, class: 'col-sm-2 control-label'
+        .col-sm-10
+          =f.text_area :description, class: 'form-control'
+    .form-group
+      .field
+        =f.label :scope, class: 'col-sm-2 control-label'
+        .col-sm-10
+          =f.text_area :scope, class: 'form-control', rows: 5
+    .form-group
+      .col-sm-offset-2.col-sm-10
+        .field
+          =f.submit "Create project", class: 'btn btn-primary'
 

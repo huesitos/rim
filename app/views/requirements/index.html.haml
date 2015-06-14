@@ -1,8 +1,21 @@
-
+- if notice
+  %p{class: "alert alert-#{alert}"}= notice
+  
 .top
   %h3 
     Requirements
   =link_to 'New Requirement', new_project_requirement_path(@project), class: 'btn btn-primary right'
+
+.search
+  = form_tag({:controller => 'requirements', :action => 'index'}, method: 'get', class: 'form-inline')  do
+    .form-group
+      = text_field_tag :identifiers, nil, placeholder: 'Identifiers', class: 'form-control'
+    .form-group
+      = text_field_tag :content, nil, placeholder: 'Contains', class: 'form-control'
+    .form-group
+      = select_tag :priority, options_for_select(['Low', 'Medium', 'High']), :class => 'form-control' 
+    .form-group
+      = submit_tag "Search", class: 'btn btn-default'
 
 -@requirements.each do |requirement|
   .list-item

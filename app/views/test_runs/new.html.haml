@@ -1,19 +1,19 @@
+- if notice
+	%p{class: "alert alert-#{alert}"}= notice
+	
 %h1 New test run
 
 = form_for [@project, @test_run] do
-	.field
-		= label_tag "Test cases to run"
-		= text_field_tag 'test_cases', nil, placeholder: "identifiers separated by comma"
-	.actions
-		= submit_tag('Run')
-		= submit_tag("Run all")
-
-%h3 List of test cases
-
-%ul
-	- @test_cases.each do |tc|
-		%li
-			= tc.identifier
-			= tc.title 
+	.form-horizontal
+		.form-group
+			.field
+				= label_tag 'test_cases', "Test cases", class: 'col-sm-2 control-label'
+				.col-sm-10
+					= select_tag("test_cases", options_for_select(@tc_select), multiple: true, class: 'form-control')
+		.form-group
+			.col-sm-offset-2.col-sm-10
+				.actions
+					= submit_tag("Run all", class: 'btn btn-primary')
+					= submit_tag('Run', class: 'btn btn-primary')
 
 = link_to "Cancel", project_test_runs_path(@project)

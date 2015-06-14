@@ -6,33 +6,50 @@
         - @test_case.errors.full_messages.each do |msg|
           %li= msg
 
-  .field
-    = f.label :title
-    = f.text_field :title
-  .field
-    = f.label :description
-    = f.text_area :description
-  .field
-    = f.label :preconditions
-    = f.text_area :preconditions
-  .field
-    = f.label :steps
-    = f.text_area :steps
-  .field
-    = f.label :postconditions
-    = f.text_area :postconditions
-  .field
-    = f.label :use_cases
-    - if @formatted_use_cases
-      = f.text_field :use_cases, value: "#{@formatted_use_cases}"
-    - else
-      = f.text_field :use_cases
+  .form-horizontal
+    .form-group
+      .field
+        = f.label :title, class: 'col-sm-2 control-label'
+        .col-sm-10
+          = f.text_field :title, class: 'form-control'
+    .form-group
+      .field
+        = f.label :description, class: 'col-sm-2 control-label'
+        .col-sm-10
+          = f.text_area :description, class: 'form-control', rows: 5
+    .form-group
+      .field
+        = f.label :preconditions, class: 'col-sm-2 control-label'
+        .col-sm-10
+          = f.text_area :preconditions, class: 'form-control', rows: 5
+    .form-group
+      .field
+        = f.label :steps, class: 'col-sm-2 control-label'
+        .col-sm-10
+          = f.text_area :steps, class: 'form-control', rows: 5
+    .form-group
+      .field
+        = f.label :postconditions, class: 'col-sm-2 control-label'
+        .col-sm-10
+          = f.text_area :postconditions, class: 'form-control', rows: 5
+    .form-group
+      .field
+        = f.label :use_cases, class: 'col-sm-2 control-label'
+        .col-sm-10
+          - if @formatted_use_cases
+            = f.text_field :use_cases, value: "#{@formatted_use_cases}", class: 'form-control'
+          - else
+            = f.text_field :use_cases, class: 'form-control'
 
-  .field
-    = f.label :requirements
-    - if @formatted_requirements
-      = f.text_field :requirements, value: "#{@formatted_requirements}"
-    - else
-      = f.text_field :requirements
-  .actions
-    = f.submit 'Save'
+    .form-group
+      .field
+        = f.label :requirements, class: 'col-sm-2 control-label'
+        .col-sm-10
+          - if @formatted_requirements
+            = f.text_field :requirements, value: "#{@formatted_requirements}", class: 'form-control'
+          - else
+            = f.text_field :requirements, class: 'form-control'
+    .form-group
+      .col-sm-offset-2.col-sm-10
+        .actions
+          = f.submit 'Save', class: 'btn btn-primary'

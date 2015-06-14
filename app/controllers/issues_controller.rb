@@ -1,6 +1,7 @@
 class IssuesController < ApplicationController
   def index
     @issues = Project.find(params[:project_id]).issues
+    @issue_status = { 1 => 'Open', 2 => 'fixing', 3 => 'Closed' }
   end
 
   def new

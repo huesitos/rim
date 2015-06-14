@@ -42,7 +42,7 @@ class RequirementsController < ApplicationController
 
     respond_to do |format|
       if @requirement.save
-        format.html { redirect_to project_requirement_path(@project, @requirement), notice: 'Requirement was successfully created.' }
+        format.html { redirect_to project_requirement_path(@project, @requirement), notice: 'Requirement was successfully created.', alert: 'success' }
       else
         format.html { render :new }
       end
@@ -54,7 +54,7 @@ class RequirementsController < ApplicationController
   def update
     respond_to do |format|
       if @requirement.update(requirement_params)
-        format.html { redirect_to project_requirement_path(@project, @requirement), notice: 'Requirement was successfully updated.' }
+        format.html { redirect_to project_requirement_path(@project, @requirement), notice: 'Requirement was successfully updated.', alert: 'success' }
       else
         format.html { render :edit }
       end
@@ -66,7 +66,7 @@ class RequirementsController < ApplicationController
   def destroy
     @requirement.destroy
     respond_to do |format|
-      format.html { redirect_to project_requirements_path(@project), notice: 'Requirement was successfully destroyed.' }
+      format.html { redirect_to project_requirements_path(@project), notice: 'Requirement was successfully destroyed.', alert: 'success' }
     end
   end
 

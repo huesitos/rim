@@ -6,26 +6,44 @@
         - @use_case.errors.full_messages.each do |msg|
           %li= msg
 
-  .field
-    = f.label :title
-    = f.text_field :title
-  .field
-    = f.label :description
-    = f.text_area :description
-  .field
-    = f.label :preconditions
-    = f.text_area :preconditions
-  .field
-    = f.label :steps
-    = f.text_area :steps
-  .field
-    = f.label :postconditions
-    = f.text_area :postconditions
-  .field
-    = f.label :requirements
-    = f.text_field :requirements
-  .field
-    = f.label :priority
-    = f.select :priority, [['Low'], ['High'], ['Medium']]
-  .actions
-    = f.submit 'Save'
+  .form-horizontal
+    .form-group
+      .field
+        = f.label :priority, class: 'col-sm-2 control-label'
+        .col-sm-10
+          = f.select :priority, [['Low'], ['High'], ['Medium']], {}, { :class => 'form-control' }
+    .form-group
+      .field
+        = f.label :title, class: 'col-sm-2 control-label'
+        .col-sm-10
+          = f.text_field :title, class: 'form-control'
+    .form-group
+      .field
+        = f.label :description, class: 'col-sm-2 control-label'
+        .col-sm-10
+          = f.text_area :description, class: 'form-control', rows: 5
+    .form-group
+      .field
+        = f.label :preconditions, class: 'col-sm-2 control-label'
+        .col-sm-10
+          = f.text_area :preconditions, class: 'form-control', rows: 5
+    .form-group
+      .field
+        = f.label :steps, class: 'col-sm-2 control-label'
+        .col-sm-10
+          = f.text_area :steps, class: 'form-control', rows: 5
+    .form-group
+      .field
+        = f.label :postconditions, class: 'col-sm-2 control-label'
+        .col-sm-10
+          = f.text_area :postconditions, class: 'form-control', rows: 5
+    .form-group
+      = f.label :requirements, class: 'col-sm-2 control-label'
+      .col-sm-10
+        - if @formatted_requirements
+          = f.text_field :requirements, value: "#{@formatted_requirements}", class: 'form-control'
+        - else
+          = f.text_field :requirements, class: 'form-control'
+    .form-group
+      %div{class: "col-sm-offset-2 col-sm-10"}
+        = f.submit 'Save', class: 'btn btn-primary'

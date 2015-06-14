@@ -8,11 +8,11 @@ class Summary
   belongs_to :test_run
 
   def self.update_summary(summary, result)
-  	if result == "Pass"
+  	if result == "Passed"
       summary.inc(passed: 1)
-    elsif result == "Skip"
+    elsif result == "Skipped"
       summary.inc(skipped: 1)
-    else
+    elsif result == "Failed"
       summary.inc(failed: 1)
     end
     summary.inc(total: 1)

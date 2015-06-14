@@ -47,6 +47,10 @@ a {
 	}
 }
 
+footer {
+	margin-bottom: 20px;
+}
+
 a.btn:visited {
 	color: #fff;
 }
@@ -105,7 +109,7 @@ a.active {
 	color: #304a6a;
 }
 
-.top {
+.top, .search {
 	padding-bottom: 10px;
 	margin-bottom: 10px;
 	border-bottom: 1px solid #ddd;

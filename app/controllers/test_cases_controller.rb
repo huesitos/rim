@@ -39,8 +39,8 @@ class TestCasesController < ApplicationController
 
   # GET /test_cases/1/edit
   def edit
-    @formatted_use_cases = TestCase.format_use_cases(@test_case.use_cases)
-    @formatted_requirements = TestCase.format_requirements(@test_case.requirements)
+    @formatted_use_cases = UseCase.format_use_cases(@test_case.use_cases)
+    @formatted_requirements = Requirement.format_requirements(@test_case.requirements)
   end
 
   # POST /test_cases
@@ -60,12 +60,12 @@ class TestCasesController < ApplicationController
     @test_case.project = @project
 
     # Set use cases array
-    @test_case.use_cases = TestCase.set_use_cases(test_case_params[:use_cases])
-    @test_case.requirements = TestCase.set_requirements(test_case_params[:requirements])
+    @test_case.use_cases = UseCase.set_use_cases(test_case_params[:use_cases])
+    @test_case.requirements = Requirement.set_requirements(test_case_params[:requirements], params[:project_id])
 
     respond_to do |format|
       if @test_case.save
-        format.html { redirect_to project_test_case_path(@project, @test_case), notice: 'Test case was successfully created.' }
+        format.html { redirect_to project_test_case_path(@project, @test_case), notice: 'Test case was successfully created.', alert: 'success' }
       else
         format.html { render :action => "new" }
       end
@@ -75,8 +75,8 @@ class TestCasesController < ApplicationController
   # PATCH/PUT /test_cases/1
   # PATCH/PUT /test_cases/1.json
   def update
-    use_cases_array = TestCase.set_use_cases( test_case_params[:use_cases])
-    requirements_array = TestCase.set_requirements( test_case_params[:requirements])
+    use_cases_array = UseCase.set_use_cases( test_case_params[:use_cases])
+    requirements_array = Requirement.set_requirements( test_case_params[:requirements])
 
     respond_to do |format|
       if @test_case.update(
@@ -87,7 +87,7 @@ class TestCasesController < ApplicationController
         description: test_case_params[:description], 
         use_cases: use_cases_array, 
         requirements: requirements_array)
-        format.html { redirect_to project_test_case_path(@project, @test_case), notice: 'Test case was successfully updated.' }
+        format.html { redirect_to project_test_case_path(@project, @test_case), notice: 'Test case was successfully updated.', alert: 'sucess' }
       else
         format.html { render :edit }
       end
@@ -99,7 +99,7 @@ class TestCasesController < ApplicationController
   def destroy
     @test_case.destroy
     respond_to do |format|
-      format.html { redirect_to project_test_cases_path(@project), notice: 'Test case was successfully destroyed.' }
+      format.html { redirect_to project_test_cases_path(@project), notice: 'Test case was successfully destroyed.', alert: 'success' }
     end
   end
 

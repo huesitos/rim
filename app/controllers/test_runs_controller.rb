@@ -10,7 +10,13 @@ class TestRunsController < ApplicationController
 
   # GET /new
   def new
-    @test_cases = TestCase.where(project_id: @project._id)
+    test_cases = TestCase.where(project_id: @project._id)
+    @tc_select = []
+
+    test_cases.each do |tc|
+      @tc_select.push([tc.identifier, tc.id.to_s])  
+    end
+
     @test_run = TestRun.new()
   end
 
@@ -34,7 +40,7 @@ class TestRunsController < ApplicationController
           identifier: identifier)}
       else
         format.html { redirect_to project_test_run_path(@project, @test_run), 
-            notice: 'Test run finished successfully.' }
+            notice: 'Test run finished successfully.', alert: 'success' }
       end
     end
   end
@@ -70,16 +76,17 @@ class TestRunsController < ApplicationController
     # If specific test cases where listed, then create a test run with a report object for each of the test cases
     # If all test cases where marked for run, then pull all test cases from that project and create the reports for each of them
     if params[:commit] == "Run"
-      test_cases = params[:test_cases].split(',')
-      puts "Test cases #{test_cases}"
+      test_cases = params[:test_cases]
 
-      test_cases.each do |identifier|
-        if test_case = TestCase.find_by(identifier: identifier, project_id: @project._id)
-          Report.create(
-            test_case: {identifier: test_case.identifier, _id: test_case._id}, 
-            result: "NR", 
-            comment: "", 
-            test_run_id: @test_run._id)
+      if params[:test_cases]
+        test_cases.each do |id|
+          if test_case = TestCase.find(id, project_id: @project._id)
+            Report.create(
+              test_case: {identifier: test_case.identifier, _id: test_case._id}, 
+              result: "NR", 
+              comment: "", 
+              test_run_id: @test_run._id)
+          end
         end
       end
     else
@@ -93,16 +100,16 @@ class TestRunsController < ApplicationController
       end
     end
 
-    @test_run.save
 
     respond_to do |format|
       if @test_run.reports.length > 0
+        @test_run.save
         format.html { redirect_to project_test_run_test_run_path(
           @project, 
           @test_run) }
       else
-        format.html { redirect_to project_test_runs_path(@project), 
-          notice: 'Test run was not created, no valid test_case was given.' }
+        format.html { redirect_to new_project_test_run_path(@project), 
+          notice: 'No valid test case was given.', alert: 'danger' }
       end
     end
   end
@@ -113,7 +120,7 @@ class TestRunsController < ApplicationController
     @test_run.destroy
     respond_to do |format|
       format.html { redirect_to project_test_runs_path(@project), 
-        notice: 'Test run was successfully destroyed.' }
+        notice: 'Test run was successfully destroyed.', alert: 'success' }
       format.json { head :no_content }
     end
   end

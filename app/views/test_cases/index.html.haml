@@ -1,10 +1,23 @@
 - if notice
-  %p#notice= notice
-
+  %p{class: "alert alert-#{alert}"}= notice
+  
 .top
   %h3
     Test cases
   =link_to 'New Test Case', new_project_test_case_path(@project), class: 'btn btn-primary right'
+
+.search
+  = form_tag({:controller => 'test_cases', :action => 'index'}, method: 'get', class: 'form-inline')  do
+    .form-group
+      = text_field_tag :identifiers, nil, placeholder: 'Identifiers', class: 'form-control'
+    .form-group
+      = text_field_tag :title, nil, placeholder: 'Title', class: 'form-control'
+    .form-group
+      = text_field_tag :use_cases, nil, placeholder: 'Use cases', class: 'form-control'
+    .form-group
+      = text_field_tag :requirements, nil, placeholder: 'Requirements', class: 'form-control'
+    .form-group
+      = submit_tag "Search", class: 'btn btn-default'
 
 -@test_cases.each do |test_case|
   .list-item

@@ -1,27 +1,35 @@
-%h1="#{@test_case.identifier} #{@test_case.title}"
+%h3="#{@test_case.identifier} #{@test_case.title}"
 
-%p= @test_case.description
-%p
-	%b Preconditions:
-%p
-	= @test_case.preconditions
-%p
-	%b Steps:
-%p
-	= @test_case.steps
-%p
-	%b Postconditions:
-%p
-	= @test_case.postconditions
+.content
+	.row
+		.col-md-2
+			%p
+				%b Preconditions:
+		.col-md-9
+			= @test_case.preconditions
+	.row
+		.col-md-2
+			%p
+				%b Steps:
+		.col-md-9
+			= @test_case.steps
+	.row
+		.col-md-2
+			%p
+				%b Postconditions:
+		.col-md-9
+			= @test_case.postconditions
 
 %p.instructions Follow the steps to run the test case.
 %p.instructions Keep in mind that the preconditions should be satisfied before starting the test.
 
 = form_tag project_test_run_run_test_path(@project, @test_run, identifier: @test_case.identifier), method: "patch" do
-	= label_tag :comment, "Comments"
-	= text_area_tag :comment
+	.form-vertical
+		.form-group
+			= label_tag :comment, "Comments", class: 'control-label'
+			= text_area_tag :comment, nil,class: 'form-control'
 
 	.actions
-		= submit_tag("Passed")
-		= submit_tag("Skipped")
-		= submit_tag("Failed")
+		= submit_tag("Passed", class: 'btn btn-success')
+		= submit_tag("Skipped", class: 'btn btn-warning')
+		= submit_tag("Failed", class: 'btn btn-danger')

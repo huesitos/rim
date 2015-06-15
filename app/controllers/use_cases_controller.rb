@@ -1,5 +1,6 @@
 class UseCasesController < ApplicationController
   before_action :set_use_case, only: [:show, :edit, :update, :destroy]
+  before_action :set_requirements, only: [:new, :edit]
   before_action :set_project
 
   # GET /use_cases
@@ -25,9 +26,13 @@ class UseCasesController < ApplicationController
 
   # GET /use_cases/1/edit
   def edit
-    @formatted_requirements = Requirement.format_requirements(@use_case.requirements)
     @priorities = Priority.all.pluck(:name)
     @priority = @use_case.priority.name
+
+    @requirements = []
+    @use_case.requirements.each do |r|
+      @requirements << r.id
+    end
   end
 
   # POST /use_cases
@@ -50,12 +55,11 @@ class UseCasesController < ApplicationController
     @use_case.project = @project
 
     # Requirements
-    @use_case.requirements = Requirement.set_requirements(
-      use_case_params[:requirements], 
-      @project._id)
+    @use_case.requirements << Requirement.where(:_id.in => params[:requirements])
 
     respond_to do |format|
       if @use_case.save
+
         # If the use case was saved correctly, create a default new test case form to create a new test case immediately
         format.html { redirect_to project_use_case_path(@project, @use_case), notice: 'Use case was successfully created.', alert: 'success' }
       else
@@ -101,6 +105,14 @@ class UseCasesController < ApplicationController
 
     def set_project
       @project = Project.find(params[:project_id])
+    end
+
+    def set_requirements
+      @requirements_list = []
+
+      Requirement.each do |r|
+        @requirements_list << [r.identifier, r.id]
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

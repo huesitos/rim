@@ -23,5 +23,17 @@
   .list-item
     %h4=link_to "#{test_case.identifier} #{test_case.title}", project_test_case_path(@project, test_case) 
     %p=test_case.description
+
+    - if test_case.use_cases.count > 0 
+      %p
+        %b Use Cases
+        - test_case.use_cases.each do |uc|
+          = link_to uc.identifier, project_use_case_path(@project, uc)
+    - if test_case.requirements.count > 0 
+      %p
+        %b Requirements
+        - test_case.requirements.each do |r|
+          = link_to r.identifier, project_requirement_path(@project, r)
+
     =link_to 'Edit', edit_project_test_case_path(@project, test_case)
     =link_to 'Delete', project_test_case_path(@project, test_case), method: :delete, :data => { :confirm => 'Are you sure?' }

@@ -10,6 +10,9 @@ class TestCase
   field :description, type: String
 
   belongs_to :project
+  has_and_belongs_to_many :use_cases
+  has_and_belongs_to_many :requirements
+  has_many :reports
 
   validates :title, :steps, :description, :identifier, presence: true
   validates :requirements, presence: true, if: "use_cases.nil? or use_cases.empty?"

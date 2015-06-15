@@ -2,6 +2,6 @@ class Priority
   include Mongoid::Document
   field :name, type: String
 
-  belongs_to :use_case
-  belongs_to :requirement
+  has_many :use_case
+  has_many :requirement
 end

@@ -18,7 +18,11 @@
 - @test_run.reports.each do |r|
 	.list-item
 		%p
-			=link_to "Test case #{r.test_case["identifier"]}", project_test_case_path(@project, r.test_case["_id"])
+			%b Test Case
+			- if r.test_case
+				=link_to "#{r.test_case.identifier}", project_test_case_path(@project, r.test_case["_id"])
+			- else
+				Not Found
 		%p
 			%b Result:
 			%span{class: "#{r.result.downcase}"}= r.result

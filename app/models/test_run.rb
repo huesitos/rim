@@ -18,8 +18,6 @@ class TestRun
   end
 
   def self.get_report(test_run, identifier)
-  	report = test_run.reports.find_by({
-      "test_case.identifier" => identifier
-      })
+    TestCase.find_by(identifier: identifier).reports.find_by(test_run_id: test_run.id)
   end
 end

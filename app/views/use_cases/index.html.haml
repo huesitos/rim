@@ -26,5 +26,12 @@
       Priority:
       = use_case.priority.name
     %p=use_case.description
+
+    - if use_case.requirements.count > 0 
+      %p
+        %b Requirements
+        - use_case.requirements.each do |r|
+          = link_to r.identifier, project_requirement_path(@project, r)
+          
     =link_to 'Edit', edit_project_use_case_path(@project, use_case)
     =link_to 'Delete', project_use_case_path(@project, use_case), method: :delete, :data => { :confirm => 'Are you sure?' }

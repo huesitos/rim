@@ -1,5 +1,7 @@
 class TestCasesController < ApplicationController
   before_action :set_test_case, only: [:show, :edit, :update, :destroy]
+  before_action :set_requirements, only: [:new, :edit]
+  before_action :set_use_cases, only: [:new, :edit]
   before_action :set_project
 
   # GET /test_cases
@@ -39,8 +41,15 @@ class TestCasesController < ApplicationController
 
   # GET /test_cases/1/edit
   def edit
-    @formatted_use_cases = UseCase.format_use_cases(@test_case.use_cases)
-    @formatted_requirements = Requirement.format_requirements(@test_case.requirements)
+    @requirements = []
+    @test_case.requirements.each do |r|
+      @requirements << r.id
+    end
+
+    @use_cases = []
+    @test_case.use_cases.each do |ucr|
+      @use_cases << uc.id
+    end
   end
 
   # POST /test_cases
@@ -60,8 +69,10 @@ class TestCasesController < ApplicationController
     @test_case.project = @project
 
     # Set use cases array
-    @test_case.use_cases = UseCase.set_use_cases(test_case_params[:use_cases])
-    @test_case.requirements = Requirement.set_requirements(test_case_params[:requirements], params[:project_id])
+    @test_case.use_cases << UseCase.where(:_id.in => params[:use_cases])
+    
+    # Requirements
+    @test_case.requirements << Requirement.where(:_id.in => params[:requirements])
 
     respond_to do |format|
       if @test_case.save
@@ -111,6 +122,22 @@ class TestCasesController < ApplicationController
 
     def set_project
       @project = Project.find(params[:project_id])
+    end
+
+    def set_requirements
+      @requirements_list = []
+
+      Requirement.each do |r|
+        @requirements_list << [r.identifier, r.id]
+      end
+    end
+
+    def set_use_cases
+      @use_cases_list = []
+
+      UseCase.each do |uc|
+        @use_cases_list << [uc.identifier, uc.id]
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

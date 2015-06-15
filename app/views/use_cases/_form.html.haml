@@ -40,10 +40,7 @@
     .form-group
       = f.label :requirements, class: 'col-sm-2 control-label'
       .col-sm-10
-        - if @formatted_requirements
-          = f.text_field :requirements, value: "#{@formatted_requirements}", class: 'form-control'
-        - else
-          = f.text_field :requirements, class: 'form-control'
+        = select_tag :requirements, options_for_select(@requirements_list, @requirements), {:multiple => true, :class => 'form-control' }
     .form-group
       %div{class: "col-sm-offset-2 col-sm-10"}
         = f.submit 'Save', class: 'btn btn-primary'

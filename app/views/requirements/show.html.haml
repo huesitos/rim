@@ -21,14 +21,14 @@
 			%p
 				%b Use cases:
 		.col-md-9
-			- @related_use_cases.each do |uc|
+			- @requirement.use_cases.each do |uc|
 				= link_to uc.identifier, project_use_case_path(@project, uc)
 	.row
 		.col-md-2
 			%p
 				%b Test cases:
 		.col-md-9
-			- @related_test_cases.each do |tc|
+			- @requirement.test_cases.each do |tc|
 				= link_to tc.identifier, project_test_case_path(@project, tc[:_id])
 
 = link_to 'Edit', edit_project_requirement_path(@project, @requirement)

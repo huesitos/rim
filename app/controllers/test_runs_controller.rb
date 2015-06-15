@@ -76,24 +76,22 @@ class TestRunsController < ApplicationController
     # If specific test cases where listed, then create a test run with a report object for each of the test cases
     # If all test cases where marked for run, then pull all test cases from that project and create the reports for each of them
     if params[:commit] == "Run"
-      test_cases = params[:test_cases]
-
       if params[:test_cases]
-        test_cases.each do |id|
-          if test_case = TestCase.find(id, project_id: @project._id)
-            Report.create(
-              test_case: {identifier: test_case.identifier, _id: test_case._id}, 
-              result: "NR", 
-              comment: "", 
-              test_run_id: @test_run._id)
-          end
+        params[:test_cases].each do |id|
+          test_case = TestCase.find_by(_id: id, project_id: @project._id)
+
+          report = Report.create(
+            test_case_id: test_case.id,
+            result: "NR", 
+            comment: "", 
+            test_run_id: @test_run._id)
         end
       end
     else
       test_cases = TestCase.where(project_id: @project._id)
       test_cases.each do |test_case|
         Report.create(
-          test_case: {identifier: test_case.identifier, _id: test_case._id}, 
+          test_case: test_case._id, 
           result: "NR", 
           comment: "", 
           test_run_id: @test_run._id)

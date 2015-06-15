@@ -7,6 +7,7 @@ class RequirementsController < ApplicationController
   def index
     @requirements = Requirement.where(project_id: @project._id)
     @priorities = Priority.all.pluck(:name)
+    @kinds = Kind.all.pluck(:name)
   end
 
   # GET /requirements/1
@@ -25,12 +26,15 @@ class RequirementsController < ApplicationController
     @errors = params[:errors]
     @requirement = Requirement.new
     @priorities = Priority.all.pluck(:name)
+    @kinds = Kind.all.pluck(:name)
   end
 
   # GET /requirements/1/edit
   def edit
     @priorities = Priority.all.pluck(:name)
+    @kinds = Kind.all.pluck(:name)
     @priority = @requirement.priority.name
+    @kind = @requirement.kind.name
   end
 
   # POST /requirements
@@ -41,11 +45,14 @@ class RequirementsController < ApplicationController
     # Add priority
     @requirement.priority = Priority.find_by(name: requirement_params[:priority])
 
+    # Add kind
+    @requirement.kind = Kind.find_by(name: requirement_params[:kind])
+
     # Link to project
     @requirement.project = @project
 
     # Set identifier
-    @requirement.identifier = Requirement.get_next_identifier(@requirement.kind, @project.id)
+    @requirement.identifier = Requirement.get_next_identifier(@requirement.kind.name, @project.id)
 
     respond_to do |format|
       if @requirement.save
@@ -60,10 +67,15 @@ class RequirementsController < ApplicationController
   # PATCH/PUT /requirements/1.json
   def update
     respond_to do |format|
-      if @requirement.update(requirement_params)
-        format.html { redirect_to project_requirement_path(@project, @requirement), notice: 'Requirement was successfully updated.', alert: 'success' }
-      else
-        format.html { render :edit }
+      @requirement.priority = Priority.find_by(name: requirement_params[:priority])
+      @requirement.kind = Kind.find_by(name: requirement_params[:kind])
+      
+      if @requirement.save
+        if @requirement.update(requirement_params)
+          format.html { redirect_to project_requirement_path(@project, @requirement), notice: 'Requirement was successfully updated.', alert: 'success' }
+        else
+          format.html { render :edit }
+        end
       end
     end
   end

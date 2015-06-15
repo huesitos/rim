@@ -69,6 +69,7 @@ class UseCasesController < ApplicationController
   def update
     respond_to do |format|
       @use_case.priority = Priority.find_by(name: use_case_params[:priority])
+      
       if @use_case.save
         if @use_case.update(title: use_case_params[:title], 
         preconditions: use_case_params[:preconditions], 

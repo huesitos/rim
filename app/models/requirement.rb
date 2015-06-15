@@ -3,25 +3,25 @@ class Requirement
   field :title, type: String
   field :description, type: String
   field :identifier, type: String
-  field :kind, type: String
 
   has_one :priority
   belongs_to :project
+  belongs_to :kind
+  has_and_belongs_to_many :use_cases
+  has_and_belongs_to_many :test_cases
 
   validates :description, :identifier, :priority, :kind, presence: true
-  validates :identifier, format: {with: /\A(F|NF)R[0-9]+\z/, message: "format (F|NF)RXX"}
-  validates :kind, inclusion: { in: %w(Functional Non-Functional) }
   validates :project, presence: {is: true, message: "requirements must belong to a project"}
   validates_associated :project
 
   def self.get_next_identifier(kind, project_id)
-    if Requirement.all.entries.last
-    	if kind == "Functional"
-      	"FR#{Integer(Requirement.where(kind: 'Functional').entries.last.identifier[/[0-9]+/])+1}"
-    	else
-      	"NFR#{Integer(Requirement.where(kind: 'Non-Functional').entries.last.identifier[/[0-9]+/])+1}"
-    	end
-    end
+    kind = Kind.find_by(name: kind)
+
+    if kind.requirements.entries.last
+      "#{kind.identifier}#{Integer(Requirement.where(kind_id: kind.id).entries.last.identifier[/[0-9]+/])+1}"
+    else
+    	"#{kind.identifier}1"
+  	end
   end
 
   def self.related_use_cases(identifier, project_id)

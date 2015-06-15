@@ -1,13 +1,16 @@
 class RequirementsController < ApplicationController
   before_action :set_requirement, only: [:show, :edit, :update, :destroy]
+  before_action :set_priorities_and_kinds, except: [:show, :destroy]
+  before_action :set_priority_and_kind, only: [:edit, :update]
   before_action :set_project
+
+  before_render :set_priorities_and_kinds, only: [:new, :edit]
+  before_render :set_priority_and_kind, only: [:update, :edit]
 
   # GET /requirements
   # GET /requirements.json
   def index
     @requirements = Requirement.where(project_id: @project._id)
-    @priorities = Priority.all.pluck(:name)
-    @kinds = Kind.all.pluck(:name)
   end
 
   # GET /requirements/1
@@ -23,18 +26,12 @@ class RequirementsController < ApplicationController
 
   # GET /requirements/new
   def new
-    @errors = params[:errors]
     @requirement = Requirement.new
-    @priorities = Priority.all.pluck(:name)
-    @kinds = Kind.all.pluck(:name)
   end
 
   # GET /requirements/1/edit
   def edit
-    @priorities = Priority.all.pluck(:name)
-    @kinds = Kind.all.pluck(:name)
-    @priority = @requirement.priority.name
-    @kind = @requirement.kind.name
+    
   end
 
   # POST /requirements
@@ -97,6 +94,18 @@ class RequirementsController < ApplicationController
 
     def set_project
       @project = Project.find(params[:project_id])
+    end
+
+    # Set list of both priorities and kinds
+    def set_priorities_and_kinds
+      @priorities = Priority.all.pluck(:name)
+      @kinds = Kind.all.pluck(:name)
+    end
+
+    # Set requirement's both priority and kind
+    def set_priority_and_kind
+      @priority = Requirement.find(params[:id]).priority.name
+      @kind = Requirement.find(params[:id]).kind.name
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

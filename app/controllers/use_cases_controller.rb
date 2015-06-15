@@ -1,18 +1,20 @@
 class UseCasesController < ApplicationController
-  include BeforeRender
   before_action :set_use_case, only: [:show, :edit, :update, :destroy]
   before_action :set_requirements_list, only: [:new, :edit, :create, :update]
   before_action :set_requirements, only: [:edit, :update]
+  before_action :set_priorities, except: [:show, :destroy]
+  before_action :set_priority, only: [:edit, :update]
   before_action :set_project
 
   before_render :set_requirements_list, only: [:new, :edit, :create, :update]
   before_render :set_requirements, only: [:edit, :update]
+  before_render :set_priorities, only: [:new, :edit]
+  before_render :set_priority, only: [:update, :edit]
 
   # GET /use_cases
   # GET /use_cases.json
   def index
     @use_cases = UseCase.where(project_id: @project._id)
-    @priorities = Priority.all.pluck(:name)
   end
 
   # GET /use_cases/1
@@ -26,12 +28,10 @@ class UseCasesController < ApplicationController
   # GET /use_cases/new
   def new
     @use_case = UseCase.new
-    @priorities = Priority.all.pluck(:name)
   end
 
   # GET /use_cases/1/edit
   def edit
-    @priorities = Priority.all.pluck(:name)
     @priority = @use_case.priority.name
 
     @requirements = []
@@ -132,6 +132,16 @@ class UseCasesController < ApplicationController
       use_case.requirements.each do |r|
         @requirements << r.id
       end
+    end
+
+    # Set list priorities
+    def set_priorities
+      @priorities = Priority.all.pluck(:name)
+    end
+
+    # Set use_case's both priority and kind
+    def set_priority
+      @priority = UseCase.find(params[:id]).priority.name
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

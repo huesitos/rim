@@ -1,5 +1,4 @@
 class TestCasesController < ApplicationController
-  include BeforeRender
   before_action :set_test_case, only: [:show, :edit, :update, :destroy]
   before_action :set_requirements_list, only: [:new, :edit, :create, :update]
   before_action :set_use_cases_list, only: [:new, :edit, :create, :update]

@@ -11,14 +11,18 @@ class UseCase
 
   belongs_to :project
 
-  validates :title, :steps, :priority, :description, :identifier, :requirements, presence: true
+  validates :title, :steps, :priority, :description, :identifier, presence: true
   validates :identifier, format: { with: /\AUC[0-9]+\z/, message: "format UCXX" }
   validates :priority, inclusion: { in: %w(Low Medium High)}
   validates :project, presence: {is: true, message: "use cases must belong to a project"}
   validates_associated :project
 
   def self.get_next_identifier(project_id)
-    "UC#{Integer(UseCase.where(project_id: project_id).count)+1}"
+    if UseCase.all.entries.last
+      "UC#{Integer(UseCase.all.entries.last.identifier[/[0-9]+/])+1}"
+    else
+      "UC#{1}"
+    end
   end
 
   def self.related_test_cases(identifier, project_id)

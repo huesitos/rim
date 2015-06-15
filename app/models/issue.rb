@@ -9,6 +9,10 @@ class Issue
   embeds_many :comments
 
   def self.get_next_identifier(project_id)
-  	"I#{Integer(Issue.where(project_id: project_id).count)+1}"
+    if Issue.all.entries.last
+    	"I#{Integer(Issue.all.entries.last.identifier[/[0-9]+/])+1}"
+    else
+      "I1"
+    end
   end
 end

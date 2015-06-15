@@ -16,11 +16,13 @@ class Requirement
   validates_associated :project
 
   def self.get_next_identifier(kind, project_id)
-  	if kind == "Functional"
-	  	"FR#{Integer(Requirement.where(kind:"Functional", project_id: project_id).count)+1}"
-  	else
-	  	"NFR#{Integer(Requirement.where(kind:"Non-Functional", project_id: project_id).count)+1}"
-  	end
+    if Requirement.all.entries.last
+    	if kind == "Functional"
+      	"FR#{Integer(Requirement.where(kind: 'Functional').entries.last.identifier[/[0-9]+/])+1}"
+    	else
+      	"NFR#{Integer(Requirement.where(kind: 'Non-Functional').entries.last.identifier[/[0-9]+/])+1}"
+    	end
+    end
   end
 
   def self.related_use_cases(identifier, project_id)

@@ -19,6 +19,10 @@ class TestCase
   validates_associated :project
 
   def self.get_next_identifier(project_id)
-    "TC#{Integer(TestCase.where(project_id: project_id).count)+1}"
+    if TestCase.all.entries.last
+      "TC#{Integer(TestCase.all.entries.last.identifier[/[0-9]+/])+1}"
+    else
+      "TC1"
+    end
   end
 end

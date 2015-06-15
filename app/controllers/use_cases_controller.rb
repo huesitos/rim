@@ -1,6 +1,6 @@
 class UseCasesController < ApplicationController
   before_action :set_use_case, only: [:show, :edit, :update, :destroy]
-  before_action :set_requirements_list, only: [:new, :edit, :create, :update]
+  before_action :set_requirements_list, except: [:show, :destroy]
   before_action :set_requirements, only: [:edit, :update]
   before_action :set_priorities, except: [:show, :destroy]
   before_action :set_priority, only: [:edit, :update]
@@ -14,7 +14,15 @@ class UseCasesController < ApplicationController
   # GET /use_cases
   # GET /use_cases.json
   def index
-    @use_cases = UseCase.where(project_id: @project._id)
+    query = {project_id: @project._id}
+    if params[:priority] 
+      if params[:priority] != "All"
+        query[:priority] = params[:priority]
+      end
+    end
+    if params[:requirements] then query[:requirement_ids] = { "$in" => params[:requirements]} end
+    
+    @use_cases = UseCase.where(query)
   end
 
   # GET /use_cases/1
@@ -77,7 +85,7 @@ class UseCasesController < ApplicationController
   # PATCH/PUT /use_cases/1.json
   def update
     respond_to do |format|
-      @use_case.priority = Priority.find_by(name: use_case_params[:priority])
+      @use_case.priority = Priority.find(use_case_params[:priority])
       
       if @use_case.save
         if @use_case.update(title: use_case_params[:title], 
@@ -136,7 +144,7 @@ class UseCasesController < ApplicationController
 
     # Set list priorities
     def set_priorities
-      @priorities = Priority.all.pluck(:name)
+      @priorities = Priority.all.pluck(:name, :_id)
     end
 
     # Set use_case's both priority and kind

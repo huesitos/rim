@@ -10,7 +10,17 @@ class RequirementsController < ApplicationController
   # GET /requirements
   # GET /requirements.json
   def index
-    @requirements = Requirement.where(project_id: @project._id)
+    query = {project_id: @project._id}
+    if params[:priority] 
+      if params[:priority] != "All"
+        query[:priority] = params[:priority]
+      end
+    end
+    if params[:content] and params[:content] != ""
+      query["$text"] = { "$search" => params[:content] } 
+    end
+
+    @requirements = Requirement.where(query)
   end
 
   # GET /requirements/1
@@ -40,10 +50,10 @@ class RequirementsController < ApplicationController
     @requirement = Requirement.new(requirement_params)
 
     # Add priority
-    @requirement.priority = Priority.find_by(name: requirement_params[:priority])
+    @requirement.priority = Priority.find(requirement_params[:priority])
 
     # Add kind
-    @requirement.kind = Kind.find_by(name: requirement_params[:kind])
+    @requirement.kind = Kind.find(requirement_params[:kind])
 
     # Link to project
     @requirement.project = @project
@@ -98,8 +108,8 @@ class RequirementsController < ApplicationController
 
     # Set list of both priorities and kinds
     def set_priorities_and_kinds
-      @priorities = Priority.all.pluck(:name)
-      @kinds = Kind.all.pluck(:name)
+      @priorities = Priority.all.pluck(:name, :_id)
+      @kinds = Kind.all.pluck(:name, :_id)
     end
 
     # Set requirement's both priority and kind

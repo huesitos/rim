@@ -1,7 +1,7 @@
 class TestCasesController < ApplicationController
   before_action :set_test_case, only: [:show, :edit, :update, :destroy]
-  before_action :set_requirements_list, only: [:new, :edit, :create, :update]
-  before_action :set_use_cases_list, only: [:new, :edit, :create, :update]
+  before_action :set_requirements_list, except: [:show, :destroy]
+  before_action :set_use_cases_list, except: [:show, :destroy]
   before_action :set_requirements, only: [:edit, :update]
   before_action :set_use_cases, only: [:edit, :update]
   before_action :set_project
@@ -14,7 +14,11 @@ class TestCasesController < ApplicationController
   # GET /test_cases
   # GET /test_cases.json
   def index
-    @test_cases = TestCase.where(project_id: @project._id)
+    query = {project_id: @project._id}
+    if params[:requirements] then query[:requirement_ids] = { "$in" => params[:requirements]} end
+    if params[:use_cases] then query[:use_case_ids] = { "$in" => params[:use_cases]} end
+
+    @test_cases = TestCase.where(query)
   end
 
   # GET /test_cases/1

@@ -9,15 +9,14 @@
 .search
   = form_tag({:controller => 'test_runs', :action => 'index'}, method: 'get', class: 'form-inline')  do
     .form-group
-      = datetime_field :date, nil, placeholder: 'yy/mm/dd', class: 'form-control'
+      = text_field_tag :date, nil, placeholder: 'yy/mm/dd', class: 'form-control'
     .form-group
-      = text_field_tag :test_cases, nil, placeholder: 'Test cases', class: 'form-control'
-    .form-group
+      = submit_tag "Today", class: 'btn btn-default'
       = submit_tag "Search", class: 'btn btn-default'
 
 - @test_runs.each do |test_run|
   .list-item
-    %h4= link_to "Test run #{test_run.date.to_time}",project_test_run_path(@project, test_run)
+    %h4= link_to "Test run #{test_run.date}",project_test_run_path(@project, test_run)
     %p
       %b Summary:
     %p

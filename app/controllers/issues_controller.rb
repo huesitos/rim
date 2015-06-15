@@ -1,21 +1,27 @@
 class IssuesController < ApplicationController
+  before_action :set_labels, only: [:index, :new, :edit]
+  before_action :set_statuses, only: [:index, :edit]
+
   def index
-    @issues = Project.find(params[:project_id]).issues
-    @statuses = Status.all.pluck(:name)
-    @labels = Label.all.pluck(:name)
+    query = {project_id: params[:project_id]}
+    if params[:labels] then query[:label_ids] = { "$in" => params[:labels]} end
+    if params[:status] 
+      if params[:status] != "All"
+        query[:status] = params[:status]
+      end
+    end
+
+    @issues = Issue.where(query)
   end
 
   def new
     @project = Project.find params[:project_id]
     @issue = Issue.new(project: @project)
-    @labels = Label.all.pluck(:name)
   end
 
   def create
     @project = Project.find params[:project_id]
     identifier = Issue.get_next_identifier(project_id: @project._id)
-
-    identifier.inspect
 
     @issue = @project.issues.create(
       title: issues_params[:title],
@@ -27,7 +33,7 @@ class IssuesController < ApplicationController
 
     if params[:labels]
       params[:labels].each do |label|
-        @issue.labels << Label.find_by(name: label)
+        @issue.labels << Label.find(label)
       end
       redirect_to project_issues_path
     else
@@ -44,15 +50,13 @@ class IssuesController < ApplicationController
   def edit
     @project = Project.find params[:project_id]
     @issue = Project.find(params[:project_id]).issues.find(params[:id])
-    @issue_labels = @issue.labels.pluck(:name)
-    @labels = Label.all.pluck(:name)
-    @statuses = Status.all.pluck(:name)
+    @issue_labels = @issue.labels.pluck(:_id)
     @edit = true
   end
 
   def update
     @issue = Project.find(params[:project_id]).issues.find(params[:id])
-    @issue.status = Status.find_by(name: issues_params[:status])
+    @issue.status = Status.find(issues_params[:status])
 
     if @issue.save
       if @issue.update(title: issues_params[:title], description: issues_params[:description])
@@ -71,7 +75,15 @@ class IssuesController < ApplicationController
 
   private
 
-  def issues_params
-    params.require(:issue).permit(:title, :status, :description)
-  end
+    def set_labels
+      @labels = Label.all.pluck(:name, :_id)
+    end
+
+    def set_statuses
+      @statuses = Status.all.pluck(:name, :_id)
+    end
+
+    def issues_params
+      params.require(:issue).permit(:title, :status, :description)
+    end
 end

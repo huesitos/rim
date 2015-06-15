@@ -1,6 +1,6 @@
 class TestRun
   include Mongoid::Document
-  field :date, type: DateTime
+  field :date, type: Date
 
   has_one :summary, dependent: :destroy
   has_many :reports, dependent: :destroy

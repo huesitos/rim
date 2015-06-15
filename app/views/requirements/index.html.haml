@@ -9,11 +9,9 @@
 .search
   = form_tag({:controller => 'requirements', :action => 'index'}, method: 'get', class: 'form-inline')  do
     .form-group
-      = text_field_tag :identifiers, nil, placeholder: 'Identifiers', class: 'form-control'
-    .form-group
       = text_field_tag :content, nil, placeholder: 'Contains', class: 'form-control'
     .form-group
-      = select_tag :priority, options_for_select(@priorities.to_a), :class => 'form-control' 
+      = select_tag :priority, options_for_select(@priorities << ["All", "All"]), :class => 'form-control' 
     .form-group
       = submit_tag "Search", class: 'btn btn-default'
 

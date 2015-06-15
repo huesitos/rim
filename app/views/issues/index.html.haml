@@ -8,13 +8,9 @@
 .search
   = form_tag({:controller => 'issues', :action => 'index'}, method: 'get', class: 'form-inline')  do
     .form-group
-      = text_field_tag :identifiers, nil, placeholder: 'Identifiers', class: 'form-control'
+      = select_tag :labels, options_for_select(@labels), :multiple => true, :class => 'form-control' 
     .form-group
-      = text_field_tag :title, nil, placeholder: 'Title', class: 'form-control'
-    .form-group
-      = select_tag :kind, options_for_select(['Enhancement', 'Error']), :class => 'form-control' 
-    .form-group
-      = select_tag :status, options_for_select(@statuses.to_a), :class => 'form-control' 
+      = select_tag :status, options_for_select(@statuses<<["All", "All"]), :class => 'form-control' 
     .form-group
       = submit_tag "Search", class: 'btn btn-default'
 

@@ -9,15 +9,13 @@
 .search
   = form_tag({:controller => 'test_cases', :action => 'index'}, method: 'get', class: 'form-inline')  do
     .form-group
-      = text_field_tag :title, nil, placeholder: 'Title', class: 'form-control'
+      = select_tag :use_cases, options_for_select(@use_cases_list), {:multiple => true, :class => 'form-control' }
     .form-group
-      = text_field_tag :use_cases, nil, placeholder: 'Use cases', class: 'form-control'
-    .form-group
-      = text_field_tag :requirements, nil, placeholder: 'Requirements', class: 'form-control'
+      = select_tag :requirements, options_for_select(@requirements_list), {:multiple => true, :class => 'form-control' }
     .form-group
       = submit_tag "Search", class: 'btn btn-default'
 
--@test_cases.each do |test_case|
+- @test_cases.each do |test_case|
   .list-item
     %h4=link_to "#{test_case.identifier} #{test_case.title}", project_test_case_path(@project, test_case) 
     %p=test_case.description

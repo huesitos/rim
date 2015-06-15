@@ -1,21 +1,24 @@
 class TestRunsController < ApplicationController
   before_action :set_test_run, except: [:create, :new, :index]
+  before_action :set_test_cases, only: [:new, :index]
   before_action :set_project
 
   # GET /test_runs
   # GET /test_runs.json
   def index
-    @test_runs = TestRun.where(project_id: @project._id)
+    query = {project_id: @project._id}
+    if params[:commit] == "Today" then query[:date] = Date.today end
+    if params[:date]
+      date = Date.parse(params[:date]) rescue nil
+      if date then  query[:date] = date end
+    end
+
+    @test_runs = TestRun.where(query)
   end
 
   # GET /new
   def new
-    test_cases = TestCase.where(project_id: @project._id)
-    @tc_select = []
-
-    test_cases.each do |tc|
-      @tc_select.push([tc.identifier, tc.id.to_s])  
-    end
+    
 
     @test_run = TestRun.new()
   end
@@ -131,6 +134,10 @@ class TestRunsController < ApplicationController
       else
         @test_run = TestRun.find(params[:test_run_id])
       end
+    end
+
+    def set_test_cases
+      @tc_select = TestCase.where(project_id: @project._id).pluck(:identifier, :_id)
     end
 
     def set_project

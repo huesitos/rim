@@ -14,6 +14,7 @@ TestRun.all.destroy
 Priority.all.destroy
 Label.all.destroy
 Status.all.destroy
+Kind.all.destroy
 
 Priority.create(name: 'Low')
 Priority.create(name: 'Medium')
@@ -25,3 +26,6 @@ Label.create(name: 'Modify')
 
 Status.create(name: 'Open')
 Status.create(name: 'Closed')
+
+Kind.create(name: 'Functional', identifier: 'FR')
+Kind.create(name: 'Non-Functional', identifier: 'NFR')

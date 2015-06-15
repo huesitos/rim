@@ -1,10 +1,16 @@
 class TestCasesController < ApplicationController
+  include BeforeRender
   before_action :set_test_case, only: [:show, :edit, :update, :destroy]
   before_action :set_requirements_list, only: [:new, :edit, :create, :update]
   before_action :set_use_cases_list, only: [:new, :edit, :create, :update]
   before_action :set_requirements, only: [:edit, :update]
   before_action :set_use_cases, only: [:edit, :update]
   before_action :set_project
+
+  before_render :set_requirements_list, only: [:new, :edit, :create, :update]
+  before_render :set_use_cases_list, only: [:new, :edit, :create, :update]
+  before_render :set_requirements, only: [:edit, :update]
+  before_render :set_use_cases, only: [:edit, :update]
 
   # GET /test_cases
   # GET /test_cases.json

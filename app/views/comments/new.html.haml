@@ -1,9 +1,11 @@
-%h1 New Comment
+%h3 New Comment
 
 =form_for([@project, @issue, @comment]) do |f|
-  %p
-    =f.label :comment
-    =f.text_area :body
+	.form-group
+		.field
+			=f.label :comment, class: 'control-label'
+			=f.text_area :body, class: 'form-control'
 
-  %p
-    =f.submit
+	.form-group
+		.field
+			=f.submit 'Create', class: 'btn btn-primary'

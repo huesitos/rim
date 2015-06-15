@@ -36,13 +36,13 @@
       .field
         = f.label :use_cases, class: 'col-sm-2 control-label'
         .col-sm-10
-          = select_tag :use_cases, options_for_select(@use_cases_list, @use_cases), {:multiple => true, :class => 'form-control' }
+          = select_tag :use_cases, options_for_select(ucsl, ucs), {:multiple => true, :class => 'form-control' }
 
     .form-group
       .field
         = f.label :requirements, class: 'col-sm-2 control-label'
         .col-sm-10
-          = select_tag :requirements, options_for_select(@requirements_list, @requirements), {:multiple => true, :class => 'form-control' }
+          = select_tag :requirements, options_for_select(rsl, rs), {:multiple => true, :class => 'form-control' }
     .form-group
       .col-sm-offset-2.col-sm-10
         .actions

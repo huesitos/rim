@@ -1,7 +1,9 @@
 class TestCasesController < ApplicationController
   before_action :set_test_case, only: [:show, :edit, :update, :destroy]
-  before_action :set_requirements, only: [:new, :edit]
-  before_action :set_use_cases, only: [:new, :edit]
+  before_action :set_requirements_list, only: [:new, :edit, :create, :update]
+  before_action :set_use_cases_list, only: [:new, :edit, :create, :update]
+  before_action :set_requirements, only: [:edit, :update]
+  before_action :set_use_cases, only: [:edit, :update]
   before_action :set_project
 
   # GET /test_cases
@@ -41,15 +43,7 @@ class TestCasesController < ApplicationController
 
   # GET /test_cases/1/edit
   def edit
-    @requirements = []
-    @test_case.requirements.each do |r|
-      @requirements << r.id
-    end
-
-    @use_cases = []
-    @test_case.use_cases.each do |ucr|
-      @use_cases << uc.id
-    end
+    
   end
 
   # POST /test_cases
@@ -78,7 +72,7 @@ class TestCasesController < ApplicationController
       if @test_case.save
         format.html { redirect_to project_test_case_path(@project, @test_case), notice: 'Test case was successfully created.', alert: 'success' }
       else
-        format.html { render :action => "new" }
+        format.html { render :new, requirements_list: @requirements_list, use_cases_list: @use_cases_list }
       end
     end
   end
@@ -86,21 +80,20 @@ class TestCasesController < ApplicationController
   # PATCH/PUT /test_cases/1
   # PATCH/PUT /test_cases/1.json
   def update
-    use_cases_array = UseCase.set_use_cases( test_case_params[:use_cases])
-    requirements_array = Requirement.set_requirements( test_case_params[:requirements])
-
     respond_to do |format|
       if @test_case.update(
         title: test_case_params[:title], 
         steps: test_case_params[:steps], 
         preconditions: test_case_params[:preconditions], 
         postconditions: test_case_params[:postconditions], 
-        description: test_case_params[:description], 
-        use_cases: use_cases_array, 
-        requirements: requirements_array)
+        description: test_case_params[:description])
+
+        @test_case.use_cases = UseCase.where(:_id.in => params[:use_cases])
+        @test_case.requirements = Requirement.where(:_id.in => params[:requirements])
+
         format.html { redirect_to project_test_case_path(@project, @test_case), notice: 'Test case was successfully updated.', alert: 'sucess' }
       else
-        format.html { render :edit }
+        format.html { render :edit, requirements: @requirements, requirements_list: @requirements_list, use_cases: @use_cases, use_cases_list: @use_cases_list }
       end
     end
   end
@@ -124,7 +117,8 @@ class TestCasesController < ApplicationController
       @project = Project.find(params[:project_id])
     end
 
-    def set_requirements
+    # Set list of all requirements for form
+    def set_requirements_list
       @requirements_list = []
 
       Requirement.each do |r|
@@ -132,7 +126,8 @@ class TestCasesController < ApplicationController
       end
     end
 
-    def set_use_cases
+    # Set list of all use cases for form
+    def set_use_cases_list
       @use_cases_list = []
 
       UseCase.each do |uc|
@@ -140,8 +135,28 @@ class TestCasesController < ApplicationController
       end
     end
 
+    # Set list of all test_case's requirements
+    def set_requirements
+      @requirements = []
+
+      test_case = TestCase.find(params[:id])
+      test_case.requirements.each do |r|
+        @requirements << r.id
+      end
+    end
+
+    # Set list of all test_case's use cases
+    def set_use_cases
+      @use_cases = []
+
+      test_case = TestCase.find(params[:id])
+      test_case.use_cases.each do |uc|
+        @use_cases << uc.id
+      end
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def test_case_params
-      params.require(:test_case).permit(:title, :description, :steps, :preconditions, :postconditions, :use_cases, :requirements)
+      params.require(:test_case).permit(:title, :description, :steps, :preconditions, :postconditions)
     end
 end

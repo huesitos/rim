@@ -1,6 +1,7 @@
 class UseCasesController < ApplicationController
   before_action :set_use_case, only: [:show, :edit, :update, :destroy]
-  before_action :set_requirements, only: [:new, :edit]
+  before_action :set_requirements_list, only: [:new, :edit, :create, :update]
+  before_action :set_requirements, only: [:edit, :update]
   before_action :set_project
 
   # GET /use_cases
@@ -76,10 +77,13 @@ class UseCasesController < ApplicationController
       
       if @use_case.save
         if @use_case.update(title: use_case_params[:title], 
-        preconditions: use_case_params[:preconditions], 
-        postconditions: use_case_params[:postconditions], 
-        steps: use_case_params[:steps], 
-        description: use_case_params[:description])
+          preconditions: use_case_params[:preconditions], 
+          postconditions: use_case_params[:postconditions], 
+          steps: use_case_params[:steps], 
+          description: use_case_params[:description])
+
+          @use_case.requirements = Requirement.where(:_id.in => params[:requirements])
+
           format.html { redirect_to project_use_case_path(@project, @use_case), notice: 'Use case was successfully updated.', alert: 'success' }
         else
           format.html { render :edit }
@@ -107,7 +111,8 @@ class UseCasesController < ApplicationController
       @project = Project.find(params[:project_id])
     end
 
-    def set_requirements
+    # Set list of all requirements for form
+    def set_requirements_list
       @requirements_list = []
 
       Requirement.each do |r|
@@ -115,8 +120,18 @@ class UseCasesController < ApplicationController
       end
     end
 
+    # Set list of all use_case's requirements
+    def set_requirements
+      @requirements = []
+
+      use_case = UseCase.find(params[:id])
+      use_case.requirements.each do |r|
+        @requirements << r.id
+      end
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def use_case_params
-      params.require(:use_case).permit(:title, :description, :preconditions, :steps, :postconditions, :priority, :requirements)
+      params.require(:use_case).permit(:title, :description, :preconditions, :steps, :postconditions, :priority)
     end
 end

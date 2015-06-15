@@ -2,10 +2,11 @@
 
 #issue-info
   %p
-    %b Kind:
-    =@issue.kind
+    %b Labels:
+    - @issue.labels.each do |l|
+      = l.name
     %b Status:
-    =@issue_status
+    =@issue.status.name
   %p
     =@issue.description
 

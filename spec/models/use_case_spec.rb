@@ -36,22 +36,6 @@ RSpec.describe UseCase, type: :model do
   	expect(["can't be blank"]).to eq(no_description.errors.messages[:description])
   end
 
-  describe "Priority" do
-	  it "has to have priority" do
-	  	no_priority = FactoryGirl.build(:uc_no_priority)
-
-	  	expect(no_priority.valid?).to eq(false)
-	  	assert_includes no_priority.errors.messages[:priority], "can't be blank"
-	  end
-
-	  it "has a priority included in Low, Medium, High" do
-	  	wrong_priority = FactoryGirl.build(:uc_wrong_priority)
-
-	  	expect(wrong_priority.valid?).to eq(false)
-	  	assert_includes wrong_priority.errors.messages[:priority], "is not included in the list"
-	  end
-  end
-
   describe "Identifier" do
 	  it "has to have an identifier" do
 	  	no_identifier = FactoryGirl.build(:uc_no_identifier)

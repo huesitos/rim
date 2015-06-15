@@ -6,6 +6,7 @@ class RequirementsController < ApplicationController
   # GET /requirements.json
   def index
     @requirements = Requirement.where(project_id: @project._id)
+    @priorities = Priority.all.pluck(:name)
   end
 
   # GET /requirements/1
@@ -23,16 +24,22 @@ class RequirementsController < ApplicationController
   def new
     @errors = params[:errors]
     @requirement = Requirement.new
+    @priorities = Priority.all.pluck(:name)
   end
 
   # GET /requirements/1/edit
   def edit
+    @priorities = Priority.all.pluck(:name)
+    @priority = @requirement.priority.name
   end
 
   # POST /requirements
   # POST /requirements.json
   def create
     @requirement = Requirement.new(requirement_params)
+
+    # Add priority
+    @requirement.priority = Priority.find_by(name: requirement_params[:priority])
 
     # Link to project
     @requirement.project = @project

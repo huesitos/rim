@@ -5,15 +5,14 @@ class UseCase
   field :steps, type: String
   field :postconditions, type: String
   field :requirements, type: Array
-  field :priority, type: String
   field :identifier, type: String
   field :description, type: String
 
+  has_one :priority
   belongs_to :project
 
   validates :title, :steps, :priority, :description, :identifier, presence: true
   validates :identifier, format: { with: /\AUC[0-9]+\z/, message: "format UCXX" }
-  validates :priority, inclusion: { in: %w(Low Medium High)}
   validates :project, presence: {is: true, message: "use cases must belong to a project"}
   validates_associated :project
 

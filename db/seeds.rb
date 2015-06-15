@@ -11,3 +11,17 @@ UseCase.all.destroy
 Issue.all.destroy
 TestCase.all.destroy
 TestRun.all.destroy
+Priority.all.destroy
+Label.all.destroy
+Status.all.destroy
+
+Priority.create(name: 'Low')
+Priority.create(name: 'Medium')
+Priority.create(name: 'High')
+
+Label.create(name: 'Enhancement')
+Label.create(name: 'Error')
+Label.create(name: 'Modify')
+
+Status.create(name: 'Open')
+Status.create(name: 'Closed')

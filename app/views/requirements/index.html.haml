@@ -13,7 +13,7 @@
     .form-group
       = text_field_tag :content, nil, placeholder: 'Contains', class: 'form-control'
     .form-group
-      = select_tag :priority, options_for_select(['Low', 'Medium', 'High']), :class => 'form-control' 
+      = select_tag :priority, options_for_select(@priorities.to_a), :class => 'form-control' 
     .form-group
       = submit_tag "Search", class: 'btn btn-default'
 
@@ -22,7 +22,7 @@
     %h4=link_to "#{requirement.identifier} #{requirement.title}", project_requirement_path(@project, requirement) 
     %h5 
       Priority:
-      = requirement.priority
+      = requirement.priority.name
     %p=requirement.description
     =link_to 'Edit', edit_project_requirement_path(@project, requirement)
     =link_to 'Delete', project_requirement_path(@project, requirement), method: :delete, :data => { :confirm => 'Are you sure?' }

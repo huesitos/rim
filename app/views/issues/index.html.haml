@@ -14,7 +14,7 @@
     .form-group
       = select_tag :kind, options_for_select(['Enhancement', 'Error']), :class => 'form-control' 
     .form-group
-      = select_tag :status, options_for_select([['Open', 1], ['Working', 2], ['Closed', 3]]), :class => 'form-control' 
+      = select_tag :status, options_for_select(@statuses.to_a), :class => 'form-control' 
     .form-group
       = submit_tag "Search", class: 'btn btn-default'
 
@@ -23,10 +23,11 @@
   .list-item
     %h4=link_to "#{issue.identifier} #{issue.title}", project_issue_path(params[:project_id], issue.id)
     %p 
-      %b Kind:
-      %span{class: "issue-#{issue.kind.downcase}"}=issue.kind
+      %b Labels:
+      - issue.labels.each do |l|
+        = l.name
       %b Status:
-      %span=@issue_status[issue.status]
+      = issue.status.name
     %p=issue.description
     =link_to 'Edit', edit_project_issue_path(params[:project_id], issue.id)
     =link_to 'Delete', project_issue_path(params[:project_id], issue.id), method: :delete

@@ -6,6 +6,7 @@ class UseCasesController < ApplicationController
   # GET /use_cases.json
   def index
     @use_cases = UseCase.where(project_id: @project._id)
+    @priorities = Priority.all.pluck(:name)
   end
 
   # GET /use_cases/1
@@ -19,11 +20,14 @@ class UseCasesController < ApplicationController
   # GET /use_cases/new
   def new
     @use_case = UseCase.new
+    @priorities = Priority.all.pluck(:name)
   end
 
   # GET /use_cases/1/edit
   def edit
     @formatted_requirements = Requirement.format_requirements(@use_case.requirements)
+    @priorities = Priority.all.pluck(:name)
+    @priority = @use_case.priority.name
   end
 
   # POST /use_cases
@@ -34,8 +38,10 @@ class UseCasesController < ApplicationController
       preconditions: use_case_params[:preconditions], 
       postconditions: use_case_params[:postconditions], 
       steps: use_case_params[:steps], 
-      priority: use_case_params[:priority], 
       description: use_case_params[:description])
+
+    # Add priority
+    @use_case.priority = Priority.find_by(name: use_case_params[:priority])
 
     # Add identifier
     @use_case.identifier = UseCase.get_next_identifier(@project._id)
@@ -62,10 +68,17 @@ class UseCasesController < ApplicationController
   # PATCH/PUT /use_cases/1.json
   def update
     respond_to do |format|
-      if @use_case.update(use_case_params)
-        format.html { redirect_to project_use_case_path(@project, @use_case), notice: 'Use case was successfully updated.', alert: 'success' }
-      else
-        format.html { render :edit }
+      @use_case.priority = Priority.find_by(name: use_case_params[:priority])
+      if @use_case.save
+        if @use_case.update(title: use_case_params[:title], 
+        preconditions: use_case_params[:preconditions], 
+        postconditions: use_case_params[:postconditions], 
+        steps: use_case_params[:steps], 
+        description: use_case_params[:description])
+          format.html { redirect_to project_use_case_path(@project, @use_case), notice: 'Use case was successfully updated.', alert: 'success' }
+        else
+          format.html { render :edit }
+        end
       end
     end
   end

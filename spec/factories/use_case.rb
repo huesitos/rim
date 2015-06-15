@@ -19,10 +19,6 @@ FactoryGirl.define do
 			steps ""
 		end
 
-		factory :uc_no_priority do
-			priority ""
-		end
-
 		factory :uc_no_description do
 			description ""
 		end

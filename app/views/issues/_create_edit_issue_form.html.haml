@@ -1,19 +1,27 @@
 =form_for([@project, @issue]) do |f|
-  %p
-    =f.label :title
-    %br
-    =f.text_field :title
-  %p
-    =f.label :description
-    %br
-    =f.text_area :description
-  %p
-    =f.label :kind
-    %br
-    =f.select(:kind, ['Improvement', 'Error'])
-  -if @edit
-    %p
-      =f.label :status
-      =f.select(:status, ['Open', 'Fixing', 'Closed'])
-  %p
-    =f.submit
+  .form-horizontal
+    .form-group
+      .field
+        =f.label :title, class: 'col-sm-2 control-label'
+        .col-sm-10
+          =f.text_field :title, class: 'form-control'
+    .form-group
+      .field
+        =f.label :description, class: 'col-sm-2 control-label'
+        .col-sm-10
+          =f.text_area :description, class: 'form-control'
+    .form-group
+      .field
+        = label_tag 'labels', 'Labels', class: 'col-sm-2 control-label'
+        .col-sm-10
+          = select_tag('labels', options_for_select(@labels.to_a, @issue_labels), { :multiple => true, :class => 'form-control'})
+    -if @edit
+      .form-group
+        .field
+          =f.label :status, class: 'col-sm-2 control-label'
+          .col-sm-10
+            =f.select(:status, options_for_select(@statuses.to_a, @issue.status.name), {}, {class: 'form-control'})
+    .form-group
+      .col-sm-offset-2.col-sm-10
+        .actions
+          =f.submit "Save", class: 'btn btn-primary'

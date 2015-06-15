@@ -13,7 +13,7 @@
     .form-group
       = text_field_tag :title, nil, placeholder: 'Title', class: 'form-control'
     .form-group
-      = select_tag :priority, options_for_select(['Low', 'Medium', 'High']), :class => 'form-control' 
+      = select_tag :priority, options_for_select(@priorities.to_a), :class => 'form-control' 
     .form-group
       = text_field_tag :requirements, nil, placeholder: 'Requirements', class: 'form-control'
     .form-group
@@ -24,7 +24,7 @@
     %h4=link_to "#{use_case.identifier} #{use_case.title}", project_use_case_path(@project, use_case) 
     %h5 
       Priority:
-      = use_case.priority
+      = use_case.priority.name
     %p=use_case.description
     =link_to 'Edit', edit_project_use_case_path(@project, use_case)
     =link_to 'Delete', project_use_case_path(@project, use_case), method: :delete, :data => { :confirm => 'Are you sure?' }

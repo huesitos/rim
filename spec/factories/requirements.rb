@@ -28,10 +28,6 @@ FactoryGirl.define do
 			identifier "F"
 		end
 
-		factory :rq_no_priority do
-			priority ""
-		end
-
 		factory :rq_wrong_priority do
 			priority "other"
 		end

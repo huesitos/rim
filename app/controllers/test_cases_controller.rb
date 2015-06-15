@@ -28,19 +28,15 @@ class TestCasesController < ApplicationController
     # If not, then just make an empty TestCase
     if params[:use_case]
       use_case = UseCase.find(params[:use_case])
-      
-      requirements = []
-      use_case.requirements.each do |rq|
-        requirements << rq["identifier"]+','
-      end
 
       @test_case = TestCase.new(
-        title: use_case[:title], 
+        title: use_case[:title],
+        description: use_case[:description], 
         steps: use_case[:steps], 
         preconditions: use_case[:preconditions], 
-        postconditions: use_case[:postconditions], 
-        use_cases: [use_case[:identifier]], 
-        requirements: requirements)
+        postconditions: use_case[:postconditions])
+      @use_cases = [use_case.id]
+      @requirements = use_case.requirements.pluck(:_id)
     else
       @test_case = TestCase.new
     end

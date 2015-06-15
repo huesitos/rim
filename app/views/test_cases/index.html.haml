@@ -9,8 +9,6 @@
 .search
   = form_tag({:controller => 'test_cases', :action => 'index'}, method: 'get', class: 'form-inline')  do
     .form-group
-      = text_field_tag :identifiers, nil, placeholder: 'Identifiers', class: 'form-control'
-    .form-group
       = text_field_tag :title, nil, placeholder: 'Title', class: 'form-control'
     .form-group
       = text_field_tag :use_cases, nil, placeholder: 'Use cases', class: 'form-control'

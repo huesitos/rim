@@ -4,7 +4,7 @@
 .top
   %h3 
     Requirements
-  =link_to 'New Requirement', new_project_requirement_path(@project), class: 'btn btn-primary right'
+  =link_to 'New Requirement', new_project_requirement_path(@project), class: 'btn btn-primary pull-right'
 
 .search
   = form_tag({:controller => 'requirements', :action => 'index'}, method: 'get', class: 'form-inline')  do
@@ -15,24 +15,27 @@
     .form-group
       = submit_tag "Search", class: 'btn btn-default'
 
--@requirements.each do |requirement|
-  .list-item
-    %h4=link_to "#{requirement.identifier} #{requirement.title}", project_requirement_path(@project, requirement) 
-    %h5 
-      Priority:
-      = requirement.priority.name
-    %p=requirement.description
+- if @requirements.count > 0
+  -@requirements.each do |requirement|
+    .list-item
+      %h4=link_to "#{requirement.identifier} #{requirement.title}", project_requirement_path(@project, requirement) 
+      %h5 
+        Priority:
+        = requirement.priority.name
+      %p=requirement.description
 
-    - if requirement.use_cases.count > 0 
-      %p
-        %b Use Cases
-        - requirement.use_cases.each do |uc|
-          = link_to uc.identifier, project_use_case_path(@project, uc)
-    -if requirement.test_cases.count > 0
-      %p
-        %b Test Cases
-        - requirement.test_cases.each do |tc|
-          = link_to tc.identifier, project_test_case_path(@project, tc)
+      - if requirement.use_cases.count > 0 
+        %p
+          %b Use Cases
+          - requirement.use_cases.each do |uc|
+            = link_to uc.identifier, project_use_case_path(@project, uc)
+      -if requirement.test_cases.count > 0
+        %p
+          %b Test Cases
+          - requirement.test_cases.each do |tc|
+            = link_to tc.identifier, project_test_case_path(@project, tc)
 
-    =link_to 'Edit', edit_project_requirement_path(@project, requirement)
-    =link_to 'Delete', project_requirement_path(@project, requirement), method: :delete, :data => { :confirm => 'Are you sure?' }
+      =link_to 'Edit', edit_project_requirement_path(@project, requirement)
+      =link_to 'Delete', project_requirement_path(@project, requirement), method: :delete, :data => { :confirm => 'Are you sure?' }
+- else
+  %p No requirements.

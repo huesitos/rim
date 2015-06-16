@@ -68,16 +68,19 @@ class TestCasesController < ApplicationController
     @test_case.project = @project
 
     # Set use cases array
-    @test_case.use_cases << UseCase.where(:_id.in => params[:use_cases])
+    @test_case.use_cases << UseCase.where(
+      :_id.in => params[:use_cases]) if params[:use_cases]
     
     # Requirements
-    @test_case.requirements << Requirement.where(:_id.in => params[:requirements])
+    @test_case.requirements << Requirement.where(
+      :_id.in => params[:requirements]) if params[:requirements]
 
     respond_to do |format|
       if @test_case.save
-        format.html { redirect_to project_test_case_path(@project, @test_case), notice: 'Test case was successfully created.', alert: 'success' }
+        format.html { redirect_to project_test_case_path(@project, @test_case), 
+          notice: 'Test case was successfully created.', alert: 'success' }
       else
-        format.html { render :new, requirements_list: @requirements_list, use_cases_list: @use_cases_list }
+        format.html { render :new }
       end
     end
   end
@@ -96,9 +99,10 @@ class TestCasesController < ApplicationController
         @test_case.use_cases = UseCase.where(:_id.in => params[:use_cases])
         @test_case.requirements = Requirement.where(:_id.in => params[:requirements])
 
-        format.html { redirect_to project_test_case_path(@project, @test_case), notice: 'Test case was successfully updated.', alert: 'sucess' }
+        format.html { redirect_to project_test_case_path(@project, @test_case), 
+          notice: 'Test case was successfully updated.', alert: 'sucess' }
       else
-        format.html { render :edit, requirements: @requirements, requirements_list: @requirements_list, use_cases: @use_cases, use_cases_list: @use_cases_list }
+        format.html { render :edit }
       end
     end
   end
@@ -108,7 +112,8 @@ class TestCasesController < ApplicationController
   def destroy
     @test_case.destroy
     respond_to do |format|
-      format.html { redirect_to project_test_cases_path(@project), notice: 'Test case was successfully destroyed.', alert: 'success' }
+      format.html { redirect_to project_test_cases_path(@project), 
+        notice: 'Test case was successfully destroyed.', alert: 'success' }
     end
   end
 

@@ -68,7 +68,7 @@ class UseCasesController < ApplicationController
     @use_case.project = @project
 
     # Requirements
-    @use_case.requirements << Requirement.where(:_id.in => params[:requirements])
+    @use_case.requirements << Requirement.where(:_id.in => params[:requirements]) if params[:requirements]
 
     respond_to do |format|
       if @use_case.save
@@ -96,7 +96,8 @@ class UseCasesController < ApplicationController
 
           @use_case.requirements = Requirement.where(:_id.in => params[:requirements])
 
-          format.html { redirect_to project_use_case_path(@project, @use_case), notice: 'Use case was successfully updated.', alert: 'success' }
+          format.html { redirect_to project_use_case_path(@project, @use_case), 
+            notice: 'Use case was successfully updated.', alert: 'success' }
         else
           format.html { render :edit }
         end
@@ -109,7 +110,8 @@ class UseCasesController < ApplicationController
   def destroy
     @use_case.destroy
     respond_to do |format|
-      format.html { redirect_to project_use_cases_path(@project), notice: 'Use case was successfully destroyed.', alert: 'success' }
+      format.html { redirect_to project_use_cases_path(@project), 
+        notice: 'Use case was successfully destroyed.', alert: 'success' }
     end
   end
 

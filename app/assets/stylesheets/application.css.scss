@@ -47,8 +47,34 @@ a {
 	}
 }
 
+header, footer, .main {
+	margin: 0 10px;
+}
+
+.main {
+	min-height: 480px;
+}
+
 footer {
+	font-size: 11px;
 	margin-bottom: 20px;
+
+	.authors {
+		margin: 0 30%;
+	}
+
+	.author {
+		display: inline-block;
+		margin-right: 10px;
+	}
+
+	a img {
+		width: 20px;
+	}
+}
+
+footer.row {
+	margin-left: 10px;
 }
 
 a.btn:visited {
@@ -69,32 +95,20 @@ a.btn:visited {
 	border-bottom: 1px solid #ddd;
 }
 
-.right {
-	float: right;
-}
-
 .menu {
 	background-image: linear-gradient(to left, #f6f6f6 0%, #fff 8px);
+	padding-right: 0;
 }
 
-.menu a {
-	display: block;
-	width: 100%;
+.menu li a {
 	padding: 10px 20px 10px 5px;
-	text-align: right;
-}
-
-.small-col {
-	display: inline-block;
-	width: 15%;
-	margin: 0 20px;
-}
-
-.big-col {
-	display: inline-block;
 	width: 80%;
-	margin: 0;
-	vertical-align: top;
+	display: inline-block;
+}
+
+.menu li {
+	text-align: right;
+	list-style: none;
 }
 
 .active {
@@ -135,4 +149,36 @@ a.active {
 
 .content {
 	margin: 20px 0 10px;
+}
+
+@media (max-width: 1024px) {
+	body {
+		width: 680px;
+	}
+
+	.menu {
+		background-image: none;
+		margin-bottom: 10px;
+		padding-bottom: 10px;
+		border-bottom: 1px solid #ddd;
+		text-align: center;
+	}
+
+	.menu li a {
+		padding: 0;
+		background-color: transparent;
+	}
+
+	.menu li, .menu li a {
+		display: inline;
+	}
+
+	.menu li {
+		margin: 0 10px;
+	}
+
+	.active {
+		border: none;
+		box-shadow: none;
+	}
 }

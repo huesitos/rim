@@ -4,7 +4,7 @@
 .top
   %h3
     Test runs
-  =link_to 'New Test Run', new_project_test_run_path(@project), class: 'btn btn-primary right'
+  =link_to 'New Test Run', new_project_test_run_path(@project), class: 'btn btn-primary pull-right'
 
 .search
   = form_tag({:controller => 'test_runs', :action => 'index'}, method: 'get', class: 'form-inline')  do
@@ -14,18 +14,21 @@
       = submit_tag "Today", class: 'btn btn-default'
       = submit_tag "Search", class: 'btn btn-default'
 
-- @test_runs.each do |test_run|
-  .list-item
-    %h4= link_to "Test run #{test_run.date}",project_test_run_path(@project, test_run)
-    %p
-      %b Summary:
-    %p
-      Total: 
-      = test_run.summary.total
-      Passed: 
-      %span{class: 'passed'}= test_run.summary.passed
-      Failed: 
-      %span{class: 'failed'}= test_run.summary.failed
-      Skipped: 
-      %span{class: 'skipped'}= test_run.summary.skipped
-    = link_to 'Delete', project_test_run_path(@project, test_run), :method => :delete, :data => { :confirm => 'Are you sure?' }
+- if @test_runs.count > 0
+  - @test_runs.each do |test_run|
+    .list-item
+      %h4= link_to "Test run #{test_run.date}",project_test_run_path(@project, test_run)
+      %p
+        %b Summary:
+      %p
+        Total: 
+        = test_run.summary.total
+        Passed: 
+        %span{class: 'passed'}= test_run.summary.passed
+        Failed: 
+        %span{class: 'failed'}= test_run.summary.failed
+        Skipped: 
+        %span{class: 'skipped'}= test_run.summary.skipped
+      = link_to 'Delete', project_test_run_path(@project, test_run), :method => :delete, :data => { :confirm => 'Are you sure?' }
+- else
+  %p No test runs.

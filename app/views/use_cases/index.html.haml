@@ -4,7 +4,7 @@
 .top
   %h3 
     Use Cases
-  =link_to 'New Use Case', new_project_use_case_path(@project), class: 'btn btn-primary right'
+  =link_to 'New Use Case', new_project_use_case_path(@project), class: 'btn btn-primary pull-right'
 
 .search
   = form_tag({:controller => 'use_cases', :action => 'index'}, method: 'get', class: 'form-inline')  do
@@ -15,19 +15,22 @@
     .form-group
       = submit_tag "Search", class: 'btn btn-default'
 
--@use_cases.each do |use_case|
-  .list-item
-    %h4=link_to "#{use_case.identifier} #{use_case.title}", project_use_case_path(@project, use_case) 
-    %h5 
-      Priority:
-      = use_case.priority.name
-    %p=use_case.description
+- if @use_cases.count > 0
+  -@use_cases.each do |use_case|
+    .list-item
+      %h4=link_to "#{use_case.identifier} #{use_case.title}", project_use_case_path(@project, use_case) 
+      %h5 
+        Priority:
+        = use_case.priority.name
+      %p=use_case.description
 
-    - if use_case.requirements.count > 0 
-      %p
-        %b Requirements
-        - use_case.requirements.each do |r|
-          = link_to r.identifier, project_requirement_path(@project, r)
-          
-    =link_to 'Edit', edit_project_use_case_path(@project, use_case)
-    =link_to 'Delete', project_use_case_path(@project, use_case), method: :delete, :data => { :confirm => 'Are you sure?' }
+      - if use_case.requirements.count > 0 
+        %p
+          %b Requirements
+          - use_case.requirements.each do |r|
+            = link_to r.identifier, project_requirement_path(@project, r)
+            
+      =link_to 'Edit', edit_project_use_case_path(@project, use_case)
+      =link_to 'Delete', project_use_case_path(@project, use_case), method: :delete, :data => { :confirm => 'Are you sure?' }
+- else
+  %p No use cases.

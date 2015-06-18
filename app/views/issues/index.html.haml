@@ -26,4 +26,3 @@
       = issue.status.name
     %p=issue.description
     =link_to 'Edit', edit_project_issue_path(params[:project_id], issue.id)
-    =link_to 'Delete', project_issue_path(params[:project_id], issue.id), method: :delete

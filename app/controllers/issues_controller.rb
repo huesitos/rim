@@ -67,12 +67,6 @@ class IssuesController < ApplicationController
     end
   end
 
-  def destroy
-    @issue = Project.find(params[:project_id]).issues.find(params[:id])
-    @issue.destroy
-    redirect_to project_issues_path params[:project_id]
-  end
-
   private
 
     def set_labels

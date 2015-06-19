@@ -10,6 +10,10 @@ Priority.all.destroy
 Label.all.destroy
 Status.all.destroy
 Kind.all.destroy
+User.all.destroy
+
+# User owner
+denisse = User.create(name: 'Denisse', email: 'denisse@gmail.com', password: Digest::SHA1.hexdigest("123456"))
 
 # Create options
 
@@ -33,7 +37,7 @@ nf = Kind.create(name: 'Non-Functional', identifier: 'NFR')
 
 # Create records
 
-aplus = Project.create(name: "A+", 
+aplus = denisse.projects.create(name: "A+", 
 	description: "App that makes studying flashcards more effective.", 
 	scope: "The user can: manage flashcards in topics, organize topics in subjects, study flashcards, review flashcards in the right moment before forgetting the content.")
 
@@ -42,26 +46,30 @@ fr1 = aplus.requirements.create(
 	description: "La aplicacion permitira que el usuario cree flashcards dentro de un tema.",
 	kind_id: fr.id,
 	identifier: "FR1",
-	priority_id: high.id)
+	priority_id: high.id,
+	user_id: denisse.id)
 fr2 = aplus.requirements.create(
 	title: "Se mantendrá récord del tiempo que se tomó responder cada carta", 
 	description: "Se mantendrá récord del tiempo que se tomó responder cada carta para hacer un aproximado del tiempo de estudio de un tema.",
 	kind_id: fr.id,
 	identifier: "FR2",
-	priority_id: medium.id)
+	priority_id: medium.id,
+	user_id: denisse.id)
 
 nfr1 = aplus.requirements.create(
 	title: "", 
 	description: "Debe haber un menú de acceso rápido para temas y uno para asignaturas.",
 	kind_id: nf.id,
 	identifier: "NFR1",
-	priority_id: high.id)
+	priority_id: high.id,
+	user_id: denisse.id)
 nfr2 = aplus.requirements.create(
 	title: "Tags de asignaturas", 
 	description: "En el menú de acceso rápido, al lado del nombre de los temas, aparecerá una etiqueta con el código de la asignatura a la que pertenece con el color de fondo de la asignatura.",
 	kind_id: nf.id,
 	identifier: "NFR2",
-	priority_id: medium.id)
+	priority_id: medium.id,
+	user_id: denisse.id)
 
 uc1 = aplus.use_cases.create(
 	title: "Use case 1",
@@ -70,7 +78,8 @@ uc1 = aplus.use_cases.create(
 	steps: "1 2 3",
 	identifier: "UC1",
 	description: "This is uc1",
-	priority: high.id)
+	priority: high.id,
+	user_id: denisse.id)
 
 uc1.requirements << [fr1, nfr2]
 
@@ -81,7 +90,8 @@ uc2 = aplus.use_cases.create(
 	steps: "2 2 3",
 	identifier: "UC2",
 	description: "This is uc2",
-	priority: medium.id)
+	priority: medium.id,
+	user_id: denisse.id)
 
 uc2.requirements << [fr2, nfr1]
 
@@ -92,7 +102,8 @@ uc3 = aplus.use_cases.create(
 	steps: "3 2 3",
 	identifier: "UC3",
 	description: "This is uc3",
-	priority: low.id)
+	priority: low.id,
+	user_id: denisse.id)
 
 uc3.requirements << [fr2, fr1, nfr1]
 
@@ -102,7 +113,8 @@ tc1 = aplus.test_cases.create(
 	steps: "Yeah",
 	preconditions: "preconditions for TC1",
 	postconditions: "postconditions for tc1",
-	description: "This is tc1")
+	description: "This is tc1",
+	user_id: denisse.id)
 
 tc1.use_cases << [uc1, uc2]
 tc1.requirements << uc1.requirements
@@ -114,7 +126,8 @@ tc2 = aplus.test_cases.create(
 	steps: "Yeah",
 	preconditions: "preconditions for TC2",
 	postconditions: "postconditions for tc2",
-	description: "This is tc2")
+	description: "This is tc2",
+	user_id: denisse.id)
 
 tc2.use_cases << [uc1, uc3]
 tc2.requirements << uc1.requirements
@@ -126,7 +139,8 @@ tc3 = aplus.test_cases.create(
 	steps: "Yeah",
 	preconditions: "preconditions for TC3",
 	postconditions: "postconditions for tc3",
-	description: "This is tc3")
+	description: "This is tc3",
+	user_id: denisse.id)
 
 tc3.use_cases << [uc2, uc3]
 tc3.requirements << uc2.requirements
@@ -136,7 +150,8 @@ i1 = aplus.issues.create(
 	identifier: 'I1',
 	title: "This is a bug",
 	description: "Ya should fix it.",
-	status_id: open.id)
+	status_id: open.id,
+	user_id: denisse.id)
 
 i1.labels << bug
 
@@ -144,7 +159,8 @@ i2 = aplus.issues.create(
 	identifier: 'I2',
 	title: "This is an enhancement",
 	description: "It's already done.",
-	status_id: closed.id)
+	status_id: closed.id,
+	user_id: denisse.id)
 
 i2.labels << enhancement
 
@@ -152,6 +168,7 @@ i3 = aplus.issues.create(
 	identifier: 'I3',
 	title: "Label party",
 	description: "Everybody in!",
-	status_id: open.id)
+	status_id: open.id,
+	user_id: denisse.id)
 
 i3.labels << [bug, enhancement, duplicate, help_wanted, invalid, question, wontfix]

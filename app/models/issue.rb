@@ -2,7 +2,6 @@ class Issue
   include Mongoid::Document
   field :identifier, type: String
   field :title, type: String
-  field :status, type: Integer, default: 'Open'
   field :description, type: String
 
   has_and_belongs_to_many :labels

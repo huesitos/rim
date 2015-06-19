@@ -38,11 +38,11 @@ class RequirementsController < ApplicationController
   # GET /requirements/new
   def new
     @requirement = Requirement.new
+    @new = true
   end
 
   # GET /requirements/1/edit
   def edit
-    
   end
 
   # POST /requirements
@@ -67,7 +67,11 @@ class RequirementsController < ApplicationController
 
     respond_to do |format|
       if @requirement.save
-        format.html { redirect_to project_requirement_path(@project, @requirement), notice: 'Requirement was successfully created.', alert: 'success' }
+        if params[:commit] == "Continue"
+          format.html { redirect_to new_project_requirement_path(@project) }
+        else
+          format.html { redirect_to project_requirements_path(@project), notice: 'Requirement was successfully created.', alert: 'success' }
+        end
       else
         format.html { render :new }
       end

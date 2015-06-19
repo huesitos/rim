@@ -45,6 +45,7 @@ class TestCasesController < ApplicationController
     else
       @test_case = TestCase.new
     end
+    @new = true
   end
 
   # GET /test_cases/1/edit
@@ -79,8 +80,12 @@ class TestCasesController < ApplicationController
 
     respond_to do |format|
       if @test_case.save
-        format.html { redirect_to project_test_case_path(@project, @test_case), 
-          notice: 'Test case was successfully created.', alert: 'success' }
+        if params[:commit] == "Continue"
+          format.html { redirect_to new_project_test_case_path(@project) }
+        else
+          format.html { redirect_to project_test_cases_path(@project), 
+            notice: 'Test case was successfully created.', alert: 'success' }
+        end
       else
         format.html { render :new }
       end

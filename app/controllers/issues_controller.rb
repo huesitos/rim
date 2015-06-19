@@ -18,6 +18,7 @@ class IssuesController < ApplicationController
   def new
     @project = Project.find params[:project_id]
     @issue = Issue.new(project: @project)
+    @new = true
   end
 
   def create
@@ -36,8 +37,13 @@ class IssuesController < ApplicationController
     if params[:labels]
       params[:labels].each do |label|
         @issue.labels << Label.find(label)
+        @issue.save
       end
-      redirect_to project_issues_path
+      if params[:commit] == "Continue"
+        format.html { redirect_to new_project_issue_path(@project) }
+      else
+        redirect_to project_issues_path
+      end
     else
       redirect_to new_project_issue_path, notice: 'A label must be selected', alert: 'danger'
     end

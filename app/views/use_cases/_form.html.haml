@@ -44,3 +44,5 @@
     .form-group
       %div{class: "col-sm-offset-2 col-sm-10"}
         = f.submit 'Save', class: 'btn btn-primary'
+        - if @new
+            = f.submit 'Continue', class: 'btn btn-primary'

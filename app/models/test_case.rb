@@ -5,8 +5,6 @@ class TestCase
   field :steps, type: String
   field :preconditions, type: String
   field :postconditions, type: String
-  field :use_cases, type: Array
-  field :requirements, type: Array
   field :description, type: String
 
   belongs_to :project

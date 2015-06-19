@@ -37,6 +37,7 @@ class UseCasesController < ApplicationController
   # GET /use_cases/new
   def new
     @use_case = UseCase.new
+    @new = true
   end
 
   # GET /use_cases/1/edit
@@ -74,9 +75,12 @@ class UseCasesController < ApplicationController
 
     respond_to do |format|
       if @use_case.save
-
-        # If the use case was saved correctly, create a default new test case form to create a new test case immediately
-        format.html { redirect_to project_use_case_path(@project, @use_case), notice: 'Use case was successfully created.', alert: 'success' }
+        if params[:commit] == "Continue"
+          format.html { redirect_to new_project_use_case_path(@project) }
+        else
+          # If the use case was saved correctly, create a default new test case form to create a new test case immediately
+          format.html { redirect_to project_use_cases_path(@project), notice: 'Use case was successfully created.', alert: 'success' }
+        end
       else
         format.html { render :new }
       end

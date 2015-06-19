@@ -7,6 +7,7 @@ class Requirement
   belongs_to :priority
   belongs_to :project
   belongs_to :kind
+  belongs_to :user
   has_and_belongs_to_many :use_cases
   has_and_belongs_to_many :test_cases
 

@@ -8,6 +8,7 @@ class Issue
   has_and_belongs_to_many :labels
   belongs_to :status
   belongs_to :project
+  belongs_to :user
   embeds_many :comments
 
   def self.get_next_identifier(project_id)

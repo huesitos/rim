@@ -10,6 +10,7 @@ class TestCase
   field :description, type: String
 
   belongs_to :project
+  belongs_to :user
   has_and_belongs_to_many :use_cases
   has_and_belongs_to_many :requirements
   has_many :reports

@@ -10,6 +10,7 @@ class UseCase
 
   belongs_to :priority
   belongs_to :project
+  belongs_to :user
   has_and_belongs_to_many :test_cases
   has_and_belongs_to_many :requirements
 

@@ -17,15 +17,23 @@
 			.field
 				= f.label :email, class: 'control-label col-sm-3'
 				.col-sm-6
-					= f.text_field :email, class: 'form-control'
+					- if @edit
+						= f.text_field :email, class: 'form-control', disabled: true 
+					- else
+						= f.text_field :email, class: 'form-control'
 
 		.form-group
 			.field
 				= f.label :password, class: 'control-label col-sm-3'
 				.col-sm-6
-					= f.text_field :password, class: 'form-control'
+					-if @edit
+						= f.text_field :password, class: 'form-control', value: ''
+					- else
+						= f.text_field :password, class: 'form-control'
 
 		.form-group
 			.col-sm-offset-3.col-sm-6
-				= f.submit "Create", class: 'btn btn-primary'
-			= link_to 'Login', login_path
+				- @edit ? msg = "Edit" : msg = "Create"
+				= f.submit msg, class: 'btn btn-primary'
+			- if not current_user
+				= link_to 'Login', login_path

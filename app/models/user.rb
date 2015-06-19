@@ -3,6 +3,7 @@ class User
   field :email, type: String
   field :name, type: String
   field :password, type: String
+  field :role, type: String
 
   has_many :projects
 

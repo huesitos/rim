@@ -15,6 +15,7 @@
 			<ul>
 				<li><%= link_to 'Projects', projects_url, class: "pull-left" %></li>
 				<div class="pull-right">
+					<li><%= link_to 'Profile', edit_user_path(current_user.id) %></li>
 					<li><%= link_to 'Logout', logout_path, method: 'delete' %></li>
 				</div>
 			</ul>

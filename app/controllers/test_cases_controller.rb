@@ -10,6 +10,7 @@ class TestCasesController < ApplicationController
   before_render :set_use_cases_list, only: [:new, :edit, :create, :update]
   before_render :set_requirements, only: [:edit, :update]
   before_render :set_use_cases, only: [:edit, :update]
+  before_action :require_user
 
   # GET /test_cases
   # GET /test_cases.json

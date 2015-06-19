@@ -51,8 +51,16 @@ header, footer, .main {
 	margin: 0 10px;
 }
 
-.main {
-	min-height: 480px;
+nav {
+	ul {
+		margin: 0;
+		padding: 0;
+	}
+	
+	ul li {
+		list_style: none;
+		display: inline-block;
+	}
 }
 
 footer {
@@ -79,6 +87,15 @@ footer.row {
 
 a.btn:visited {
 	color: #fff;
+}
+
+.row {
+	word-wrap: normal;
+	margin: 0;
+}
+
+.main {
+	min-height: 480px;
 }
 
 .site-header {
@@ -141,10 +158,6 @@ a.active {
 .list-item {
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 10px;
-}
-
-.row {
-	word-wrap: normal;
 }
 
 .content {

@@ -1,6 +1,7 @@
 class IssuesController < ApplicationController
   before_action :set_labels, only: [:index, :new, :edit]
   before_action :set_statuses, only: [:index, :edit]
+  before_action :require_user
 
   def index
     query = {project_id: params[:project_id]}

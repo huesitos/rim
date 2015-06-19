@@ -1,7 +1,8 @@
 class ProjectsController < ApplicationController
-
+  before_action :require_user
+  
   def index
-    @projects = Project.all.entries
+    @projects = Project.where(user_id: session[:user_id])
   end
 
   def new
@@ -18,6 +19,7 @@ class ProjectsController < ApplicationController
 
   def create
     @project = Project.new(project_params)
+    @project.user_id = session[:user_id]
 
     if @project.save
       redirect_to @project

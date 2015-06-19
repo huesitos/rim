@@ -2,6 +2,7 @@ class TestRunsController < ApplicationController
   before_action :set_test_run, except: [:create, :new, :index]
   before_action :set_test_cases, only: [:new, :index]
   before_action :set_project
+  before_action :require_user
 
   # GET /test_runs
   # GET /test_runs.json

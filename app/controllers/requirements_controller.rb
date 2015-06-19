@@ -6,6 +6,7 @@ class RequirementsController < ApplicationController
 
   before_render :set_priorities_and_kinds, only: [:new, :edit]
   before_render :set_priority_and_kind, only: [:update, :edit]
+  before_action :require_user
 
   # GET /requirements
   # GET /requirements.json

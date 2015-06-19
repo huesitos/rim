@@ -1,6 +1,13 @@
 Rails.application.routes.draw do
   root 'projects#index'
 
+  get 'signup' => 'users#new', as: :signup
+  resources :users, except: [:index, :new]
+
+  get 'login' => 'sessions#new'
+  post 'login' => 'sessions#create'
+  delete 'logout' => 'sessions#destroy'
+
   resources :projects do
     resources :test_runs, except: [:edit, :update] do
       get "test_run" => "test_runs#test_run", as: :test_run

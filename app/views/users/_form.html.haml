@@ -1,0 +1,31 @@
+= form_for @user do |f|
+	- if @user.errors.any?
+		#error_explanation
+			%h2= "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved."
+			%ul
+				- @user.errors.full_message.each do |msg|
+					%li= msg
+
+	.form-horizontal
+		.form-group
+			.field
+				= f.label :name, class: 'control-label col-sm-3'
+				.col-sm-6
+					= f.text_field :name, class: 'form-control'
+
+		.form-group
+			.field
+				= f.label :email, class: 'control-label col-sm-3'
+				.col-sm-6
+					= f.text_field :email, class: 'form-control'
+
+		.form-group
+			.field
+				= f.label :password, class: 'control-label col-sm-3'
+				.col-sm-6
+					= f.text_field :password, class: 'form-control'
+
+		.form-group
+			.col-sm-offset-3.col-sm-6
+				= f.submit "Create", class: 'btn btn-primary'
+			= link_to 'Login', login_path

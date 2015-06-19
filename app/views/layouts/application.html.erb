@@ -10,16 +10,23 @@
 <body>
 <header>
 	<h1 class="site-header">RIM</h1>
-	<nav class="nav">
-		<%= link_to 'Projects', projects_url, class: "pull-left" %>
-	</nav>
-	<% if @project %>
-		<h2 class="page-header"><%= @project.name %></h2>
-	<% else %>
-		<h2 class="page-header">
-			Projects
-			<%=link_to 'New Project', new_project_path, class: 'btn btn-primary pull-right'%>
-		</h2>
+	<% if user = current_user %>
+		<nav class="nav">
+			<ul>
+				<li><%= link_to 'Projects', projects_url, class: "pull-left" %></li>
+				<div class="pull-right">
+					<li><%= link_to 'Logout', logout_path, method: 'delete' %></li>
+				</div>
+			</ul>
+		</nav>
+		<% if @project %>
+			<h2 class="page-header"><%= @project.name %></h2>
+		<% else %>
+			<h2 class="page-header">
+				Projects
+				<%=link_to 'New Project', new_project_path, class: 'btn btn-primary pull-right'%>
+			</h2>
+		<% end %>
 	<% end %>
 </header>
 

@@ -9,4 +9,5 @@ class Project
   has_many :test_cases, dependent: :destroy
   has_many :requirements, dependent: :destroy
   has_many :test_runs, dependent: :destroy
+  belongs_to :user
 end

@@ -5,6 +5,7 @@ class UseCasesController < ApplicationController
   before_action :set_priorities, except: [:show, :destroy]
   before_action :set_priority, only: [:edit, :update]
   before_action :set_project
+  before_action :require_user
 
   before_render :set_requirements_list, only: [:new, :edit, :create, :update]
   before_render :set_requirements, only: [:edit, :update]

@@ -19,14 +19,13 @@ class TestRunsController < ApplicationController
 
   # GET /new
   def new
-    
-
     @test_run = TestRun.new()
   end
 
   # GET /test_runs/1
   # GET /test_runs/1.json
   def show
+    @tester = User.find(@test_run.tester)
   end
 
   # GET /test_run/:id/run_test/:identifier
@@ -70,7 +69,10 @@ class TestRunsController < ApplicationController
   # POST /test_runs
   # POST /test_runs.json
   def create
-    @test_run = TestRun.new(date: DateTime.now, project_id: params[:project_id])
+    @test_run = TestRun.new(date: DateTime.now, 
+      project_id: params[:project_id],
+      tester: session[:user_id])
+
     @test_run.summary = Summary.new(
       passed: 0, 
       skipped: 0, 

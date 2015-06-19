@@ -27,7 +27,8 @@ class IssuesController < ApplicationController
     @issue = @project.issues.create(
       title: issues_params[:title],
       description: issues_params[:description],
-      identifier: identifier)
+      identifier: identifier,
+      user_id: @project.user.id)
 
     @issue.status = Status.find_by(name: 'Open')
     @issue.save

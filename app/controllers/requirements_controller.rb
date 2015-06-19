@@ -62,6 +62,9 @@ class RequirementsController < ApplicationController
     # Set identifier
     @requirement.identifier = Requirement.get_next_identifier(@requirement.kind.name, @project.id)
 
+    # Assign user ownser. It will always be the owner of the project
+    @requirement.user_id = @project.user.id
+
     respond_to do |format|
       if @requirement.save
         format.html { redirect_to project_requirement_path(@project, @requirement), notice: 'Requirement was successfully created.', alert: 'success' }

@@ -57,7 +57,8 @@ class UseCasesController < ApplicationController
       preconditions: use_case_params[:preconditions], 
       postconditions: use_case_params[:postconditions], 
       steps: use_case_params[:steps], 
-      description: use_case_params[:description])
+      description: use_case_params[:description],
+      user_id: @project.user.id)
 
     # Add priority
     @use_case.priority = Priority.find_by(name: use_case_params[:priority])

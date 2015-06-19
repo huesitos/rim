@@ -4,5 +4,7 @@
 %h3 Scope
 %p= @project.scope
 
-=link_to 'Edit', edit_project_path(@project)
-=link_to 'Delete', project_path(@project), method: :delete, :data => { :confirm => 'Are you sure?' }
+- if @project.user_id == @user.id
+	=link_to 'Add tester', project_new_tester_path(@project)
+	=link_to 'Edit', edit_project_path(@project)
+	=link_to 'Delete', project_path(@project), method: :delete, :data => { :confirm => 'Are you sure?' }

@@ -3,7 +3,7 @@ class User
   field :email, type: String
   field :name, type: String
   field :password, type: String
-  field :role, type: String
+  field :projects_testing, type: Array, default: []
 
   has_many :projects
   has_many :issues, dependent: :destroy

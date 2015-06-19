@@ -60,7 +60,8 @@ class TestCasesController < ApplicationController
       steps: test_case_params[:steps], 
       preconditions: test_case_params[:preconditions], 
       postconditions: test_case_params[:postconditions], 
-      description: test_case_params[:description])
+      description: test_case_params[:description],
+      user_id: @project.user.id)
 
     # Set identifier
     @test_case.identifier = TestCase.get_next_identifier(@project._id)

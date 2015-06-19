@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   delete 'logout' => 'sessions#destroy'
 
   resources :projects do
+    get 'new_tester' => "projects#new_tester"
+    post 'new_tester' => "projects#add_tester"
+    
     resources :test_runs, except: [:edit, :update] do
       get "test_run" => "test_runs#test_run", as: :test_run
       get "run_test/:identifier" => "test_runs#run_test", as: :run_test

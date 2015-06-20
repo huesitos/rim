@@ -165,6 +165,10 @@ a.active {
 	margin: 20px 0 10px;
 }
 
+.col-sm-2, .col-sm-6 {
+	padding-left: 0px;
+}
+
 @media (max-width: 1024px) {
 	body {
 		width: 680px;

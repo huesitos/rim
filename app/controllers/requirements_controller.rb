@@ -81,10 +81,10 @@ class RequirementsController < ApplicationController
   # PATCH/PUT /requirements/1
   # PATCH/PUT /requirements/1.json
   def update
-    respond_to do |format|
-      @requirement.priority = Priority.find_by(name: requirement_params[:priority])
-      @requirement.kind = Kind.find_by(name: requirement_params[:kind])
+    @requirement.priority = Priority.find(requirement_params[:priority])
+    @requirement.kind = Kind.find(requirement_params[:kind])
       
+    respond_to do |format|
       if @requirement.save
         if @requirement.update(requirement_params)
           format.html { redirect_to project_requirement_path(@project, @requirement), notice: 'Requirement was successfully updated.', alert: 'success' }

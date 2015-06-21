@@ -63,7 +63,7 @@ class UseCasesController < ApplicationController
       user_id: @project.user.id)
 
     # Add priority
-    @use_case.priority = Priority.find_by(name: use_case_params[:priority])
+    @use_case.priority = Priority.find(use_case_params[:priority])
 
     # Add identifier
     @use_case.identifier = UseCase.get_next_identifier(@project._id)

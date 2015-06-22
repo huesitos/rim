@@ -37,7 +37,7 @@ class UseCasesController < ApplicationController
 
   # GET /use_cases/1/edit
   def edit
-    @priority = @use_case.priority.name
+    @priority = @use_case.priority.id
 
     @requirements = []
     @use_case.requirements.each do |r|

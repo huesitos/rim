@@ -30,7 +30,7 @@ class TestCase
   def self.list(project_id)
     tc_list = []
 
-    TestCase.where(project_id: project_id).each do |tc|
+    TestCase.where(project_id: project_id).sort(identifier: 1).each do |tc|
       tc_list << ["#{tc.identifier} #{tc.title}", tc.id]
     end
 

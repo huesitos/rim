@@ -37,7 +37,7 @@ class Requirement
   def self.list(project_id)
     req_list = []
 
-      Requirement.where(project_id: project_id).each do |r|
+      Requirement.where(project_id: project_id).sort(identifier: 1).each do |r|
         req_list << ["#{r.identifier} #{r.title}", r.id]
       end
 

@@ -35,7 +35,7 @@ class UseCase
   def self.list(project_id)
     uc_list = []
 
-      UseCase.where(project_id: project_id).each do |uc|
+      UseCase.where(project_id: project_id).sort(identifier: 1).each do |uc|
         uc_list << ["#{uc.identifier} #{uc.title}", uc.id]
       end
 

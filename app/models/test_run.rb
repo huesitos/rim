@@ -10,8 +10,8 @@ class TestRun
 
   validates :summary, presence: {is: true, message: "a test run must have a summary"}
 
-  def self.next_test(test_run)
-  	report = test_run.reports.find_by(result: "NR")
+  def next_test()
+  	report = self.reports.find_by(result: "NR")
   	if report
 	  	report.test_case["identifier"]
 	  else
@@ -19,7 +19,7 @@ class TestRun
   	end
   end
 
-  def self.get_report(test_run, identifier)
-    TestCase.find_by(identifier: identifier).reports.find_by(test_run_id: test_run.id)
+  def get_report(identifier)
+    TestCase.find_by(identifier: identifier).reports.find_by(test_run_id: self.id)
   end
 end

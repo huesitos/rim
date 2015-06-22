@@ -5,32 +5,32 @@
 
 .content
   .row
-    .col-md-2
+    .col-md-3
       %p
         %b Preconditions:
     .col-md-9
-      = @test_case.preconditions
+      = simple_format(@test_case.preconditions)
   .row
-    .col-md-2
+    .col-md-3
       %p
         %b Steps:
     .col-md-9
-      = @test_case.steps
+      = simple_format(@test_case.steps)
   .row
-    .col-md-2
+    .col-md-3
       %p
         %b Postconditions:
     .col-md-9
-      = @test_case.postconditions
+      = simple_format(@test_case.postconditions)
   .row
-    .col-md-2
+    .col-md-3
       %p
         %b Use cases:
     .col-md-9
       - @test_case.use_cases.each do |uc|
         = link_to "#{uc["identifier"]}", project_use_case_path(@project, uc["_id"])
   .row
-    .col-md-2
+    .col-md-3
       %p
         %b Requirements:
     .col-md-9

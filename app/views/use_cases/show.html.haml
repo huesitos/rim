@@ -5,35 +5,35 @@
 
 .content
   .row
-    .col-md-2
+    .col-md-3
       %p
         %b Priority:
     .col-md-9
       = @use_case.priority.name
       
   .row
-    .col-md-2
+    .col-md-3
       %p
         %b Preconditions:
     .col-md-9
-      = @use_case.preconditions
+      = simple_format(@use_case.preconditions)
 
   .row
-    .col-md-2
+    .col-md-3
       %p
         %b Steps:
     .col-md-9
-      = @use_case.steps
+      = simple_format(@use_case.steps)
 
   .row
-    .col-md-2
+    .col-md-3
       %p
         %b Postconditions:
     .col-md-9
-      = @use_case.postconditions
+      = simple_format(@use_case.postconditions)
 
   .row
-    .col-md-2
+    .col-md-3
       %p
         %b Requirements:
     .col-md-9
@@ -41,7 +41,7 @@
         =link_to "#{rq[:identifier]}", project_requirement_path(@project, rq[:_id])
 
   .row
-    .col-md-2
+    .col-md-3
       %p
         %b Test cases:
     .col-md-9

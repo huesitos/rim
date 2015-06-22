@@ -67,6 +67,11 @@ class TestCasesController < ApplicationController
     # Set use cases array
     @test_case.use_cases << UseCase.where(
       :_id.in => params[:use_cases]) if params[:use_cases]
+
+    # Set requirements of use cases
+    @test_case.use_cases.each do |uc|
+      @test_case.requirements << uc.requirements
+    end
     
     # Requirements
     @test_case.requirements << Requirement.where(

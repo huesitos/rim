@@ -121,8 +121,8 @@ class RequirementsController < ApplicationController
 
     # Set requirement's both priority and kind
     def set_priority_and_kind
-      @priority = Requirement.find(params[:id]).priority.name
-      @kind = Requirement.find(params[:id]).kind.name
+      @priority = Requirement.find(params[:id]).priority.id
+      @kind = Requirement.find(params[:id]).kind.id
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

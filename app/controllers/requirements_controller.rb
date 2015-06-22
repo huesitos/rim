@@ -3,9 +3,6 @@ class RequirementsController < ApplicationController
   before_action :set_priorities_and_kinds, except: [:show, :destroy]
   before_action :set_priority_and_kind, only: [:edit, :update]
   before_action :set_project
-
-  before_render :set_priorities_and_kinds, only: [:new, :edit]
-  before_render :set_priority_and_kind, only: [:update, :edit]
   before_action :require_user
 
   # GET /requirements

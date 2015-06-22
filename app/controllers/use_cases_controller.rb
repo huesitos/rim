@@ -7,12 +7,6 @@ class UseCasesController < ApplicationController
   before_action :set_project
   before_action :require_user
 
-  before_render :set_requirements_list, only: [:new, :edit, :create, :update]
-  before_render :set_requirements, only: [:edit, :update]
-  before_render :set_priorities, only: [:new, :edit]
-  before_render :set_priority, only: [:update, :edit]
-  before_render :is_new, only: [:new]
-
   # GET /use_cases
   # GET /use_cases.json
   def index
@@ -149,6 +143,7 @@ class UseCasesController < ApplicationController
       use_case.requirements.each do |r|
         @requirements << r.id
       end
+      @anything_else = "Let's see"
     end
 
     # Set list priorities
@@ -159,10 +154,7 @@ class UseCasesController < ApplicationController
     # Set use_case's both priority and kind
     def set_priority
       @priority = UseCase.find(params[:id]).priority.name
-    end
-
-    def is_new
-      @new = true
+      @anything_else = "Let's see"
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

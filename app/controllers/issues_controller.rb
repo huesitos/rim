@@ -18,7 +18,6 @@ class IssuesController < ApplicationController
   def new
     @project = Project.find params[:project_id]
     @issue = Issue.new(project: @project)
-    @new = true
   end
 
   def create

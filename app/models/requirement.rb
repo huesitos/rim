@@ -12,6 +12,7 @@ class Requirement
   has_and_belongs_to_many :test_cases
 
   validates :description, :identifier, :priority, :kind, presence: true
+  validates :title, length: { maximum: 100 }
   validates :project, presence: {is: true, message: "requirements must belong to a project"}
   validates_associated :project
 
@@ -31,5 +32,15 @@ class Requirement
 
   def self.related_test_cases(identifier, project_id)
     TestCase.where({project_id: project_id, "requirements" => { "$elemMatch" => {"identifier" => identifier}}})
+  end
+
+  def self.list(project_id)
+    req_list = []
+
+      Requirement.where(project_id: project_id).each do |r|
+        req_list << ["#{r.identifier} #{r.title}", r.id]
+      end
+
+    req_list
   end
 end

@@ -15,6 +15,7 @@ class UseCase
   has_and_belongs_to_many :requirements
 
   validates :title, :steps, :priority, :description, :identifier, presence: true
+  validates :title, length: { maximum: 100 }
   validates :identifier, format: { with: /\AUC[0-9]+\z/, message: "format UCXX" }
   validates :project, presence: {is: true, message: "use cases must belong to a project"}
   validates_associated :project
@@ -29,5 +30,24 @@ class UseCase
 
   def self.related_test_cases(identifier, project_id)
     TestCase.where({project_id: project_id, "use_cases" => { "$elemMatch" => {"identifier" => identifier}}})
+  end
+
+  def self.list(project_id)
+    uc_list = []
+
+      UseCase.where(project_id: project_id).each do |uc|
+        uc_list << ["#{uc.identifier} #{uc.title}", uc.id]
+      end
+
+    uc_list
+  end
+
+  def req_list
+    req = []
+    self.requirements.each do |r|
+      req << r.id
+    end
+
+    req
   end
 end

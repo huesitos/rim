@@ -181,7 +181,7 @@ class TestRunsController < ApplicationController
     end
 
     def set_test_cases
-      @tc_select = TestCase.where(project_id: @project._id).pluck(:identifier, :_id)
+      @tc_select = TestCase.list(params[:project_id])
     end
 
     def set_project

@@ -14,6 +14,7 @@ class TestCase
   has_many :reports
 
   validates :title, :steps, :description, :identifier, presence: true
+  validates :title, length: { maximum: 100 }
   validates :identifier, format: { with: /\ATC[0-9]+\z/, message: "format TCXX" }
   validates :project, presence: {is: true, message: "test cases must belong to a project"}
   validates_associated :project
@@ -24,5 +25,33 @@ class TestCase
     else
       "TC1"
     end
+  end
+
+  def self.list(project_id)
+    tc_list = []
+
+    TestCase.where(project_id: project_id).each do |tc|
+      tc_list << ["#{tc.identifier} #{tc.title}", tc.id]
+    end
+
+    tc_list
+  end
+
+  def req_list
+    req = []
+    self.requirements.each do |r|
+      req << r.id
+    end
+
+    req
+  end
+
+  def uc_list
+    uc_list = []
+    self.use_cases.each do |uc|
+      uc_list << uc.id
+    end
+
+    uc_list
   end
 end

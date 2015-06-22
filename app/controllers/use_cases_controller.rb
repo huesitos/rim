@@ -128,22 +128,12 @@ class UseCasesController < ApplicationController
 
     # Set list of all requirements for form
     def set_requirements_list
-      @requirements_list = []
-
-      Requirement.each do |r|
-        @requirements_list << [r.identifier, r.id]
-      end
+      @requirements_list = Requirement.list(params[:project_id])
     end
 
     # Set list of all use_case's requirements
     def set_requirements
-      @requirements = []
-
-      use_case = UseCase.find(params[:id])
-      use_case.requirements.each do |r|
-        @requirements << r.id
-      end
-      @anything_else = "Let's see"
+      @requirements = UseCase.find(params[:id]).req_list
     end
 
     # Set list priorities
@@ -154,7 +144,6 @@ class UseCasesController < ApplicationController
     # Set use_case's both priority and kind
     def set_priority
       @priority = UseCase.find(params[:id]).priority.name
-      @anything_else = "Let's see"
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

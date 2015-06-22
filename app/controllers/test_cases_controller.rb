@@ -130,40 +130,22 @@ class TestCasesController < ApplicationController
 
     # Set list of all requirements for form
     def set_requirements_list
-      @requirements_list = []
-
-      Requirement.each do |r|
-        @requirements_list << [r.identifier, r.id]
-      end
+      @requirements_list = Requirement.list(params[:project_id])
     end
 
     # Set list of all use cases for form
     def set_use_cases_list
-      @use_cases_list = []
-
-      UseCase.each do |uc|
-        @use_cases_list << [uc.identifier, uc.id]
-      end
+      @use_cases_list = UseCase.list(params[:project_id])
     end
 
     # Set list of all test_case's requirements
     def set_requirements
-      @requirements = []
-
-      test_case = TestCase.find(params[:id])
-      test_case.requirements.each do |r|
-        @requirements << r.id
-      end
+      @requirements = TestCase.find(params[:id]).req_list
     end
 
     # Set list of all test_case's use cases
     def set_use_cases
-      @use_cases = []
-
-      test_case = TestCase.find(params[:id])
-      test_case.use_cases.each do |uc|
-        @use_cases << uc.id
-      end
+      @use_cases = TestCase.find(params[:id]).uc_list
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

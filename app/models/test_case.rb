@@ -13,7 +13,7 @@ class TestCase
   has_and_belongs_to_many :requirements
   has_many :reports
 
-  validates :title, :steps, :description, :identifier, presence: true
+  validates :title, :steps, :identifier, presence: true
   validates :title, length: { maximum: 100 }
   validates :identifier, format: { with: /\ATC[0-9]+\z/, message: "format TCXX" }
   validates :project, presence: {is: true, message: "test cases must belong to a project"}

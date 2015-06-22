@@ -14,7 +14,7 @@ class UseCase
   has_and_belongs_to_many :test_cases
   has_and_belongs_to_many :requirements
 
-  validates :title, :steps, :priority, :description, :identifier, presence: true
+  validates :title, :steps, :priority, :identifier, presence: true
   validates :title, length: { maximum: 100 }
   validates :identifier, format: { with: /\AUC[0-9]+\z/, message: "format UCXX" }
   validates :project, presence: {is: true, message: "use cases must belong to a project"}

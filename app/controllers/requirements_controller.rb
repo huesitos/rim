@@ -13,6 +13,9 @@ class RequirementsController < ApplicationController
       if params[:priority] != "All"
         query[:priority] = params[:priority]
       end
+      if params[:kind] != "All"
+        query[:kind] = params[:kind]
+      end
     end
     if params[:content] and params[:content] != ""
       query["$text"] = { "$search" => params[:content] } 

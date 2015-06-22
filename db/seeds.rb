@@ -56,6 +56,57 @@ fr2 = aplus.requirements.create(
 	priority_id: medium.id,
 	user_id: denisse.id)
 
+fr3 = aplus.requirements.create(
+	title: "One thing", 
+	description: "OHIKO.",
+	kind_id: fr.id,
+	identifier: "FR3",
+	priority_id: high.id,
+	user_id: denisse.id)
+fr4 = aplus.requirements.create(
+	title: "One thing", 
+	description: "OHIKO.",
+	kind_id: fr.id,
+	identifier: "FR4",
+	priority_id: high.id,
+	user_id: denisse.id)
+fr5 = aplus.requirements.create(
+	title: "One thing", 
+	description: "OHIKO.",
+	kind_id: fr.id,
+	identifier: "FR5",
+	priority_id: high.id,
+	user_id: denisse.id)
+fr6 = aplus.requirements.create(
+	title: "One thing", 
+	description: "OHIKO.",
+	kind_id: fr.id,
+	identifier: "FR6",
+	priority_id: high.id,
+	user_id: denisse.id)
+fr7 = aplus.requirements.create(
+	title: "One thing", 
+	description: "OHIKO.",
+	kind_id: fr.id,
+	identifier: "FR7",
+	priority_id: high.id,
+	user_id: denisse.id)
+fr8 = aplus.requirements.create(
+	title: "One thing", 
+	description: "OHIKO.",
+	kind_id: fr.id,
+	identifier: "FR8",
+	priority_id: high.id,
+	user_id: denisse.id)
+fr9 = aplus.requirements.create(
+	title: "One thing", 
+	description: "OHIKO.",
+	kind_id: fr.id,
+	identifier: "FR9",
+	priority_id: high.id,
+	user_id: denisse.id)
+
+
 nfr1 = aplus.requirements.create(
 	title: "", 
 	description: "Debe haber un menú de acceso rápido para temas y uno para asignaturas.",

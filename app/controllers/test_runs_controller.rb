@@ -33,7 +33,7 @@ class TestRunsController < ApplicationController
   # If there are no more test cases to run, it redirects to the
   # test_run show page to display the result of the test run
   def test_run
-    identifier = TestRun.next_test(@test_run)
+    identifier = @test_run.next_test()
 
     respond_to do |format|
       if identifier
@@ -57,13 +57,54 @@ class TestRunsController < ApplicationController
   # PATCH /test_run/:id/run_test/:identifier/:result
   # Sets the result of the test_run on the test_case :identifier
   def result
-    report = TestRun.get_report(@test_run, params[:identifier])
+    report = @test_run.get_report(params[:identifier])
     report.update(result: params[:commit], comment: params[:comment])
 
     # Update the summary counts
     Summary.update_summary(@test_run.summary, params[:commit])
 
-    redirect_to project_test_run_test_run_path(@project, @test_run)
+    if params[:commit] == "Failed"
+      redirect_to project_test_run_new_issues_path(@project, @test_run, report)
+    else
+      redirect_to project_test_run_test_run_path(@project, @test_run)
+    end
+  end
+
+  # GET /test_run/:id/new_issues/:report
+  # Form to create new issues after marking a report as failed
+  def new_issues
+    @report = @test_run.reports.find(params[:report])
+    @labels = Label.all.pluck(:name, :_id)
+  end
+
+  # POST /test_run/:id/create_issues/:report
+  # Create the new issues and associate them with a report
+  def create_issues
+    report = @test_run.reports.find(params[:report])
+    issue = report.issues.build(
+      title: params[:issue][:title], 
+      description: params[:issue][:description], 
+      identifier: Issue.get_next_identifier(@project.id),
+      project_id: @project.id,
+      status_id: Status.find_by(name: 'Open').id)
+    params[:issue][:labels].delete("")
+
+    params[:issue][:labels].each do |label|
+      issue.labels << Label.find(label)
+    end
+
+    if issue.save
+      if params[:commit] == "Continue"
+        redirect_to project_test_run_new_issues_path(@project, @test_run, report)
+      else
+        redirect_to project_test_run_test_run_path(@project, @test_run)
+      end
+    else
+      redirect_to(
+        project_test_run_new_issues_path(@project, @test_run, report),
+        notice: "Issue couldn't be saved. Remember to add the issue's label and title.",
+        alert: "danger")
+    end
   end
 
   # POST /test_runs

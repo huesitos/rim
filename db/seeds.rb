@@ -197,7 +197,7 @@ tc3.use_cases << [uc2, uc3]
 tc3.requirements << uc2.requirements
 tc3.requirements << uc3.requirements
 
-i1 = aplus.issues.create(
+i1 = aplus.issues.build(
 	identifier: 'I1',
 	title: "This is a bug",
 	description: "Ya should fix it.",
@@ -205,8 +205,9 @@ i1 = aplus.issues.create(
 	user_id: denisse.id)
 
 i1.labels << bug
+i1.save
 
-i2 = aplus.issues.create(
+i2 = aplus.issues.build(
 	identifier: 'I2',
 	title: "This is an enhancement",
 	description: "It's already done.",
@@ -214,8 +215,9 @@ i2 = aplus.issues.create(
 	user_id: denisse.id)
 
 i2.labels << enhancement
+i2.save
 
-i3 = aplus.issues.create(
+i3 = aplus.issues.build(
 	identifier: 'I3',
 	title: "Label party",
 	description: "Everybody in!",
@@ -223,3 +225,4 @@ i3 = aplus.issues.create(
 	user_id: denisse.id)
 
 i3.labels << [bug, enhancement, duplicate, help_wanted, invalid, question, wontfix]
+i3.save

@@ -2,8 +2,8 @@ class Report
   include Mongoid::Document
   field :result, type: String
   field :comment, type: String
-  # field :issues, type: Array
 
+  has_many :issues
   belongs_to :test_run
   belongs_to :test_case
 

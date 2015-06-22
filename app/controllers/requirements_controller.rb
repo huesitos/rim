@@ -38,7 +38,6 @@ class RequirementsController < ApplicationController
   # GET /requirements/new
   def new
     @requirement = Requirement.new
-    @new = true
   end
 
   # GET /requirements/1/edit

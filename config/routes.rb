@@ -16,6 +16,8 @@ Rails.application.routes.draw do
       get "test_run" => "test_runs#test_run", as: :test_run
       get "run_test/:identifier" => "test_runs#run_test", as: :run_test
       patch "run_test/:identifier" => "test_runs#result", as: :result
+      get "new_issues/:report" => "test_runs#new_issues", as: :new_issues
+      post "create_issues/:report" => "test_runs#create_issues", as: :create_issues
     end
     resources :use_cases
     resources :test_cases

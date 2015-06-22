@@ -14,15 +14,18 @@
     .form-group
       = submit_tag "Search", class: 'btn btn-default'
 
--@issues.each do |issue|
-  //-issue.kind == 'Improvement' ? @color = 'panel-danger' : @color = 'panel-success'
-  .list-item
-    %h4=link_to "#{issue.identifier} #{issue.title}", project_issue_path(params[:project_id], issue.id)
-    %p 
-      %b Labels:
-      - issue.labels.each do |l|
-        = l.name
-      %b Status:
-      = issue.status.name
-    %p=issue.description
-    =link_to 'Edit', edit_project_issue_path(params[:project_id], issue.id)
+- if @issues.count > 0
+  -@issues.each do |issue|
+    //-issue.kind == 'Improvement' ? @color = 'panel-danger' : @color = 'panel-success'
+    .list-item
+      %h4=link_to "#{issue.identifier} #{issue.title}", project_issue_path(params[:project_id], issue.id)
+      %p 
+        %b Labels:
+        - issue.labels.each do |l|
+          = l.name
+        %b Status:
+        = issue.status.name
+      %p=issue.description
+      =link_to 'Edit', edit_project_issue_path(params[:project_id], issue.id)
+- else
+  %placeholder No issues.

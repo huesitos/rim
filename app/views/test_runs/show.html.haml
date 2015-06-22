@@ -35,5 +35,9 @@
 		%p
 			%b Comment:
 		= r.comment
+		%p
+			%b Issues:
+			- r.issues.each do |issue|
+				= link_to "#{issue.identifier}", project_issue_path(@project, issue.id)
 
 = link_to 'Delete', project_test_run_path(@project, @test_run), :method => :delete, :data => { :confirm => 'Are you sure?' }

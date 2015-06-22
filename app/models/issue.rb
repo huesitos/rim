@@ -5,14 +5,17 @@ class Issue
   field :description, type: String
 
   has_and_belongs_to_many :labels
+  belongs_to :report
   belongs_to :status
   belongs_to :project
   belongs_to :user
   embeds_many :comments
 
+  validates :title, :identifier, :labels, presence: true
+
   def self.get_next_identifier(project_id)
-    if Issue.all.entries.last
-    	"I#{Integer(Issue.all.entries.last.identifier[/[0-9]+/])+1}"
+    if Issue.where(project_id: project_id).entries.last
+    	"I#{Integer(Issue.where(project_id: project_id).entries.last.identifier[/[0-9]+/])+1}"
     else
       "I1"
     end

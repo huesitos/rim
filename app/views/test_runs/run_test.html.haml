@@ -4,15 +4,15 @@
 	.row
 		%p
 			%b Preconditions:
-			= @test_case.preconditions
+			= simple_format(@test_case.preconditions)
 	.row
 		%p
 			%b Steps:
-			= @test_case.steps
+			= simple_format(@test_case.steps)
 	.row
 		%p
 			%b Postconditions:
-			= @test_case.postconditions
+			= simple_format(@test_case.postconditions)
 
 %p.instructions Follow the steps to run the test case.
 %p.instructions Keep in mind that the preconditions should be satisfied before starting the test.

@@ -111,7 +111,7 @@ class TestCasesController < ApplicationController
         end
 
         format.html { redirect_to project_test_case_path(@project, @test_case), 
-          notice: 'Test case was successfully updated.', alert: 'sucess' }
+          notice: 'Test case was successfully updated.', alert: 'success' }
       else
         format.html { render :edit }
       end
